@@ -1,66 +1,70 @@
-# Desafio: Constução de Portal Web
+# Getting Started with Create React App
 
-## Objetivo
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Esperamos testar as habilidades do candidato no desenvolvimento de aplicações web utilizando as tecnologias .Net Core, React, Docker e banco de dados.
+## Available Scripts
 
-Para isso, deverá ser desenvolvido um portal web para o uso de colaboradores internos e clientes. Ele deverá permitir o cadastro de clientes, a configuração dos serviços, visualização de dashboards, baixa de relatórios, etc.
+In the project directory, you can run:
 
-## Requisitos
+### `npm start`
 
-Neste desafio o candidato irá construir um portal com as seguintes características:
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-### Módulo: Usuários
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-- Página – Login
-  - Login por usuário e senha
-  - Após o login o usuário é direcionado para o módulo "Colaborador" ou "Cliente" de acordo com o tipo de usuário
-- Página - Cadastro de Usuário
-  - Preenchimento do formulário:
-    - Preencher o nome e e-mail
-    - Salvar o usuário com o tipo "Colaborador"
-- Página "Esqueci minha Senha" (**BONUS**)
-  - Enviar e-mail com link para recuperação
+### `npm test`
 
-### Módulo: Colaborador (Precisa estar logado)
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- Página – Clientes
-  - Tabela paginada que permita a pesquisa por nome
-  - Tela - Dados dos Cliente
-  - Exibir as informações do Cliente juntamente com sua selfie
-- Página - Formulário de Cadastro de Cliente
-  - Preenchimento do formulário:
-    - Fazer upload de documento de identificação com foto
-    - Usar o mostQI para auxiliar no cadastro de novos usuários: https://docs.mostqi.com/. A client key deve ser solicitada pelo e-mail rh@most.com.br.
-    - Consumir o content-extraction do mostQI para preencher automaticamente o nome, RG e data de nascimento
-    - Permitir que o usuário confirme se os dados extraídos estão corretos, completar o cadastro com o preenchimento do email
-    - Consumir o liveness do mostQI para realizar uma prova de vida do usuário (https://mostqiapi.com/liveness/detect)
-    - Usar o retorno do liveness (frontalImage) mais o documento de identificação para submeter ao face-compare e verificar se a pessoa que realizou a prova de vida é a mesma que está no documento de identificação
-    - Salvar o documento, a selfie e o formulário no banco de dados
-    - Finalizar a criação do usuário
-    - Criar registro de rastreabilidade do processo de cadastro com usuário, data e hora.
-- Página - Histórico de Alteração dos Clientes
-  - Tabela paginada que permita a pesquisa por nome do cliente ou usuário que realizou o cadastro
+### `npm run build`
 
-### Módulo: Cliente (Precisa estar logado)
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-- Serviço - Monitoramento da Cotação do Dólar
-  - Crie um serviço de background (Background Service) que verifique a cotação do dólar a cada minuto e registre a informação em banco de dados. A fonte da informação sobre a cotação do dólar é de livre escolha.
-- Página - Cotação do Dólar
-  - Tabela paginada que permita a busca por data e hora das cotações registradas pelo serviço acima
-  - Exibir média, máxima e mínima no dia
-  - Exibir um gráfico das variações no dia (PLUS)
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## Notas
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-Tecnologias a serem exploradas:
+### `npm run eject`
 
-- FRAMEWORKS:
-  - Back-end: .Net Core (Última versão)
-  - Front-end: React (Última versão)
-- BANCO DE DADOS
-  - MongoDB
-- INFRAESTRUTURA
-  - O projeto deve ser containerizado através do DOCKER. Saiba mais em:
-    - [What is a container?](https://www.docker.com/resources/what-container)
-    - [Dotnet Core Docker Hub](https://hub.docker.com/_/microsoft-dotnet-core)
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "1cb1f1hL4iM/7confR3ZDWuGq80o4p/FY67cfRDT/pU=",
+  "Source": "portal-web-api",
+  "BasePath": "_content/portal-web-api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
