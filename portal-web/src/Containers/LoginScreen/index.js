@@ -6,7 +6,6 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('');
     const [returnApi, setReturnApi] = useState(null);
 
-
     const HandleButtonSubmitOnClick = useCallback(async () => {
         if (username !== '' && password !== '') {
             const isLogin = await API.login(username, password);

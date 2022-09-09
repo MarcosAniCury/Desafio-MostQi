@@ -4,7 +4,7 @@ export const authorization = 'Bearer';
 export const applicationJson = 'application/json';
 
 export const URL = {
-    base: 'https://localhost:7139'
+    base: 'https://localhost:7139/api'
 }
 
 export const api = async () => axios.create({
