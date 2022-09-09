@@ -1,15 +1,23 @@
-import { api, URL } from './settings';
+import { URL } from './settings';
+import axios from 'axios';
 
 export const API = {
-    login: async (username, password) => {
+    login: async (username, email, password) => {
         const params = {
-            username,
-            password
+            "name": username,
+            "password": password,
+            "email": email
         };
 
-        const response = await api().post(URL.base, params);
+        let responseAxios = {};
 
-        const { success, data } = teste //response.data;
-        return { success, data };
+        await axios.post(URL.base + URL.user.create, params).then((response) => {
+            responseAxios = {
+                'data': response.data,
+                'success': response.status == 201
+            }; 
+        });
+
+        return { ...responseAxios };
     },
 }

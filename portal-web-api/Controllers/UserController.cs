@@ -15,7 +15,7 @@ namespace portal_web_api.Controllers
             _userRepository = userRepository;
         }
 
-        // GET: api/user
+        // GET: api/user/getAll
         [HttpGet]
         [Route("getAll")]
         public IActionResult Get()
@@ -36,8 +36,9 @@ namespace portal_web_api.Controllers
             return Ok(tarefa);
         }
 
-        //POST api/user
+        //POST api/user/create
         [HttpPost]
+        [Route("create")]
         public IActionResult Post([FromBody] User newUser)
         {
             _userRepository.Create(newUser);

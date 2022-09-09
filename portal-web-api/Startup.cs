@@ -28,10 +28,9 @@ namespace portal_web_api
 
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
                 builder
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-                .WithOrigins("https://localhost:7139");
+                .AllowAnyHeader();
             }));
         }
 
