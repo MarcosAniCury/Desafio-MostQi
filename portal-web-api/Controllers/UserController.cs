@@ -39,24 +39,11 @@ namespace portal_web_api.Controllers
         //POST api/user/create
         [HttpPost]
         [Route("create")]
-        public IActionResult Post([FromBody] User newUser)
+        public IActionResult Post(UserRequest newUser)
         {
-            _userRepository.Create(newUser);
+            User createUser = (User)newUser;
+            _userRepository.Create(createUser);
             return Created("", newUser);
-        }
-
-        // DELETE api/user/{id}
-        [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
-        {
-            var tarefa = _userRepository.FindById(id);
-
-            if (tarefa == null)
-                return NotFound();
-
-            _userRepository.Delete(tarefa);
-
-            return NoContent();
         }
     }
 }

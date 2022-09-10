@@ -9,7 +9,7 @@ export default function LoginScreen() {
 
     const HandleButtonSubmitOnClick = useCallback(async () => {
         if (username !== '' && password !== '' && email !== '') {
-            const response = await API.login(username, email, password);
+            const response = await API.login(username, email, password, "collaborator");
             setReturnApi(response);
         }
     }, [username, password, email, returnApi, API.lo]);

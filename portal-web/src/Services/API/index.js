@@ -2,11 +2,12 @@ import { URL } from './settings';
 import axios from 'axios';
 
 export const API = {
-    login: async (username, email, password) => {
+    login: async (username, email, password, type) => {
         const params = {
             "name": username,
             "password": password,
-            "email": email
+            "email": email,
+            "type": type
         };
 
         let responseAxios = {};
