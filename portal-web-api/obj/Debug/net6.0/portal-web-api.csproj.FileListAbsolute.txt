@@ -84,3 +84,10 @@ C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\obj\Debug\net6.0\
 C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\obj\Debug\net6.0\portal-web-api.pdb
 C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\obj\Debug\net6.0\portal-web-api.genruntimeconfig.cache
 C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\obj\Debug\net6.0\ref\portal-web-api.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
