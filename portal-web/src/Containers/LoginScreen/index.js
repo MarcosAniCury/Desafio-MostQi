@@ -16,14 +16,12 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('');
     const [createUserAnchor, setCreateUserAnchor] = useState(createUserDefaultString);
     const [forgetPasswordAnchor, setForgetPasswordAnchor] = useState(forgetPasswordDefaultString);
-    const [returnApi, setReturnApi] = useState(null);
 
     const HandleButtonSubmitOnClick = useCallback(async () => {
         if (username !== '' && password !== '') {
             const response = await API.login(username, password);
-            setReturnApi(response);
         }
-    }, [username, password, returnApi, API.login]);
+    }, [username, password, API.login]);
 
     return (
         <>
@@ -44,9 +42,6 @@ export default function LoginScreen() {
 
                             <ContainerButtonSubmit>
                                 <ButtonSubmit onClick={HandleButtonSubmitOnClick}>{buttonSendString}</ButtonSubmit>
-                                {returnApi?.success && (
-                                    <h1>{returnApi.data.name}</h1>
-                                )}
                             </ContainerButtonSubmit>
 
                             <ContainerTextAnchor>
