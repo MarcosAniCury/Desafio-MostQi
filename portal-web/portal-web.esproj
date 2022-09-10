@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\Components\" />
+    <Folder Include="src\Containers\CreateUserScreen\" />
     <Folder Include="src\Services\API\" />
   </ItemGroup>
 </Project>

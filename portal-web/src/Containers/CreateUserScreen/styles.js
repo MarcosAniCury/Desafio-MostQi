@@ -90,16 +90,6 @@ export const Input = styled.input`
     }
 `;
 
-export const SpanErrorMessage = styled.span`
-    font-family: 'Montserrat', sans-serif;
-    display: block;
-    font-size: 14px;
-    color: #FD3737;
-    line-height: 1.2;
-    text-align: center;
-    margin-bottom: 30px;
-`;
-
 export const ContainerButtonSubmit = styled.div`
     display: flex;
     flex-wrap: wrap;

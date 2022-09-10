@@ -10,14 +10,14 @@ export const API = {
 
         let responseAxios = {};
 
+        //error here test
+
         await axios.post(URL.base + URL.user.login, params).then((response) => {
             responseAxios = {
                 'data': response.data,
                 'success': response.status == 201
             }; 
         });
-
-        console.log(responseAxios);
 
         return { ...responseAxios };
     },

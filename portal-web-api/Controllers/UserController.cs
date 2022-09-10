@@ -62,7 +62,7 @@ namespace portal_web_api.Controllers
                 return BadRequest(new 
                 { 
                     success = false,
-                    erros = new { Name = "Já existe um usuário com esse nome" } 
+                    errors = new { Name = "Já existe um usuário com esse nome" } 
                 });
             }
             createUser.Password = "";
@@ -82,7 +82,11 @@ namespace portal_web_api.Controllers
             UserLoginResponse loginResponse = new UserLoginResponse(false);
             if (findUser == null)
             {
-                return NotFound(loginResponse);
+                return NotFound(new 
+                { 
+                    success=loginResponse.Success, 
+                    errors = new { NotFound="Não existe um usuário com essa senha registrado" } 
+                });
             }
 
             var token = TokenService.GenerateToken(findUser);
