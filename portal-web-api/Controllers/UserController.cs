@@ -79,7 +79,7 @@ namespace portal_web_api.Controllers
         public IActionResult Login(UserLoginRequest user)
         {
             var findUser = _userRepository.FindByNameAndPassword(user.Name, user.Password);
-            UserLoginResponse loginResponse = new UserLoginResponse(false, Settings.getTimeExpiredToken());
+            UserLoginResponse loginResponse = new UserLoginResponse(false);
             if (findUser == null)
             {
                 return NotFound(loginResponse);
@@ -89,6 +89,7 @@ namespace portal_web_api.Controllers
             findUser.Password = "";
             loginResponse.Token = token;
             loginResponse.data = findUser;
+            loginResponse.TokenExpirationTime = Settings.getTimeExpiredToken();
             return Ok(loginResponse);
         }
     }

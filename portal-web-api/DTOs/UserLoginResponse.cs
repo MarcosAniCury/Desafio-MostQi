@@ -5,10 +5,9 @@ namespace portal_web_api.DTOs
 {
     public class UserLoginResponse
     {
-        public UserLoginResponse(bool success, DateTime tokenExpiredTime)
+        public UserLoginResponse(bool success)
         {
             this.Success = success;
-            this.TokenExpirationTime = tokenExpiredTime;
         }
 
         public bool Success { get; set; }
