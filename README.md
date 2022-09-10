@@ -25,3 +25,7 @@ Será avaliada toda a explicação do código e do processo de desenvolvimento, 
 ## mostQI
 
 Acesse nosso [linkedin](https://www.linkedin.com/company/mobile-solution-technology/posts/?feedView=all) para mais informações sobre vagas e novidades.
+
+## Anotações sobre o projeto
+
+- Não consegui alterar o charset do react ao renderizar um html
