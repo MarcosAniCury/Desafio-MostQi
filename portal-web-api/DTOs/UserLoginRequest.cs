@@ -10,11 +10,11 @@ namespace portal_web_api.DTOs
             Password = password;
         }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        [Required(ErrorMessage = "O campo nome é obrigatório")]
         public string Name { get; private set; }
 
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [StringLength(50, ErrorMessage = "O campo {0} deve ter entre {2} e {1} caracteres", MinimumLength = 6)]
+        [Required(ErrorMessage = "O campo senha é obrigatório")]
+        [StringLength(50, ErrorMessage = "O campo senha deve ter entre {2} e {1} caracteres", MinimumLength = 6)]
         public string Password { get; private set; }
     }
 }

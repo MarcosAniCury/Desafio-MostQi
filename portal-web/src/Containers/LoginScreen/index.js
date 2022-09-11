@@ -22,8 +22,10 @@ export default function LoginScreen() {
         if (username !== '' && password !== '') {
             const response = await API.login(username, password);
             if (response.success == false) {
-                const [key] = Object.keys(response.error);
-                setErrorMessage(response.error[key]);
+                const [key] = Object.keys(response.errors);
+                setErrorMessage(response.errors[key][0]);
+            } else {
+                setErrorMessage(null);
             }
         }
     }, [username, password, errorMessage, API.login]);

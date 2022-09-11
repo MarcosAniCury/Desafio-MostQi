@@ -10,13 +10,14 @@ export const API = {
 
         let responseAxios = {};
 
-        //error here test
-
         await axios.post(URL.base + URL.user.login, params).then((response) => {
-            responseAxios = {
-                'data': response.data,
-                'success': response.status == 201
-            }; 
+            responseAxios = response.data;
+        }).catch((error) => {
+            responseAxios = error.response.data;
+            if (responseAxios['success'] == undefined)
+            {
+                responseAxios.success = responseAxios.status != 400;
+            }
         });
 
         return { ...responseAxios };

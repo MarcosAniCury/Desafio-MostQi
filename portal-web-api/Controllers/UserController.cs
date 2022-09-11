@@ -38,11 +38,14 @@ namespace portal_web_api.Controllers
             var user = _userRepository.FindById(id);
 
             if (user == null)
+            {
+                string[] error = { "Não existe usuários com esse id" };
                 return NotFound(new
                 {
                     success = true,
-                    errors = new { Id = "Não existe usuários com esse id" }
+                    errors = new { Id = error }
                 });
+            }
 
             return Ok(new 
             {
@@ -59,10 +62,11 @@ namespace portal_web_api.Controllers
             User createUser = (User)newUser;
             if (_userRepository.Create(createUser) == null)
             {
+                string[] error = { "Já existe um usuário com esse nome" };
                 return BadRequest(new 
                 { 
                     success = false,
-                    errors = new { Name = "Já existe um usuário com esse nome" } 
+                    errors = new { Name = error } 
                 });
             }
             createUser.Password = "";
@@ -82,15 +86,17 @@ namespace portal_web_api.Controllers
             UserLoginResponse loginResponse = new UserLoginResponse(false);
             if (findUser == null)
             {
+                string[] error = { "Não existe um usuário com essa senha registrado" };
                 return NotFound(new 
                 { 
-                    success=loginResponse.Success, 
-                    errors = new { NotFound="Não existe um usuário com essa senha registrado" } 
+                    success=loginResponse.Success,
+                    errors = new { NotFound = error }
                 });
             }
 
             var token = TokenService.GenerateToken(findUser);
             findUser.Password = "";
+            loginResponse.Success = true;
             loginResponse.Token = token;
             loginResponse.data = findUser;
             loginResponse.TokenExpirationTime = Settings.getTimeExpiredToken();
