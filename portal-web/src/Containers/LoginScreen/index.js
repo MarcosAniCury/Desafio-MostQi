@@ -11,21 +11,63 @@ export default function LoginScreen() {
     const placeholderUserInputString = 'Usuario';
     const placeholderPasswordInputString = 'Senha';
     const buttonSendString = 'Entrar'
+    const InputNameString = 'Name';
+    const InputPasswordString = 'Password';
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [createUserAnchor, setCreateUserAnchor] = useState(createUserDefaultString);
     const [forgetPasswordAnchor, setForgetPasswordAnchor] = useState(forgetPasswordDefaultString);
     const [errorMessage, setErrorMessage] = useState(null);
+    const [errorStyleUsername, setErrorStyleUsername] = useState({});
+    const [errorStylePassword, setErrorStylePassword] = useState({});
+
+    const InputErrorApiStyleHandle = (key = undefined) => {
+        if (key == InputNameString) {
+            setErrorStyleUsername({
+                'border': '2px solid red',
+            });
+        } else if (key == 'Password') {
+            setErrorStylePassword({
+                'border': '2px solid red',
+            })
+        } else {
+            setErrorStyleUsername({});
+            setErrorStylePassword({});
+        }
+    };
+
+    const InputErrorStyleHandle = () => {
+        let allInputFull = true;
+        if (username === '') {
+            setErrorStyleUsername({
+                'border': '2px solid red',
+            });
+            allInputFull = false;
+        } else {
+            setErrorStyleUsername({});
+        }
+        if (password === '') {
+            setErrorStylePassword({
+                'border': '2px solid red',
+            });
+            allInputFull = false;
+        } else {
+            setErrorStylePassword({});
+        }
+        return allInputFull;
+    };
 
     const HandleButtonSubmitOnClick = useCallback(async () => {
-        if (username !== '' && password !== '') {
+        if (InputErrorStyleHandle()) {
             const response = await API.login(username, password);
             if (response.success == false) {
                 const [key] = Object.keys(response.errors);
                 setErrorMessage(response.errors[key][0]);
+                InputErrorApiStyleHandle(key);
             } else {
                 setErrorMessage(null);
+                InputErrorApiStyleHandle();
             }
         }
     }, [username, password, errorMessage, API.login]);
@@ -39,11 +81,11 @@ export default function LoginScreen() {
                         <Form>
                             <SpanTitle>{titleString}</SpanTitle>
 
-                            <WarpInput>
+                            <WarpInput style={ errorStyleUsername }>
                                 <Input placeholder={placeholderUserInputString} type='text' value={username} onChange={event => setUsername(event.target.value)} id='username' />
                             </WarpInput>
 
-                            <WarpInput>
+                            <WarpInput style={ errorStylePassword }>
                                 <Input placeholder={placeholderPasswordInputString} type='text' value={password} onChange={event => setPassword(event.target.value)} id='password' />
                             </WarpInput>
 
