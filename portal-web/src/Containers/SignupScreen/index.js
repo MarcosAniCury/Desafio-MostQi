@@ -23,15 +23,13 @@ import {
 
 export default function LoginScreen() {
     //Messages
-    const createUserDefaultString = 'Voce nao possui uma conta?';
-    const createUserOverString = 'Crie sua conta agora';
-    const forgetPasswordDefaultString = 'Esqueceu sua senha?';
-    const forgetPasswordOverString = 'Recupere agora';
+    const createUserDefaultString = 'Voce ja possui uma conta?';
+    const createUserOverString = 'Logue agora';
     const emptyInputUsernameString = 'O campo usuario nao pode ser vazio';
     const emptyInputPasswordString = 'O campo senha deve ter entre 6 e 50 caracteres';
 
     //Components name
-    const titleString = 'Login';
+    const titleString = 'Cadastrar';
     const placeholderUserInputString = 'Usuario';
     const placeholderPasswordInputString = 'Senha';
     const buttonSendString = 'Entrar'
@@ -44,7 +42,6 @@ export default function LoginScreen() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [createUserAnchor, setCreateUserAnchor] = useState(createUserDefaultString);
-    const [forgetPasswordAnchor, setForgetPasswordAnchor] = useState(forgetPasswordDefaultString);
     const [errorStyleUsername, setErrorStyleUsername] = useState(false);
     const [errorStylePassword, setErrorStylePassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
@@ -72,7 +69,7 @@ export default function LoginScreen() {
 
         const isUsernameError = username === '';
         setErrorStyleUsername(isUsernameError);
-        if (isUsernameError) {    
+        if (isUsernameError) {
             setErrorMessage(emptyInputUsernameString);
             isAllInputFull = false;
         }
@@ -121,15 +118,10 @@ export default function LoginScreen() {
                             </ContainerButtonSubmit>
 
                             <ContainerTextAnchor>
-                                <TextAnchor to='/signup'
+                                <TextAnchor to='/'
                                     onMouseOver={() => setCreateUserAnchor(createUserOverString)}
                                     onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
                                     {createUserAnchor}
-                                </TextAnchor>
-                                <TextAnchor to='/signup'
-                                    onMouseOver={() => setForgetPasswordAnchor(forgetPasswordOverString)}
-                                    onMouseOut={() => setForgetPasswordAnchor(forgetPasswordDefaultString)}>
-                                    {forgetPasswordAnchor}
                                 </TextAnchor>
                             </ContainerTextAnchor>
                         </Form>

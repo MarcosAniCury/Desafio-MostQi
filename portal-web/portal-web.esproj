@@ -12,8 +12,10 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\build</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\Components\" />
-    <Folder Include="src\Containers\CreateUserScreen\" />
+    <Folder Include="src\Components\Form\" />
+    <Folder Include="src\Components\Input\" />
+    <Folder Include="src\Components\Button\" />
+    <Folder Include="src\Containers\SignupScreen\" />
     <Folder Include="src\Containers\ClientsDataScreen\" />
     <Folder Include="src\Containers\NotFoundScreen\" />
     <Folder Include="src\Hooks\" />

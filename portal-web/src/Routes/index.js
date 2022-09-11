@@ -5,14 +5,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useAuth } from '../Hooks/auth';
 
 //Screens
-import Login from '../Containers/LoginScreen';
-import CreateUser from '../Containers/CreateUserScreen';
+import Signin from '../Containers/SigninScreen';
+import Signup from '../Containers/SignupScreen';
 import ClientsData from '../Containers/ClientsDataScreen';
 import NotFound from '../Containers/NotFoundScreen';
 
 const Private = ({ Item }) => {
     const { signed } = useAuth();
-    return signed != 0 ? <Item /> : <Login />;
+    return signed != 0 ? <Item /> : <Signin />;
 };
 
 export default function RoutesApp() {
@@ -21,8 +21,8 @@ export default function RoutesApp() {
             <>
                 <Routes>
                     <Route path='/collaborator' element={<Private Item={ClientsData} />} />
-                    <Route path='/singup' element={<CreateUser />} />
-                    <Route path='/' element={<Login />} />
+                    <Route path='/signup' element={<Signup />} />
+                    <Route path='/' element={<Signin />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>
             </>
