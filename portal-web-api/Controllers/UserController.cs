@@ -19,7 +19,7 @@ namespace portal_web_api.Controllers
         }
 
         [HttpGet]
-        [Route("getAll")]
+        [Route("get")]
         [Authorize(Roles = "collaborator")]
         public IActionResult GetAll()
         {
@@ -55,7 +55,7 @@ namespace portal_web_api.Controllers
         }
 
         [HttpPost]
-        [Route("create")]
+        [Route("signup")]
         [AllowAnonymous]
         public IActionResult Create(UserCreateRequest newUser)
         {
@@ -78,7 +78,7 @@ namespace portal_web_api.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [Route("signin")]
         [AllowAnonymous]
         public IActionResult Login(UserLoginRequest user)
         {
@@ -97,9 +97,11 @@ namespace portal_web_api.Controllers
             var token = TokenService.GenerateToken(findUser);
             findUser.Password = "";
             loginResponse.Success = true;
-            loginResponse.Token = token;
-            loginResponse.data = findUser;
-            loginResponse.TokenExpirationTime = Settings.getTimeExpiredToken();
+            loginResponse.Token = new { 
+                access_token = token, 
+                expired_in = Settings.getTimeExpiredToken() 
+            };
+            loginResponse.Data = findUser;
             return Ok(loginResponse);
         }
     }

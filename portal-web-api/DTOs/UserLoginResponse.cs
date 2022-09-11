@@ -13,12 +13,9 @@ namespace portal_web_api.DTOs
         public bool Success { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public User data { get; set; }
+        public User Data { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public string Token { get; set; }
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DateTime? TokenExpirationTime { get; set; }
+        public object Token { get; set; }
     }
 }

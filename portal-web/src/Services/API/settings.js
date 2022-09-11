@@ -3,7 +3,8 @@ export const applicationJson = 'application/json';
 export const URL = {
     base: 'https://localhost:7139/api/',
     user: {
-        create: 'user/create',
-        login: 'user/login',
+        signup: 'user/signup',
+        signin: 'user/signin',
+        getById: 'user'
     }, 
 }

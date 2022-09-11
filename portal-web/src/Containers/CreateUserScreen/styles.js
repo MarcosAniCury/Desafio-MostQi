@@ -1,19 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components';
-
-export const GlobalStyle = createGlobalStyle`
-    @font-face {
-        font-family: 'Montserrat', sans-serif;
-        scr: url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-        font-weight: 400;
-        font-style: normal;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-`;
+import styled from 'styled-components';
 
 export const ContainerBody = styled.div`
     width: 100%;
@@ -44,12 +29,6 @@ export const Form = styled.form`
     width: 100%;
 `;
 
-export const WrapImg = styled.div`
-    display: flex;
-    width: 100;
-    justify-content: center;
-`;
-
 export const SpanTitle = styled.span`
     font-family: 'Montserrat', sans-serif;
     display: block;
@@ -59,10 +38,6 @@ export const SpanTitle = styled.span`
     text-align: center;
     margin-bottom: 30px;
     margin-top: 50px;
-`;
-
-export const Img = styled.img`
-    width: 150px;
 `;
 
 export const WarpInput = styled.div`
@@ -88,6 +63,16 @@ export const Input = styled.input`
         outline: 0;
         box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
     }
+`;
+
+export const SpanErrorMessage = styled.span`
+    font-family: 'Montserrat', sans-serif;
+    display: block;
+    font-size: 14px;
+    color: #FD3737;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 30px;
 `;
 
 export const ContainerButtonSubmit = styled.div`

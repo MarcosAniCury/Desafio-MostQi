@@ -1,19 +1,5 @@
-import styled, { createGlobalStyle } from 'styled-components';
-
-export const GlobalStyle = createGlobalStyle`
-    @font-face {
-        font-family: 'Montserrat', sans-serif;
-        scr: url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-        font-weight: 400;
-        font-style: normal;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-`;
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const ContainerBody = styled.div`
     width: 100%;
@@ -44,14 +30,7 @@ export const Form = styled.form`
     width: 100%;
 `;
 
-export const WrapImg = styled.div`
-    display: flex;
-    width: 100;
-    justify-content: center;
-`;
-
 export const SpanTitle = styled.span`
-    font-family: 'Montserrat', sans-serif;
     display: block;
     font-size: 30px;
     color: #1B406A;
@@ -61,14 +40,10 @@ export const SpanTitle = styled.span`
     margin-top: 50px;
 `;
 
-export const Img = styled.img`
-    width: 150px;
-`;
-
 export const WarpInput = styled.div`
     width: 100%;
     position: relative;
-    border: 2px solid #d3d3d3;
+    border: 2px solid ${props => props.error ? 'red' : '#d3d3d3'};
     border-radius: 4px;
     margin-bottom: 37px;
 `;
@@ -91,7 +66,6 @@ export const Input = styled.input`
 `;
 
 export const SpanErrorMessage = styled.span`
-    font-family: 'Montserrat', sans-serif;
     display: block;
     font-size: 14px;
     color: #FD3737;
@@ -108,7 +82,6 @@ export const ContainerButtonSubmit = styled.div`
 `;
 
 export const ButtonSubmit = styled.div`
-    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     border: none;
     border-radius: 10px;
@@ -133,7 +106,7 @@ export const ContainerTextAnchor = styled.div`
     align-items: center;
 `;
 
-export const TextAnchor = styled.a`
+export const TextAnchor = styled(Link)`
     font-size: 16px;
     color: #00C6C1;
     line-height: 1.5;

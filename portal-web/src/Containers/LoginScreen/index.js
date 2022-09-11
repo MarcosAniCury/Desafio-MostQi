@@ -1,107 +1,132 @@
-import React, { useCallback, useState } from 'react';
-import { API } from '../../Services/API';
-import { ContainerBody, ContainerLogin, Form, GlobalStyle, TextAnchor, WarpInput, WrapLogin, SpanTitle, Input, WrapImg, ButtonSubmit, ContainerButtonSubmit, SpanFocusInput, ContainerTextAnchor, SpanErrorMessage } from './styles';
+//Imports react
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+//Hooks
+import { useAuth } from '../../Hooks/auth';
+
+//Styles
+import {
+    ContainerBody,
+    ContainerLogin,
+    Form,
+    TextAnchor,
+    WarpInput,
+    WrapLogin,
+    SpanTitle,
+    Input,
+    ButtonSubmit,
+    ContainerButtonSubmit,
+    ContainerTextAnchor,
+    SpanErrorMessage
+} from './styles';
 
 export default function LoginScreen() {
+    //Messages
     const createUserDefaultString = 'Voce nao possui uma conta?';
     const createUserOverString = 'Crie sua conta agora';
     const forgetPasswordDefaultString = 'Esqueceu sua senha?';
     const forgetPasswordOverString = 'Recupere agora';
+    const emptyInputUsernameString = 'O campo usuario nao pode ser vazio';
+    const emptyInputPasswordString = 'O campo senha deve ter entre 6 e 50 caracteres';
+
+    //Components name
     const titleString = 'Login';
     const placeholderUserInputString = 'Usuario';
     const placeholderPasswordInputString = 'Senha';
     const buttonSendString = 'Entrar'
+
+    //API validations
     const InputNameString = 'Name';
     const InputPasswordString = 'Password';
 
+    //useStates
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [createUserAnchor, setCreateUserAnchor] = useState(createUserDefaultString);
     const [forgetPasswordAnchor, setForgetPasswordAnchor] = useState(forgetPasswordDefaultString);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [errorStyleUsername, setErrorStyleUsername] = useState({});
-    const [errorStylePassword, setErrorStylePassword] = useState({});
+    const [errorStyleUsername, setErrorStyleUsername] = useState(false);
+    const [errorStylePassword, setErrorStylePassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
+
+    //Auth
+    const { user, errorMessage: errorMessageApi, signed, signin } = useAuth();
+
+    //Navigate
+    const navigate = useNavigate();
 
     const InputErrorApiStyleHandle = (key = undefined) => {
-        if (key == InputNameString) {
-            setErrorStyleUsername({
-                'border': '2px solid red',
-            });
-        } else if (key == 'Password') {
-            setErrorStylePassword({
-                'border': '2px solid red',
-            })
-        } else {
-            setErrorStyleUsername({});
-            setErrorStylePassword({});
-        }
+        setErrorStyleUsername(key == InputNameString);
+        setErrorStylePassword(key == InputPasswordString)
     };
 
     const InputErrorStyleHandle = () => {
-        let allInputFull = true;
-        if (username === '') {
-            setErrorStyleUsername({
-                'border': '2px solid red',
-            });
-            allInputFull = false;
-        } else {
-            setErrorStyleUsername({});
+        let isAllInputFull = true;
+
+        const isPasswordError = password === '' || (password < 6 || password > 50);
+        setErrorStylePassword(isPasswordError);
+        if (isPasswordError) {
+            setErrorMessage(emptyInputPasswordString)
+            isAllInputFull = false;
         }
-        if (password === '') {
-            setErrorStylePassword({
-                'border': '2px solid red',
-            });
-            allInputFull = false;
-        } else {
-            setErrorStylePassword({});
+
+        const isUsernameError = username === '';
+        setErrorStyleUsername(isUsernameError);
+        if (isUsernameError) {    
+            setErrorMessage(emptyInputUsernameString);
+            isAllInputFull = false;
         }
-        return allInputFull;
+        return isAllInputFull;
     };
 
-    const HandleButtonSubmitOnClick = useCallback(async () => {
+    const HandleButtonSubmitOnClick = async () => {
         if (InputErrorStyleHandle()) {
-            const response = await API.login(username, password);
-            if (response.success == false) {
-                const [key] = Object.keys(response.errors);
-                setErrorMessage(response.errors[key][0]);
-                InputErrorApiStyleHandle(key);
-            } else {
-                setErrorMessage(null);
-                InputErrorApiStyleHandle();
-            }
+            await signin(username, password)
         }
-    }, [username, password, errorMessage, API.login]);
+    };
+
+    //Every time singin and return erro update states
+    useEffect(() => {
+        setErrorMessage(errorMessageApi?.message);
+        InputErrorApiStyleHandle(errorMessageApi?.key);
+    }, [errorMessageApi]);
+
+    //When is signed navigate to type user screen
+    useEffect(() => {
+        if (signed) {
+            navigate(`/${user.type}`);
+        }
+    }, [signed]);
 
     return (
         <>
-            <GlobalStyle />
             <ContainerBody>
                 <ContainerLogin>
                     <WrapLogin>
                         <Form>
                             <SpanTitle>{titleString}</SpanTitle>
 
-                            <WarpInput style={ errorStyleUsername }>
+                            <WarpInput error={errorStyleUsername}>
                                 <Input placeholder={placeholderUserInputString} type='text' value={username} onChange={event => setUsername(event.target.value)} id='username' />
                             </WarpInput>
 
-                            <WarpInput style={ errorStylePassword }>
+                            <WarpInput error={errorStylePassword}>
                                 <Input placeholder={placeholderPasswordInputString} type='text' value={password} onChange={event => setPassword(event.target.value)} id='password' />
                             </WarpInput>
 
-                            {errorMessage != null && < SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
+                            {errorMessage && <SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
 
                             <ContainerButtonSubmit>
                                 <ButtonSubmit onClick={HandleButtonSubmitOnClick}>{buttonSendString}</ButtonSubmit>
                             </ContainerButtonSubmit>
 
                             <ContainerTextAnchor>
-                                <TextAnchor href="https://localhost:7139/swagger/index.html"
+                                <TextAnchor to='/signup'
                                     onMouseOver={() => setCreateUserAnchor(createUserOverString)}
                                     onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
                                     {createUserAnchor}
                                 </TextAnchor>
-                                <TextAnchor href="https://localhost:7139/swagger/index.html"
+                                <TextAnchor to='/signup'
                                     onMouseOver={() => setForgetPasswordAnchor(forgetPasswordOverString)}
                                     onMouseOut={() => setForgetPasswordAnchor(forgetPasswordDefaultString)}>
                                     {forgetPasswordAnchor}
