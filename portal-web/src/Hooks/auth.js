@@ -12,22 +12,26 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         (async () => { 
-            const userToken = localStorage.getItem('token');
-            const userStorage = localStorage.getItem('user');
+            const userToken = JSON.parse(localStorage.getItem('token'));
+            const userStorage = JSON.parse(localStorage.getItem('user'));
 
-            if (userToken && userToken.access_token < new Date().toISOString() && userStorage) {
+            if (userToken && userToken.expired_in > new Date().toISOString() && userStorage) {
                 const dbUser = await API.getUserById(userStorage.id, userToken.access_token);
 
                 if (dbUser.sucess) {
                     setUser(dbUser.data);
                 }
+            } else {
+                setUser(undefined);
             }
         })();
-    }, [user]);
+    }, [user, localStorage]);
 
     const signin = async (username, password) => {
         const responseUser = await API.signin(username, password);
         if (responseUser.success) {
+            localStorage.setItem('token', JSON.stringify(responseUser.token));
+            localStorage.setItem('user', JSON.stringify(responseUser.data));
             setUser(responseUser.data);
             setErrorMessage({});
         } else {
@@ -40,9 +44,23 @@ const AuthProvider = ({ children }) => {
         return;
     };
 
+    const signup = async (username, email, password, type) => {
+        const responseUser = await API.signup(username, email, password, type);
+        if (responseUser.success) {
+            setErrorMessage({});
+        } else {
+            const key = Object.keys(responseUser.errors)[0];
+            setErrorMessage({
+                key: [key],
+                message: responseUser.errors[key][0]
+            });
+        }
+        return responseUser.success;
+    };
+
     return (
         <AuthContext.Provider
-            value={{ user, errorMessage, signed: !!user, signin }}
+            value={{ user, errorMessage, signed: !!user, signin, signup }}
         >
             {children}
         </AuthContext.Provider>

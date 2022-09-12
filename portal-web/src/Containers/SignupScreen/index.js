@@ -7,32 +7,31 @@ import { useAuth } from '../../Hooks/auth';
 
 //Styles
 import {
-    ContainerBody,
-    ContainerLogin,
-    Form,
     TextAnchor,
-    WarpInput,
-    WrapLogin,
     SpanTitle,
-    Input,
-    ButtonSubmit,
-    ContainerButtonSubmit,
     ContainerTextAnchor,
     SpanErrorMessage
 } from './styles';
 
+//Components
+import Form from '../../Components/Form';
+import Input from '../../Components/Input';
+import Button from '../../Components/Button';
+
 export default function LoginScreen() {
     //Messages
     const createUserDefaultString = 'Voce ja possui uma conta?';
-    const createUserOverString = 'Logue agora';
+    const createUserOverString = 'Faca login agora';
     const emptyInputUsernameString = 'O campo usuario nao pode ser vazio';
-    const emptyInputPasswordString = 'O campo senha deve ter entre 6 e 50 caracteres';
+    const notInRangeInputPasswordString = 'O campo senha deve ter entre 6 e 50 caracteres';
+    const notEmailValidationInputEmailString = 'O campo email nao e um email valido';
 
     //Components name
     const titleString = 'Cadastrar';
     const placeholderUserInputString = 'Usuario';
     const placeholderPasswordInputString = 'Senha';
-    const buttonSendString = 'Entrar'
+    const placeholderEmailInputString = 'Email';
+    const buttonSendString = 'Criar'
 
     //API validations
     const InputNameString = 'Name';
@@ -41,13 +40,15 @@ export default function LoginScreen() {
     //useStates
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
     const [createUserAnchor, setCreateUserAnchor] = useState(createUserDefaultString);
     const [errorStyleUsername, setErrorStyleUsername] = useState(false);
     const [errorStylePassword, setErrorStylePassword] = useState(false);
+    const [errorStyleEmail, setErrorStyleEmail] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
 
     //Auth
-    const { user, errorMessage: errorMessageApi, signed, signin } = useAuth();
+    const { errorMessage: errorMessageApi, signup } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
@@ -60,16 +61,24 @@ export default function LoginScreen() {
     const InputErrorStyleHandle = () => {
         let isAllInputFull = true;
 
-        const isPasswordError = password === '' || (password < 6 || password > 50);
+        const isPasswordError = password === '' || (password.length < 6 || password.length > 50);
         setErrorStylePassword(isPasswordError);
         if (isPasswordError) {
-            setErrorMessage(emptyInputPasswordString)
+            setErrorMessage(notInRangeInputPasswordString)
+            isAllInputFull = false;
+        }
+
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const isEmailError = !regex.test(email);
+        setErrorStyleEmail(isEmailError);
+        if (isEmailError) {
+            setErrorMessage(notEmailValidationInputEmailString);
             isAllInputFull = false;
         }
 
         const isUsernameError = username === '';
         setErrorStyleUsername(isUsernameError);
-        if (isUsernameError) {
+        if (isUsernameError) {    
             setErrorMessage(emptyInputUsernameString);
             isAllInputFull = false;
         }
@@ -78,56 +87,56 @@ export default function LoginScreen() {
 
     const HandleButtonSubmitOnClick = async () => {
         if (InputErrorStyleHandle()) {
-            await signin(username, password)
+            if (await signup(username, email, password, 'collaborator')) {
+                alert('Usuario cadastrado com sucesso');
+                navigate('/');
+            }
         }
     };
 
-    //Every time singin and return erro update states
+    //Every time singup and return erro update states
     useEffect(() => {
         setErrorMessage(errorMessageApi?.message);
         InputErrorApiStyleHandle(errorMessageApi?.key);
     }, [errorMessageApi]);
 
-    //When is signed navigate to type user screen
-    useEffect(() => {
-        if (signed) {
-            navigate(`/${user.type}`);
-        }
-    }, [signed]);
-
     return (
-        <>
-            <ContainerBody>
-                <ContainerLogin>
-                    <WrapLogin>
-                        <Form>
-                            <SpanTitle>{titleString}</SpanTitle>
+        <Form>
+            <SpanTitle>{titleString}</SpanTitle>
 
-                            <WarpInput error={errorStyleUsername}>
-                                <Input placeholder={placeholderUserInputString} type='text' value={username} onChange={event => setUsername(event.target.value)} id='username' />
-                            </WarpInput>
+            <Input isErrorStyle={errorStyleUsername}
+                placeholderString={placeholderUserInputString}
+                value={username}
+                onChange={event => setUsername(event.target.value)}
+            />
 
-                            <WarpInput error={errorStylePassword}>
-                                <Input placeholder={placeholderPasswordInputString} type='text' value={password} onChange={event => setPassword(event.target.value)} id='password' />
-                            </WarpInput>
+            <Input isErrorStyle={errorStyleEmail}
+                placeholderString={placeholderEmailInputString}
+                value={email}
+                onChange={event => setEmail(event.target.value)}
+                type='email'
+            />
 
-                            {errorMessage && <SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
+            <Input isErrorStyle={errorStylePassword}
+                placeholderString={placeholderPasswordInputString}
+                value={password}
+                onChange={event => setPassword(event.target.value)}
+                type='password'
+            />
 
-                            <ContainerButtonSubmit>
-                                <ButtonSubmit onClick={HandleButtonSubmitOnClick}>{buttonSendString}</ButtonSubmit>
-                            </ContainerButtonSubmit>
+            {errorMessage && <SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
 
-                            <ContainerTextAnchor>
-                                <TextAnchor to='/'
-                                    onMouseOver={() => setCreateUserAnchor(createUserOverString)}
-                                    onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
-                                    {createUserAnchor}
-                                </TextAnchor>
-                            </ContainerTextAnchor>
-                        </Form>
-                    </WrapLogin>
-                </ContainerLogin>
-            </ContainerBody>
-        </>
+            <Button onClick={HandleButtonSubmitOnClick}
+                text={buttonSendString}
+            />
+
+            <ContainerTextAnchor>
+                <TextAnchor to='/'
+                    onMouseOver={() => setCreateUserAnchor(createUserOverString)}
+                    onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
+                    {createUserAnchor}
+                </TextAnchor>
+            </ContainerTextAnchor>          
+        </Form>
     );
 }

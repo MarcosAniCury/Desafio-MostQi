@@ -60,7 +60,7 @@ export default function LoginScreen() {
     const InputErrorStyleHandle = () => {
         let isAllInputFull = true;
 
-        const isPasswordError = password === '' || (password < 6 || password > 50);
+        const isPasswordError = password === '' || (password.length < 6 || password.length > 50);
         setErrorStylePassword(isPasswordError);
         if (isPasswordError) {
             setErrorMessage(emptyInputPasswordString)
@@ -78,7 +78,7 @@ export default function LoginScreen() {
 
     const HandleButtonSubmitOnClick = async () => {
         if (InputErrorStyleHandle()) {
-            await signin(username, password)
+            await signin(username, password);
         }
     };
 
@@ -94,7 +94,6 @@ export default function LoginScreen() {
             navigate(`/${user.type}`);
         }
     }, [signed]);
-
     return (
         <Form>
             <SpanTitle>{titleString}</SpanTitle>

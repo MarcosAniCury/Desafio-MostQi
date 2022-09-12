@@ -1,6 +1,6 @@
 import { WarpInput, InputStyled } from './styles';
 
-export default function Input({ isErroStyle, placeholderString, value, onChange, type = 'text' }) {
+export default function Input({ isErroStyle = false, placeholderString, value, onChange, type = 'text' }) {
 
     return (
         <WarpInput error={isErroStyle}>
