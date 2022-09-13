@@ -1,2 +1,4 @@
 C:\Users\Marcos\Documents\Git\desafios-fullstack\portal-web\obj\Debug\portal-web.esproj.SuggestedBindingRedirects.cache
 C:\Users\Marcos\Documents\Git\desafios-fullstack\portal-web\obj\Debug\portal-web.esproj.CoreCompileInputs.cache
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web\obj\Debug\portal-web.esproj.SuggestedBindingRedirects.cache
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web\obj\Debug\portal-web.esproj.CoreCompileInputs.cache
