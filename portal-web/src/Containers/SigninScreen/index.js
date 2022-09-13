@@ -17,6 +17,7 @@ import {
 import Form from '../../Components/Form';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
+import Loading from '../../Components/Loading';
 
 export default function LoginScreen() {
     //Messages
@@ -45,9 +46,10 @@ export default function LoginScreen() {
     const [errorStyleUsername, setErrorStyleUsername] = useState(false);
     const [errorStylePassword, setErrorStylePassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
     //Auth
-    const { user, errorMessage: errorMessageApi, signed, signin } = useAuth();
+    const { user, errorMessage: errorMessageApi, signed, signin, setErrorMessage: setErrorMessageAPI } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
@@ -77,10 +79,15 @@ export default function LoginScreen() {
     };
 
     const HandleButtonSubmitOnClick = async () => {
+        setIsLoading(true);
         if (InputErrorStyleHandle()) {
             await signin(username, password);
+            setIsLoading(false);
         }
     };
+    useEffect(() => {
+        setErrorMessageAPI(false);
+    }, []);
 
     //Every time singin and return erro update states
     useEffect(() => {
@@ -95,41 +102,44 @@ export default function LoginScreen() {
         }
     }, [signed]);
     return (
-        <Form>
-            <SpanTitle>{titleString}</SpanTitle>
+        <>
+            {isLoading && <Loading />}
+            <Form>
+                <SpanTitle>{titleString}</SpanTitle>
 
-            <Input isErrorStyle={errorStyleUsername}
-                placeholderString={placeholderUserInputString}
-                value={username}
-                onChange={event => setUsername(event.target.value)}
-            />
+                <Input isErrorStyle={errorStyleUsername}
+                    placeholderString={placeholderUserInputString}
+                    value={username}
+                    onChange={event => setUsername(event.target.value)}
+                />
 
-            <Input isErrorStyle={errorStylePassword}
-                placeholderString={placeholderPasswordInputString}
-                value={password}
-                onChange={event => setPassword(event.target.value)}
-                type='password'
-            />
+                <Input isErrorStyle={errorStylePassword}
+                    placeholderString={placeholderPasswordInputString}
+                    value={password}
+                    onChange={event => setPassword(event.target.value)}
+                    type='password'
+                />
 
-            {errorMessage && <SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
+                {errorMessage && <SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
 
-            <Button onClick={HandleButtonSubmitOnClick}
-                text={buttonSendString}
-            />
+                <Button onClick={HandleButtonSubmitOnClick}
+                    text={buttonSendString}
+                />
 
-            <ContainerTextAnchor>
-                <TextAnchor to='/signup'
-                    onMouseOver={() => setCreateUserAnchor(createUserOverString)}
-                    onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
-                    {createUserAnchor}
-                </TextAnchor>
-                <TextAnchor to='/forgetPassword'
-                    onMouseOver={() => setForgetPasswordAnchor(forgetPasswordOverString)}
-                    onMouseOut={() => setForgetPasswordAnchor(forgetPasswordDefaultString)}>
-                    {forgetPasswordAnchor}
-                </TextAnchor>
-            </ContainerTextAnchor>
+                <ContainerTextAnchor>
+                    <TextAnchor to='/signup'
+                        onMouseOver={() => setCreateUserAnchor(createUserOverString)}
+                        onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
+                        {createUserAnchor}
+                    </TextAnchor>
+                    <TextAnchor to='/forgetPassword'
+                        onMouseOver={() => setForgetPasswordAnchor(forgetPasswordOverString)}
+                        onMouseOut={() => setForgetPasswordAnchor(forgetPasswordDefaultString)}>
+                        {forgetPasswordAnchor}
+                    </TextAnchor>
+                </ContainerTextAnchor>
                         
-        </Form>
+            </Form>
+        </>
     );
 }

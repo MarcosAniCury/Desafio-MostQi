@@ -19,7 +19,7 @@ import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import Loading from '../../Components/Loading';
 
-export default function LoginScreen() {
+export default function LoginScreen(token) {
     //Messages
     const signinDefaultString = 'Lembrou sua senha?';
     const signinOverString = 'Faca login agora';
@@ -46,7 +46,7 @@ export default function LoginScreen() {
     const [isLoading, setIsLoading] = useState();
 
     //Auth
-    const { errorMessage: errorMessageApi, forgetPassword } = useAuth();
+    const { errorMessage: errorMessageApi, recoverPassword, setErrorMessage: setErrorMessageAPI } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
@@ -73,9 +73,9 @@ export default function LoginScreen() {
             isAllInputFull = false;
         }
 
-        const isPasswordsIguals = password === passwordConfirm;
-        setErrorStylePasswordConfirm(isPasswordsIguals);
-        if (isPasswordsIguals) {
+        const isPasswordsDifferent = password !== passwordConfirm;
+        setErrorStylePasswordConfirm(isPasswordsDifferent);
+        if (isPasswordsDifferent) {
             setErrorMessage(notIgualsInputPasswordsString);
             isAllInputFull = false;
         }
@@ -86,13 +86,17 @@ export default function LoginScreen() {
     const HandleButtonSubmitOnClick = async () => {
         if (InputErrorStyleHandle()) {
             setIsLoading(true);
-            if (await forgetPassword(password, passwordConfirm)) {
+            if (await recoverPassword(password, passwordConfirm, token.token)) {
                 setIsLoading(false);
-                alert('O email de recuperacao de senha foi enviado com sucesso');
+                alert('A senha foi redefinida com sucesso, favor logar com a nova senha');
                 navigate('/');
             }
         }
     };
+
+    useEffect(() => {
+        setErrorMessageAPI(false);
+    }, []);
 
     //Every time singup and return erro update states
     useEffect(() => {

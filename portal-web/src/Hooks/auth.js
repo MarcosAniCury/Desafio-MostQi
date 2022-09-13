@@ -72,13 +72,23 @@ const AuthProvider = ({ children }) => {
         return response.success;
     };
 
-    const recoverPassword = async (password, confirmPassword) => {
-
+    const recoverPassword = async (password, confirmPassword, access_token) => {
+        const response = await API.recoverPassword(password, confirmPassword, access_token);
+        if (response.success) {
+            setErrorMessage({});
+        } else {
+            const key = Object.keys(response.errors)[0];
+            setErrorMessage({
+                key: [key],
+                message: response.errors[key][0]
+            });
+        }
+        return response.success;
     };
 
     return (
         <AuthContext.Provider
-            value={{ user, errorMessage, signed: !!user, signin, signup, forgetPassword, recoverPassword }}
+            value={{ user, errorMessage, signed: !!user, signin, signup, forgetPassword, recoverPassword, setErrorMessage }}
         >
             {children}
         </AuthContext.Provider>

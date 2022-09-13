@@ -49,7 +49,7 @@ export default function LoginScreen() {
     const [errorMessage, setErrorMessage] = useState();
 
     //Auth
-    const { errorMessage: errorMessageApi, signup } = useAuth();
+    const { errorMessage: errorMessageApi, signup, setErrorMessage: setErrorMessageAPI } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
@@ -95,6 +95,10 @@ export default function LoginScreen() {
             }
         }
     };
+
+    useEffect(() => {
+        setErrorMessageAPI(false);
+    }, []);
 
     //Every time singup and return erro update states
     useEffect(() => {

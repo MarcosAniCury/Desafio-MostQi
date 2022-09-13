@@ -1,5 +1,5 @@
 //React imports
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
 
 //Hooks
 import { useAuth } from '../Hooks/auth';
@@ -17,6 +17,11 @@ const Private = ({ Item }) => {
     return signed != 0 ? <Item /> : <Signin />;
 };
 
+const RecoverPasswordLink = () => {
+    let { token } = useParams();
+    return <RecoverPassword token={token} />
+};
+
 export default function RoutesApp() {
     return (
         <BrowserRouter>
@@ -25,7 +30,7 @@ export default function RoutesApp() {
                     <Route path='/collaborator' element={<Private Item={ClientsData} />} />
                     <Route path='/signup' element={<Signup />} />
                     <Route path='/forgetPassword' element={<ForgetPassword />} />
-                    <Route path='/recoverPassword/:token' element={<RecoverPassword />} />
+                    <Route path='/recoverPassword/:token' element={<RecoverPasswordLink />} />
                     <Route path='/' element={<Signin />} />
                     <Route path='*' element={<NotFound />} />
                 </Routes>

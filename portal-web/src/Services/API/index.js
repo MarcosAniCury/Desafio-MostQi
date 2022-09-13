@@ -70,7 +70,7 @@ export const API = {
             
         let responseAxios = {};
 
-        await axios.post(`${URL.base}${URL.user.sendEmailForgetPassword}`, params).then((response) => {
+        await axios.post(`${URL.base}${URL.user.forgetPassword}`, params).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
             responseAxios = error.response.data;
@@ -80,5 +80,28 @@ export const API = {
         });
 
         return { ...responseAxios };
-    }
+    },
+    recoverPassword: async (password, passwordConfirm, access_token) => {
+        const params = {
+            'password': password,
+            'passwordConfirm': passwordConfirm
+        }
+
+        const config = {
+            headers: { 'Authorization': `Bearer ${access_token}` }
+        };
+
+        let responseAxios = {};
+
+        await axios.post(`${URL.base}${URL.user.recoverPassword}`, params, config).then((response) => {
+            responseAxios = response.data;
+        }).catch((error) => {
+            responseAxios = error.response.data;
+            if (responseAxios['success'] == undefined) {
+                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+            }
+        });
+
+        return { ...responseAxios };
+    },
 }

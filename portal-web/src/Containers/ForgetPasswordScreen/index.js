@@ -46,7 +46,7 @@ export default function LoginScreen() {
     const [isLoading, setIsLoading] = useState();
 
     //Auth
-    const { errorMessage: errorMessageApi, forgetPassword } = useAuth();
+    const { errorMessage: errorMessageApi, forgetPassword, setErrorMessage: setErrorMessageAPI } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
@@ -86,6 +86,10 @@ export default function LoginScreen() {
             }
         }
     };
+
+    useEffect(() => {
+        setErrorMessageAPI(false);
+    }, []);
 
     //Every time singup and return erro update states
     useEffect(() => {
