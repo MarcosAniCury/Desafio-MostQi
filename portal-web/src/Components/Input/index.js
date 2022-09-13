@@ -4,7 +4,11 @@ export default function Input({ isErroStyle = false, placeholderString, value, o
 
     return (
         <WarpInput error={isErroStyle}>
-            <InputStyled placeholder={placeholderString} type={type} value={value} onChange={onChange} />
+            <InputStyled placeholder={placeholderString}
+                type={type}
+                value={value}
+                onChange={onChange}
+            />
         </WarpInput>
     );
 }

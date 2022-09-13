@@ -101,3 +101,6 @@ C:\Users\Marcos\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0
 C:\Users\Marcos\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\MimeKit.dll
 C:\Users\Marcos\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\BouncyCastle.Crypto.dll
 C:\Users\Marcos\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\MailKit.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\MimeKit.dll
+C:\Users\curym\Documents\Git\desafios-fullstack\portal-web-api\bin\Debug\net6.0\BouncyCastle.Crypto.dll

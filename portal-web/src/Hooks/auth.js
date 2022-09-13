@@ -72,9 +72,13 @@ const AuthProvider = ({ children }) => {
         return response.success;
     };
 
+    const recoverPassword = async (password, confirmPassword) => {
+
+    };
+
     return (
         <AuthContext.Provider
-            value={{ user, errorMessage, signed: !!user, signin, signup, forgetPassword }}
+            value={{ user, errorMessage, signed: !!user, signin, signup, forgetPassword, recoverPassword }}
         >
             {children}
         </AuthContext.Provider>

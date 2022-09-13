@@ -127,7 +127,7 @@ namespace portal_web_api.Controllers
             }
             user.Type = "forget-password";
             var token = TokenService.GenerateToken(user);
-            string urlResetPassword = Settings.UrlFront+"forgetPassword/"+token;
+            string urlResetPassword = Settings.UrlFront+ "recoverPassword/" + token;
             StringBuilder message = new StringBuilder();
             message.Append("<h1>Most Quotation :: Recuperação de Senha</h1>");
             message.Append($"<p>Por favor, redefina sua senha <a href='{HtmlEncoder.Default.Encode(urlResetPassword)}'>Clicando aqui</a>.</p>");
