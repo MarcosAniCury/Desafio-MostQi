@@ -4,6 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using portal_web_api.Data.MongoSettings;
 using portal_web_api.Data.Repositories;
+using portal_web_api.Models;
+using portal_web_api.Services;
+using portal_web_api.Services.Repository;
 
 namespace portal_web_api
 {
@@ -19,7 +22,9 @@ namespace portal_web_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<MongoSettings>(Configuration.GetSection(nameof(MongoSettings)));
+            services.Configure<EmailConfiguration>(Configuration.GetSection("EmailConfiguration"));
             services.AddSingleton<IMongoSettings>(sp => sp.GetRequiredService<IOptions<MongoSettings>>().Value);
+            services.AddSingleton<IEmailSenderRepository, EmailSender>();
             services.AddSingleton<IUserRepository, UserRepository>();
 
             services.AddControllers();

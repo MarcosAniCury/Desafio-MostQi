@@ -4,6 +4,9 @@ using portal_web_api.Data.Repositories;
 using portal_web_api.DTOs;
 using portal_web_api.Models;
 using portal_web_api.Services;
+using portal_web_api.Services.Repository;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace portal_web_api.Controllers
 {
@@ -12,10 +15,12 @@ namespace portal_web_api.Controllers
     public class UserController : Controller
     {
         private IUserRepository _userRepository;
+        private IEmailSenderRepository _emailSender;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository userRepository, IEmailSenderRepository emailSender)
         {
             _userRepository = userRepository;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -103,6 +108,59 @@ namespace portal_web_api.Controllers
             };
             loginResponse.Data = findUser;
             return Ok(loginResponse);
+        }
+
+        [HttpPost]
+        [Route("send-email-forget-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SendEmailForgetPassword(UserSendEmailForgetPasswordRequest userRequest)
+        {
+            User user = _userRepository.FindByNameAndEmail(userRequest.Name, userRequest.Email);
+            if (user == null)
+            {
+                string[] error = { "Não existe um usuário com esse nome e esse email registrado" };
+                return NotFound(new
+                {
+                    success = false,
+                    errors = new { NotFound = error }
+                });
+            }
+            user.Type = "forget-password";
+            var token = TokenService.GenerateToken(user);
+            string urlResetPassword = "https://localhost:3000/forgotPassword/"+token;
+            StringBuilder message = new StringBuilder();
+            message.Append("<h1>Most Quotation :: Recuperação de Senha</h1>");
+            message.Append($"<p>Por favor, redefina sua senha <a href='{HtmlEncoder.Default.Encode(urlResetPassword)}'>Clicando aqui</a>.</p>");
+            message.Append($"<p>Lembrando que a redefinição de senha tem o limite de até {DateTime.Now.AddHours(Settings.TimeToExpiredToken)}.</p>");
+            message.Append("<p>Atenciosamente<br>Equipe de Suporte Most Quotation</p>");
+            await _emailSender.SendEmailAsync(user.Email, "Recuperação de Senha", "", message.ToString());
+
+            return Ok(new
+            {
+                success = true
+            });
+        }
+
+
+        [HttpPost]
+        [Route("forget-password")]
+        [Authorize(Roles = "forget-password")]
+        public IActionResult ForgetPassword(UserForgotPasswordRequest request)
+        {
+            string name = HttpContext.User.Claims.First().Value;
+            User user = _userRepository.FindByName(name);
+            if (user == null)
+            {
+                string[] error = { "Não existe um usuário com esse nome registrado" };
+                return NotFound(new
+                {
+                    success = false,
+                    errors = new { NotFound = error }
+                });
+            }
+            user.Password = request.Password;
+            _userRepository.Update(user);
+            return Ok(new { success = true });
         }
     }
 }

@@ -30,6 +30,11 @@ namespace portal_web_api.Data.Repositories
             return _dbCollection.Find(user => user.Name == name && user.Password == password).FirstOrDefault();
         }
 
+        public User FindByNameAndEmail(string name, string email)
+        {
+            return _dbCollection.Find(user => user.Name == name && user.Email == email).FirstOrDefault();
+        }
+
         public User FindByName(string name)
         {
             return _dbCollection.Find(user => user.Name == name).FirstOrDefault();

@@ -21,7 +21,7 @@ namespace portal_web_api.Models
 
         public string Password { get; set; }
 
-        public string Type { get; private set; }
+        public string Type { get; set; }
 
         public static explicit operator User(UserCreateRequest user)
         {

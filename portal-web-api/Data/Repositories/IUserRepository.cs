@@ -7,6 +7,7 @@ namespace portal_web_api.Data.Repositories
         IEnumerable<User> GetAll();
         User FindById(string id);
         User FindByNameAndPassword(string name, string password);
+        User FindByNameAndEmail(string name, string email);
         User FindByName(string name);
         User Create(User user);
         void Update(User user);

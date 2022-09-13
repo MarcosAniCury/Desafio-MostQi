@@ -2,7 +2,6 @@
 using portal_web_api.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace portal_web_api.Services
 {
