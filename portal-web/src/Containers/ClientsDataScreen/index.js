@@ -9,11 +9,14 @@ import {
     ContainerPaginationTop,
     ContainerContent,
     ContainerPaginationBottom,
-    ButtonResarch
+    ButtonResarch,
+    ContainerLogo,
+    Logo,
+    Input
 } from './styles';
 
-//Components
-import Input from '../../Components/Input';
+//Img
+import MostQuotationLogo from '../../Assets/MostQuotationIcon.jpeg'
 
 export default function ClientsDataScreen() {
     //useState
@@ -23,12 +26,15 @@ export default function ClientsDataScreen() {
 
     return (
         <Container>
+            <ContainerLogo>
+                <Logo src={MostQuotationLogo} />
+            </ContainerLogo>
             <ContainerNavBar> 
                 <Input placeholderString={ResarchInputPlaceholderString}
                     value={resarch}
                     onChange={event => {setResarch(event.target.value)}}
                 />
-                <ButtonResarch>Teste</ButtonResarch>
+                <ButtonResarch><i class="fa-solid fa-magnifying-glass"></i></ButtonResarch>
             </ContainerNavBar>
             <ContainerSidebar> SideBar </ContainerSidebar>
             <ContainerPaginationTop> Pagination top </ContainerPaginationTop>
