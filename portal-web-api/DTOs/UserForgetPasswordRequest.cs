@@ -2,9 +2,9 @@
 
 namespace portal_web_api.DTOs
 {
-    public class UserSendEmailForgetPasswordRequest
+    public class UserForgetPasswordRequest
     {
-        public UserSendEmailForgetPasswordRequest(string name, string email)
+        public UserForgetPasswordRequest(string name, string email)
         {
             Name = name;
             Email = email;

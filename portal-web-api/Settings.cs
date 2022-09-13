@@ -8,6 +8,8 @@ namespace portal_web_api
 
         public static int TimeToExpiredToken = 24;
 
+        public static string UrlFront = "https://localhost:3000/";
+
         public static byte[] getSecretByte()
         {
             return Encoding.ASCII.GetBytes(Settings.Secret);

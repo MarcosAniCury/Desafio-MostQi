@@ -111,9 +111,9 @@ namespace portal_web_api.Controllers
         }
 
         [HttpPost]
-        [Route("send-email-forget-password")]
+        [Route("forget-password")]
         [AllowAnonymous]
-        public async Task<IActionResult> SendEmailForgetPassword(UserSendEmailForgetPasswordRequest userRequest)
+        public async Task<IActionResult> ForgetPassword(UserForgetPasswordRequest userRequest)
         {
             User user = _userRepository.FindByNameAndEmail(userRequest.Name, userRequest.Email);
             if (user == null)
@@ -127,7 +127,7 @@ namespace portal_web_api.Controllers
             }
             user.Type = "forget-password";
             var token = TokenService.GenerateToken(user);
-            string urlResetPassword = "https://localhost:3000/forgotPassword/"+token;
+            string urlResetPassword = Settings.UrlFront+"forgetPassword/"+token;
             StringBuilder message = new StringBuilder();
             message.Append("<h1>Most Quotation :: Recuperação de Senha</h1>");
             message.Append($"<p>Por favor, redefina sua senha <a href='{HtmlEncoder.Default.Encode(urlResetPassword)}'>Clicando aqui</a>.</p>");
@@ -143,7 +143,7 @@ namespace portal_web_api.Controllers
 
 
         [HttpPost]
-        [Route("forget-password")]
+        [Route("recover-password")]
         [Authorize(Roles = "forget-password")]
         public IActionResult ForgetPassword(UserForgotPasswordRequest request)
         {

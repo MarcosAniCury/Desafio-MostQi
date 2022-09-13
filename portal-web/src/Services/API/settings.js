@@ -5,6 +5,7 @@ export const URL = {
     user: {
         signup: 'user/signup',
         signin: 'user/signin',
-        getById: 'user'
+        getById: 'user',
+        sendEmailForgetPassword: 'user/forget-password',
     }, 
 }

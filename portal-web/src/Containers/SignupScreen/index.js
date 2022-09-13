@@ -36,6 +36,7 @@ export default function LoginScreen() {
     //API validations
     const InputNameString = 'Name';
     const InputPasswordString = 'Password';
+    const InputEmailString = 'Email';
 
     //useStates
     const [username, setUsername] = useState('');
@@ -55,7 +56,8 @@ export default function LoginScreen() {
 
     const InputErrorApiStyleHandle = (key = undefined) => {
         setErrorStyleUsername(key == InputNameString);
-        setErrorStylePassword(key == InputPasswordString)
+        setErrorStylePassword(key == InputPasswordString);
+        setErrorStyleEmail(key == InputEmailString);
     };
 
     const InputErrorStyleHandle = () => {

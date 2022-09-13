@@ -58,9 +58,23 @@ const AuthProvider = ({ children }) => {
         return responseUser.success;
     };
 
+    const forgetPassword = async (username, email) => {
+        const response = await API.forgetPassword(username, email);
+        if (response.success) {
+            setErrorMessage({});
+        } else {
+            const key = Object.keys(response.errors)[0];
+            setErrorMessage({
+                key: [key],
+                message: response.errors[key][0]
+            });
+        }
+        return response.success;
+    };
+
     return (
         <AuthContext.Provider
-            value={{ user, errorMessage, signed: !!user, signin, signup }}
+            value={{ user, errorMessage, signed: !!user, signin, signup, forgetPassword }}
         >
             {children}
         </AuthContext.Provider>

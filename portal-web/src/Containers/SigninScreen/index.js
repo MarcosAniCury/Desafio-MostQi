@@ -123,7 +123,7 @@ export default function LoginScreen() {
                     onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
                     {createUserAnchor}
                 </TextAnchor>
-                <TextAnchor to='/signup'
+                <TextAnchor to='/forgetPassword'
                     onMouseOver={() => setForgetPasswordAnchor(forgetPasswordOverString)}
                     onMouseOut={() => setForgetPasswordAnchor(forgetPasswordDefaultString)}>
                     {forgetPasswordAnchor}

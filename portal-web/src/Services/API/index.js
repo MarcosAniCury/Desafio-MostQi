@@ -62,4 +62,23 @@ export const API = {
 
         return { ...responseAxios };
     },
+    forgetPassword: async (username, email) => {
+        const params = {
+            'name': username,
+            'email': email,
+        }
+            
+        let responseAxios = {};
+
+        await axios.post(`${URL.base}${URL.user.sendEmailForgetPassword}`, params).then((response) => {
+            responseAxios = response.data;
+        }).catch((error) => {
+            responseAxios = error.response.data;
+            if (responseAxios['success'] == undefined) {
+                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+            }
+        });
+
+        return { ...responseAxios };
+    }
 }
