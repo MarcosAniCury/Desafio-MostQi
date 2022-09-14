@@ -5,18 +5,17 @@ export const Container = styled.div`
     height: 100vh;
     color: white;
     grid-template-rows: 0.1fr 0.1fr 1.2fr 0.1fr;
-    grid-template-columns: ${props => props.expandSideBar ? '0.4fr' : '0.1fr'} 1fr 0.5fr 0.5fr;
+    grid-template-columns: ${props => props.isSidebarOpen ? '0.5fr' : '0.1fr'} 2fr 2fr 2fr;
     grid-template-areas:
         "logo nav nav nav"
         "sidebar pagination-top pagination-top pagination-top"
         "sidebar content content content"
-        "sidebar pagination-bottom pagination-bottom pagination-bottom";
-    text-align: center;
+        "logout pagination-bottom pagination-bottom pagination-bottom";
 `;
 
 export const ContainerNavBar = styled.nav`
     grid-area: nav;
-    background-color: #F8F8F8;
+    background-color: #1B406A;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,12 +23,17 @@ export const ContainerNavBar = styled.nav`
 
 export const ContainerSidebar = styled.div`
     grid-area: sidebar;
-    background-color: blue;
+    background-color: #F8F8F8;
+    display: flex;
+    flex-direction: column;
 `;
 
 export const ContainerPaginationTop = styled.div`
     grid-area: pagination-top;
     background-color: purple;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const ContainerContent = styled.div`
@@ -47,31 +51,74 @@ export const ContainerLogo = styled.div`
     background-color: #F8F8F8;
 `;
 
+export const ContainerLogout = styled.div`
+    grid-area: logout;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #F8F8F8;
+`;
+
 export const Logo = styled.img`
-    width: 170px;
-    heigth: 170px;
+    width: ${props => props.isOnlyIcon ? '150px' : '74px'};
+    heigth: ${props => props.isOnlyIcon ? '150px' : '74px'};
     padding: 10px;
 `;
 
 export const Input = styled.input`
     font-size: 15px;
-    color: black;
+    color: #FFFFFF;
     line-height: 1.2;
     border: none;
     width: 80%;
     height: 30px;
     background-color: #1B406A;
     border-radius: 10px 0px 0px 10px;
+    padding-left: 10px;
 
     &:focus {
         outline: 0;
         box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    ::placeholder {
+        color:white;
     }
 `;
 
 export const ButtonResarch = styled.button`
     height: 30px;
     width: 30px;
-    background-color: #00C6C1;
+    background-color: transparent;
     border-radius: 0px 10px 10px 0px;
+`;
+
+export const IconLogout = styled.i.attrs(props => ({
+    className: props.className,
+}))`
+    font-size: 30px;
+    color: black;
+`;
+
+export const ButtonSelectPage = styled.button`
+    width: 26px;
+    height: 26px;
+`;
+
+export const IconSidebarController = styled.i.attrs(props => ({
+    className: props.className,
+}))`
+    color: black;
+    padding-top: 14px;
+    margin-left: 20px;
+    font-size: 32px;
+`;
+
+export const IconSidebar = styled.i.attrs(props => ({
+    className: props.className,
+}))`
+    color: black;
+    padding-top: 26px;
+    margin-left: 20px;
+    font-size: 26px;
 `;
