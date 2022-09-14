@@ -30,7 +30,7 @@ export const ContainerSidebar = styled.div`
 
 export const ContainerPaginationTop = styled.div`
     grid-area: pagination-top;
-    background-color: purple;
+    background-color: #00C6C1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,7 +43,10 @@ export const ContainerContent = styled.div`
 
 export const ContainerPaginationBottom = styled.div`
     grid-area: pagination-bottom;
-    background-color: green;
+    background-color: #00C6C1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const ContainerLogo = styled.div`
@@ -54,8 +57,9 @@ export const ContainerLogo = styled.div`
 export const ContainerLogout = styled.div`
     grid-area: logout;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     background-color: #F8F8F8;
 `;
 
@@ -98,11 +102,26 @@ export const IconLogout = styled.i.attrs(props => ({
 }))`
     font-size: 30px;
     color: black;
+    padding: 22px 0px 22px 22px;
 `;
 
 export const ButtonSelectPage = styled.button`
-    width: 26px;
-    height: 26px;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+
+    ${props => props.isSelect ? `
+            background-color: #1B406A;
+            color: white;`
+        : `
+            color: black;
+            background-color: transparent;
+            &: hover {
+                background-color: #ddd;
+            }`
+    }
 `;
 
 export const IconSidebarController = styled.i.attrs(props => ({
@@ -110,7 +129,7 @@ export const IconSidebarController = styled.i.attrs(props => ({
 }))`
     color: black;
     padding-top: 14px;
-    margin-left: 20px;
+    margin-left: 22px;
     font-size: 32px;
 `;
 
@@ -119,6 +138,35 @@ export const IconSidebar = styled.i.attrs(props => ({
 }))`
     color: black;
     padding-top: 26px;
-    margin-left: 20px;
+    margin-left: 22px;
     font-size: 26px;
+`;
+
+export const ContainerIconSidebar = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+`;
+
+export const IconSidebarDescription = styled.span`
+    color: black;
+    text-align: right;
+    padding-left: 10px;
+    font-size: 18px;
+`;
+
+export const IconLogoutDescription = styled.span`
+    color: black;
+    font-size: 18px;
+    padding-left: 10px;
+`;
+
+export const IconPaginate = styled.i.attrs(props => ({
+    className: props.className,
+}))`
+    font-size: 16px;
+`;
+
+export const ItensPaginate = styled.span`
+    font-size: 16px;
 `;
