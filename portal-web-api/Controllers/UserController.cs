@@ -23,19 +23,6 @@ namespace portal_web_api.Controllers
             _emailSender = emailSender;
         }
 
-        [HttpGet]
-        [Route("get")]
-        [Authorize(Roles = "collaborator")]
-        public IActionResult GetAll()
-        {
-            var user = _userRepository.GetAll();
-            return Ok(new 
-            {
-                success = true,
-                data = user 
-            });
-        }
-
         [HttpGet("{id}")]
         [Authorize(Roles = "collaborator")]
         public IActionResult FindById(string id)

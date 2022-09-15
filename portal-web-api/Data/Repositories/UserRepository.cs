@@ -15,9 +15,10 @@ namespace portal_web_api.Data.Repositories
 
             _dbCollection = database.GetCollection<User>(typeof(User).Name);
         }
-        public IEnumerable<User> GetAll()
+
+        public IEnumerable<User> GetAllClients()
         {
-            return _dbCollection.Find(user => true).ToList();
+            return _dbCollection.Find(user => user.Type == "client").ToList();
         }
 
         public User FindById(string id)
