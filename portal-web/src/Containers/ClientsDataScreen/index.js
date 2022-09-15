@@ -1,5 +1,12 @@
 //Imports react
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+//Hooks
+import { useAuth } from '../../Hooks/auth';
+
+//Services
+import { API } from '../../Services/API';
 
 //Styles
 import {
@@ -22,7 +29,11 @@ import {
     IconSidebarDescription,
     IconLogoutDescription,
     IconPaginate,
-    ItensPaginate
+    ItensPaginate,
+    ContainerCardClient,
+    ContainerCardClientImage,
+    ContainerCardClientDesription,
+    CardClientImg
 } from './styles';
 
 //Img
@@ -33,8 +44,30 @@ export default function ClientsDataScreen() {
     //useState
     const [resarch, setResarch] = useState();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [clients, setClients] = useState([]);
 
+    //Auth
+    const { logout } = useAuth();
+
+    //Navigate
+    const navigate = useNavigate();
+
+    //Strings
     const ResarchInputPlaceholderString = 'Pesquisar';
+
+    useEffect(() => {
+        const fenchData = async () => {
+            const userToken = JSON.parse(localStorage.getItem('token'));
+            const response = await API.getAllClients(userToken.access_token);
+            setClients(response.data);
+        };
+        fenchData();
+    }, []);
+
+    const HandleClickLogout = () => {
+        logout();
+        navigate('/');
+    };
 
     const Sidebar = () => (
         <ContainerSidebar>
@@ -90,6 +123,17 @@ export default function ClientsDataScreen() {
         </>
     );
 
+    const ClientCard = ({ client }) => (
+        <ContainerCardClient cardI={1}>
+            <ContainerCardClientImage>
+                <CardClientImg src={`data:image/jpeg;base64,${client.selfie}`} />
+            </ContainerCardClientImage>
+            <ContainerCardClientDesription>
+                {client.name}
+            </ContainerCardClientDesription>
+        </ContainerCardClient>    
+    );
+
     return (
         <Container isSidebarOpen={isSidebarOpen}>
             <ContainerNavBar> 
@@ -105,8 +149,8 @@ export default function ClientsDataScreen() {
                 />
             </ContainerLogo>
             <Sidebar />
-            <ContainerLogout>
-                <IconLogout className="fa-solid fa-right-from-bracket" />
+            <ContainerLogout onClick={HandleClickLogout}>
+                <IconLogout className="fa-solid fa-right-from-bracket"/>
                 {isSidebarOpen &&
                     < IconLogoutDescription >
                         Logout
@@ -116,7 +160,7 @@ export default function ClientsDataScreen() {
             <ContainerPaginationTop>
                 <Paginate />
             </ContainerPaginationTop>
-            <ContainerContent> Content </ContainerContent>    
+            <ContainerContent> {clients && clients.map(client => <ClientCard client={client}/>)} </ContainerContent>    
             <ContainerPaginationBottom>
                 <Paginate />
             </ContainerPaginationBottom>

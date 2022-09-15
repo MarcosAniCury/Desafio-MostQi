@@ -38,7 +38,14 @@ export const ContainerPaginationTop = styled.div`
 
 export const ContainerContent = styled.div`
     grid-area: content;
-    background-color: black;
+    background-color: purple;
+    display: grid;
+    height: 100%;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 2fr 2fr 2fr ;
+    grid-template-areas:
+        "card1 card2 card3"
+        "card4 card5 card6"
 `;
 
 export const ContainerPaginationBottom = styled.div`
@@ -169,4 +176,33 @@ export const IconPaginate = styled.i.attrs(props => ({
 
 export const ItensPaginate = styled.span`
     font-size: 16px;
+`;
+
+export const ContainerCardClient = styled.div`
+    grid-area: ${props => `card${props.cardI}`};
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    border-radius: 10px;
+    margin: 20px;
+`;
+
+export const ContainerCardClientImage = styled.div`
+    background-color: green;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+`;
+
+export const ContainerCardClientDesription = styled.div`
+    background-color: red;
+    height: 100%;
+    width: 100%;
+`;
+
+export const CardClientImg = styled.img`
+    height: auto;
+    width: 50%;
+    border-radius: 10px;
 `;

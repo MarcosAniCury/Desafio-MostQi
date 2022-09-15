@@ -9,4 +9,7 @@ export const URL = {
         forgetPassword: 'user/forget-password',
         recoverPassword: 'user/recover-password',
     }, 
+    client: {
+        getAll: 'client/get',
+    }
 }

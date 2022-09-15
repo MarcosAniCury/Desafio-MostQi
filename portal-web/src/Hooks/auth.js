@@ -7,6 +7,7 @@ import { API } from '../Services/API';
 const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
+    //useState
     const [user, setUser] = useState();
     const [errorMessage, setErrorMessage] = useState();
 
@@ -86,9 +87,15 @@ const AuthProvider = ({ children }) => {
         return response.success;
     };
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(undefined);
+    };
+
     return (
         <AuthContext.Provider
-            value={{ user, errorMessage, signed: !!user, signin, signup, forgetPassword, recoverPassword, setErrorMessage }}
+            value={{ user, errorMessage, signed: !!user, signin, signup, logout, forgetPassword, recoverPassword, setErrorMessage }}
         >
             {children}
         </AuthContext.Provider>

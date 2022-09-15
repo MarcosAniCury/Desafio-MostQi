@@ -104,4 +104,22 @@ export const API = {
 
         return { ...responseAxios };
     },
+    getAllClients: async access_token => {
+        const config = {
+            headers: { 'Authorization': `Bearer ${access_token}` }
+        };
+
+        let responseAxios = {};
+
+        await axios.get(`${URL.base}${URL.client.getAll}`, config).then((response) => {
+            responseAxios = response.data;
+        }).catch((error) => {
+            responseAxios = error.response.data;
+            if (responseAxios['success'] == undefined) {
+                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+            }
+        });
+
+        return { ...responseAxios };
+    },
 }
