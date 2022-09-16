@@ -74,7 +74,7 @@ export default function ClientsDataScreen() {
             <IconSidebarController className="fa-solid fa-bars"
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             />
-            <ContainerIconSidebar>
+            <ContainerIconSidebar onClick={() => navigate('/collaborator')} >
                 <IconSidebar className="fa-sharp fa-solid fa-house-blank" />
                 {isSidebarOpen &&
                     <IconSidebarDescription>
@@ -82,7 +82,7 @@ export default function ClientsDataScreen() {
                     </IconSidebarDescription>
                 }
             </ContainerIconSidebar>
-            <ContainerIconSidebar>
+            <ContainerIconSidebar onClick={() => navigate('/collaborator/client/create')}>
                 <IconSidebar className="fa-regular fa-address-card" />
                 {isSidebarOpen &&
                     <IconSidebarDescription>

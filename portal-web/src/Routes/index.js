@@ -8,6 +8,7 @@ import { useAuth } from '../Hooks/auth';
 import Signin from '../Containers/SigninScreen';
 import Signup from '../Containers/SignupScreen';
 import ClientsData from '../Containers/ClientsDataScreen';
+import CreateClient from '../Containers/CreateClientScreen';
 import NotFound from '../Containers/NotFoundScreen';
 import ForgetPassword from '../Containers/ForgetPasswordScreen';
 import RecoverPassword from '../Containers/RecoverPasswordScreen';
@@ -28,6 +29,7 @@ export default function RoutesApp() {
             <>
                 <Routes>
                     <Route path='/collaborator' element={<Private Item={ClientsData} />} />
+                    <Route path='/collaborator/client/create' element={<Private Item={CreateClient} />} />
                     <Route path='/signup' element={<Signup />} />
                     <Route path='/forgetPassword' element={<ForgetPassword />} />
                     <Route path='/recoverPassword/:token' element={<RecoverPasswordLink />} />

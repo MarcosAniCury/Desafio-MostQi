@@ -16,11 +16,13 @@
     <Folder Include="src\Components\Input\" />
     <Folder Include="src\Components\Button\" />
     <Folder Include="src\Components\Loading\" />
+    <Folder Include="src\Containers\CreateClientScreen\" />
     <Folder Include="src\Containers\RecoverPasswordScreen\" />
     <Folder Include="src\Containers\SignupScreen\" />
     <Folder Include="src\Containers\ClientsDataScreen\" />
     <Folder Include="src\Containers\NotFoundScreen\" />
     <Folder Include="src\Hooks\" />
+    <Folder Include="src\Utils\" />
     <Folder Include="src\Routes\" />
     <Folder Include="src\Services\API\" />
   </ItemGroup>
