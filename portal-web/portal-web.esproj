@@ -27,4 +27,7 @@
     <Folder Include="src\Routes\" />
     <Folder Include="src\Services\API\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove=".env.development.local" />
+  </ItemGroup>
 </Project>

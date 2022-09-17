@@ -1,5 +1,5 @@
 //React imports
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import ReactCrop from 'react-image-crop';
 
 //Styles
@@ -11,9 +11,9 @@ import {
     ButtonExit
 } from './styles.js'
 
-export const ModalImageCropper = ({ imageToCrop, onImageCropped, setShowModal }) => {
+export const ModalImageCropper = ({ imageToCrop, imageBase64, onImageCropped, setShowModal }) => {
+    const cropRef = useRef(null);
     const [cropConfig, setCropConfig] = useState(
-        // default crop config
         {
             unit: 'px',
             width: 600,
@@ -23,42 +23,17 @@ export const ModalImageCropper = ({ imageToCrop, onImageCropped, setShowModal })
     );
 
     const onUploadCrop = useCallback(async () => {
-            const { blob: croppedBlob, blobUrl, revokeUrl } = await cropImage(
-                cropRef.current,
-                requestData.items[0].file,
-                crop,
-                true
-            );
+        const imageBase64 = await cropImage(
+            cropRef.current,
+            imageToCrop,
+            cropConfig,
+        );
 
-            requestData.items[0].file = croppedBlob;
+        onImageCropped(imageBase64);
+        setShowModal(false);
+    }, [imageToCrop, cropConfig]);
 
-            updateRequest({ items: requestData.items });
-            setCroppedUrl({ blobUrl, revokeUrl });
-        }
-    }, [requestData, updateRequest, crop]);
-
-    const getBlobFromCanvas = (canvas, file, withUrl) =>
-        new Promise((resolve, reject) => {
-            canvas.toBlob((blob) => {
-                if (blob) {
-                    blob.name = file.name;
-                    blob.lastModified = file.lastModified;
-
-                    let blobUrl, revokeUrl;
-
-                    if (withUrl) {
-                        blobUrl = URL.createObjectURL(blob);
-                        revokeUrl = () => URL.revokeObjectURL(blobUrl);
-                    }
-
-                    resolve({ blob, blobUrl, revokeUrl });
-                } else {
-                    reject(new Error("Canvas is empty"));
-                }
-            }, file.type);
-        });
-
-    const cropImage = async (imageElm, file, crop, withUrl = false) => {
+    const cropImage = async (imageElm, file, crop) => {
         const canvas = document.createElement("canvas"),
             scaleX = imageElm.naturalWidth / imageElm.width,
             scaleY = imageElm.naturalHeight / imageElm.height,
@@ -83,7 +58,7 @@ export const ModalImageCropper = ({ imageToCrop, onImageCropped, setShowModal })
             crop.height * scaleY
         );
 
-        return await getBlobFromCanvas(canvas, file, withUrl);
+        return canvas.toDataURL("image/jpg");
     };
 
     return (
@@ -98,7 +73,7 @@ export const ModalImageCropper = ({ imageToCrop, onImageCropped, setShowModal })
                     onComplete={setCropConfig}
                     locked={true}
                 >
-                    <Img src={imageToCrop} />
+                    <Img src={imageBase64} ref={cropRef} />
                 </ReactCrop>
             </ContainerImage>
             <button onClick={onUploadCrop}>Teste</button>
