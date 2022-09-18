@@ -8,10 +8,11 @@ import {
     ContainerImageCropper,
     Img,
     ContainerImage,
-    ButtonExit
+    ButtonExit,
+    ButtonFinish
 } from './styles.js'
 
-export const ModalImageCropper = ({ imageToCrop, imageBase64, onImageCropped, setShowModal }) => {
+export default function ModalImageCropper ({ imageBase64, onImageCropped, setShowModal }) {
     const cropRef = useRef(null);
     const [cropConfig, setCropConfig] = useState(
         {
@@ -25,15 +26,14 @@ export const ModalImageCropper = ({ imageToCrop, imageBase64, onImageCropped, se
     const onUploadCrop = useCallback(async () => {
         const imageBase64 = await cropImage(
             cropRef.current,
-            imageToCrop,
             cropConfig,
         );
 
         onImageCropped(imageBase64);
         setShowModal(false);
-    }, [imageToCrop, cropConfig]);
+    }, [cropConfig]);
 
-    const cropImage = async (imageElm, file, crop) => {
+    const cropImage = async (imageElm, crop) => {
         const canvas = document.createElement("canvas"),
             scaleX = imageElm.naturalWidth / imageElm.width,
             scaleY = imageElm.naturalHeight / imageElm.height,
@@ -76,7 +76,7 @@ export const ModalImageCropper = ({ imageToCrop, imageBase64, onImageCropped, se
                     <Img src={imageBase64} ref={cropRef} />
                 </ReactCrop>
             </ContainerImage>
-            <button onClick={onUploadCrop}>Teste</button>
+            <ButtonFinish onClick={onUploadCrop}>Enviar</ButtonFinish>
         </ContainerImageCropper>
     );
 }

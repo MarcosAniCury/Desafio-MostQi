@@ -1,51 +1,50 @@
 //React import
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 
 //Components
-import { ModalImageCropper } from '../../Components/ModalImageCropper';
+import ModalImageCropper from '../../Components/ModalImageCropper';
+import ClientSidebar from '../../Components/ClientSidebar';
+import Dropzone from '../../Components/Dropzone';
 
 //Utils
 import { getBase64 } from '../../Utils/Utils.js';
 
 //Styles
-
 import {
+    Container,
     ContainerImage,
-    Img
+    Img,
+    ContainerSelfie,
+    ContainerDocFront,
+    ContainerDocBack,
+    InputImage
 } from './styles.js';
 
 export default function CreateClientScreen() {
+    //useState
     const [showModalInputImg, setShowModalInputImg] = useState(false);
     const [inputImg64, setInputImg64] = useState();
-    const [inputImgFile, setInputImgFile] = useState();
     const [croppedImage, setCroppedImage] = useState(undefined);
 
-    const HandleIputDocumentOnChange = event => {
-        setInputImgFile(event.target.files[0]);
-        getBase64(event.target.files[0], setInputImg64);
+    const onDrop = useCallback(acceptedFiles => {
+        getBase64(acceptedFiles[0], setInputImg64);
         setShowModalInputImg(true);
-    };
+    }, [inputImg64, showModalInputImg])
 
     return (      
-        <div style={{ backgroundColor: 'red' }}>
+        <Container>
             {showModalInputImg &&
                 <ModalImageCropper
-                    imageToCrop={inputImgFile}
                     imageBase64={inputImg64}
                     onImageCropped={setCroppedImage}
                     setShowModal={setShowModalInputImg}
                 />}
-            <input
-                type='file'
-                accept='image/*'
-                onChange={HandleIputDocumentOnChange}
-            />
-            {
-                croppedImage &&
-                <ContainerImage>
-                    <Img src={croppedImage} />
-                </ContainerImage>
-            }
-        </div>
+            <ClientSidebar />
+            <ContainerSelfie>
+                <Dropzone text={"Arraste a foto de perfil aqui"} onDrop={onDrop}/>              
+            </ContainerSelfie>
+            <ContainerDocFront></ContainerDocFront>
+            <ContainerDocBack></ContainerDocBack>
+        </Container>
     );
 }

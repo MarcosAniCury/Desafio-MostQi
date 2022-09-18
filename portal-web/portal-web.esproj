@@ -17,6 +17,8 @@
     <Folder Include="src\Components\Button\" />
     <Folder Include="src\Components\Loading\" />
     <Folder Include="src\Components\ModalImageCropper\" />
+    <Folder Include="src\Components\ClientSidebar\" />
+    <Folder Include="src\Components\Dropzone\" />
     <Folder Include="src\Containers\CreateClientScreen\" />
     <Folder Include="src\Containers\RecoverPasswordScreen\" />
     <Folder Include="src\Containers\SignupScreen\" />

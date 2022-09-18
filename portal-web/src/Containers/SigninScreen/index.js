@@ -93,6 +93,7 @@ export default function LoginScreen() {
     useEffect(() => {
         setErrorMessage(errorMessageApi?.message);
         InputErrorApiStyleHandle(errorMessageApi?.key);
+        setIsLoading(false);
     }, [errorMessageApi]);
 
     //When is signed navigate to type user screen

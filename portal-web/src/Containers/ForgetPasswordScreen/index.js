@@ -95,6 +95,7 @@ export default function LoginScreen() {
     useEffect(() => {
         setErrorMessage(errorMessageApi?.message);
         InputErrorApiStyleHandle(errorMessageApi?.key);
+        setIsLoading(false);
     }, [errorMessageApi]);
 
     return (

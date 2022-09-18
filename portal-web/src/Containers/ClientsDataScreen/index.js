@@ -1,33 +1,22 @@
 //Imports react
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-//Hooks
-import { useAuth } from '../../Hooks/auth';
 
 //Services
 import { API } from '../../Services/API';
+
+//Components
+import Sidebar from '../../Components/ClientSidebar';
 
 //Styles
 import {
     Container,
     ContainerNavBar,
-    ContainerSidebar,
     ContainerPaginationTop,
     ContainerContent,
     ContainerPaginationBottom,
-    ContainerLogout,
     ButtonResarch,
-    ContainerLogo,
-    Logo,
     Input,
-    IconLogout,
     ButtonSelectPage,
-    IconSidebarController,
-    IconSidebar,
-    ContainerIconSidebar,
-    IconSidebarDescription,
-    IconLogoutDescription,
     IconPaginate,
     ItensPaginate,
     ContainerCardClient,
@@ -36,21 +25,10 @@ import {
     CardClientImg
 } from './styles';
 
-//Img
-import MostQuotationLogo from '../../Assets/MostQuotationIcon.jpeg';
-import MostLogo from '../../Assets/MostIcon.jpeg';
-
 export default function ClientsDataScreen() {
     //useState
     const [resarch, setResarch] = useState();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [clients, setClients] = useState([]);
-
-    //Auth
-    const { logout } = useAuth();
-
-    //Navigate
-    const navigate = useNavigate();
 
     //Strings
     const ResarchInputPlaceholderString = 'Pesquisar';
@@ -63,43 +41,6 @@ export default function ClientsDataScreen() {
         };
         fenchData();
     }, []);
-
-    const HandleClickLogout = () => {
-        logout();
-        navigate('/');
-    };
-
-    const Sidebar = () => (
-        <ContainerSidebar>
-            <IconSidebarController className="fa-solid fa-bars"
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            />
-            <ContainerIconSidebar onClick={() => navigate('/collaborator')} >
-                <IconSidebar className="fa-sharp fa-solid fa-house-blank" />
-                {isSidebarOpen &&
-                    <IconSidebarDescription>
-                        Menu
-                    </IconSidebarDescription>
-                }
-            </ContainerIconSidebar>
-            <ContainerIconSidebar onClick={() => navigate('/collaborator/client/create')}>
-                <IconSidebar className="fa-regular fa-address-card" />
-                {isSidebarOpen &&
-                    <IconSidebarDescription>
-                        Cadastro
-                    </IconSidebarDescription>
-                }
-            </ContainerIconSidebar>
-            <ContainerIconSidebar>
-                <IconSidebar className="fa-solid fa-clock-rotate-left" />
-                {isSidebarOpen &&
-                    <IconSidebarDescription>
-                        Historico
-                    </IconSidebarDescription>
-                }
-            </ContainerIconSidebar>
-        </ContainerSidebar>
-    );
 
     const ButtonPaginate = ({ text, isSelect = false }) => (
         <ButtonSelectPage isSelect={isSelect}>
@@ -135,7 +76,7 @@ export default function ClientsDataScreen() {
     );
 
     return (
-        <Container isSidebarOpen={isSidebarOpen}>
+        <Container>
             <ContainerNavBar> 
                 <Input placeholder={ResarchInputPlaceholderString}
                     value={resarch}
@@ -143,20 +84,7 @@ export default function ClientsDataScreen() {
                 />
                 <ButtonResarch><i class="fa-solid fa-magnifying-glass"></i></ButtonResarch>
             </ContainerNavBar>
-            <ContainerLogo>
-                <Logo src={isSidebarOpen ? MostQuotationLogo : MostLogo}
-                    isOnlyIcon={isSidebarOpen}
-                />
-            </ContainerLogo>
             <Sidebar />
-            <ContainerLogout onClick={HandleClickLogout}>
-                <IconLogout className="fa-solid fa-right-from-bracket"/>
-                {isSidebarOpen &&
-                    < IconLogoutDescription >
-                        Logout
-                    </IconLogoutDescription>
-                }
-            </ContainerLogout>
             <ContainerPaginationTop>
                 <Paginate />
             </ContainerPaginationTop>

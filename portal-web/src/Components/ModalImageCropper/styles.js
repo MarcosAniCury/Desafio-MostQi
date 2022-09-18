@@ -5,6 +5,7 @@ export const ContainerImageCropper = styled.div`
     width: 100%;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 15px;
@@ -32,6 +33,17 @@ export const ButtonExit = styled.button`
     width: 80px;
     height: 80px;
     font-size: 50px;
+    color: #FFFFFF;
     border: none;
     background-color: transparent;
+`;
+
+export const ButtonFinish = styled.button`
+    background-color: #62AF1B;
+    color: white;
+    margin-top: 10px;
+    padding: 6px 60px 6px 60px;
+    border: none;
+    font-size: 20px;
+    border-radius: 10px;
 `;
