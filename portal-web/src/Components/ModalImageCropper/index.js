@@ -9,7 +9,8 @@ import {
     Img,
     ContainerImage,
     ButtonExit,
-    ButtonFinish
+    ButtonFinish,
+    Icon
 } from './styles.js'
 
 export default function ModalImageCropper ({ imageBase64, onImageCropped, setShowModal }) {
@@ -18,18 +19,18 @@ export default function ModalImageCropper ({ imageBase64, onImageCropped, setSho
         {
             unit: 'px',
             width: 600,
-            height: 800,
+            height: 600,
             aspect: 16 / 9,
         }
     );
 
     const onUploadCrop = useCallback(async () => {
-        const imageBase64 = await cropImage(
+        const croppedImageBase64 = await cropImage(
             cropRef.current,
             cropConfig,
         );
 
-        onImageCropped(imageBase64);
+        onImageCropped(croppedImageBase64);
         setShowModal(false);
     }, [cropConfig]);
 
@@ -64,7 +65,7 @@ export default function ModalImageCropper ({ imageBase64, onImageCropped, setSho
     return (
         <ContainerImageCropper>
             <ButtonExit onClick={() => setShowModal(false)}>
-                <i class="fa-solid fa-xmark"></i>
+                <Icon class="fa-solid fa-xmark" />
             </ButtonExit>
             <ContainerImage>
                 <ReactCrop

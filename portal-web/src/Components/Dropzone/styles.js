@@ -10,15 +10,14 @@ export const SpanDescription = styled.span`
 `;
 
 export const ContainerDropzone = styled.div`
-    height: 240px;
-    width: 200px;
-    background: #e1faec;
+    height: 100%;
+    width: 100%;
+    background: ${props => props.showImage ? 'transparent' : '#e1faec'};
     border-radius: 10px;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 48px;
     outline: 0;
 `;
 
@@ -34,3 +33,9 @@ export const ContainerItems = styled.div`
     align-items: center;
     color: #333;
 `
+
+export const Img = styled.img`
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+`; 

@@ -14,8 +14,8 @@ export const ContainerImageCropper = styled.div`
 `;
 
 export const ContainerImage = styled.div`
-    width: 80%;
-    heigth: 80%;
+    width: 70%;
+    heigth: 70%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,3 +47,7 @@ export const ButtonFinish = styled.button`
     font-size: 20px;
     border-radius: 10px;
 `;
+
+export const Icon = styled.i.attrs(props => ({
+    className: props.className,
+}))``;

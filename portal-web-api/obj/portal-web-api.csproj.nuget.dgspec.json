@@ -1,21 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\curym\\Documents\\Git\\desafios-fullstack\\portal-web-api\\portal-web-api.csproj": {}
+    "C:\\Users\\Marcos\\Documents\\Git\\desafios-fullstack\\portal-web-api\\portal-web-api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\curym\\Documents\\Git\\desafios-fullstack\\portal-web-api\\portal-web-api.csproj": {
+    "C:\\Users\\Marcos\\Documents\\Git\\desafios-fullstack\\portal-web-api\\portal-web-api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\curym\\Documents\\Git\\desafios-fullstack\\portal-web-api\\portal-web-api.csproj",
+        "projectUniqueName": "C:\\Users\\Marcos\\Documents\\Git\\desafios-fullstack\\portal-web-api\\portal-web-api.csproj",
         "projectName": "portal-web-api",
-        "projectPath": "C:\\Users\\curym\\Documents\\Git\\desafios-fullstack\\portal-web-api\\portal-web-api.csproj",
-        "packagesPath": "C:\\Users\\curym\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\curym\\Documents\\Git\\desafios-fullstack\\portal-web-api\\obj\\",
+        "projectPath": "C:\\Users\\Marcos\\Documents\\Git\\desafios-fullstack\\portal-web-api\\portal-web-api.csproj",
+        "packagesPath": "C:\\Users\\Marcos\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Marcos\\Documents\\Git\\desafios-fullstack\\portal-web-api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\curym\\Documents\\Git\\desafios-fullstack\\portal-web\\NuGet.Config",
-          "C:\\Users\\curym\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Marcos\\Documents\\Git\\desafios-fullstack\\portal-web\\NuGet.Config",
+          "C:\\Users\\Marcos\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -13,7 +13,7 @@ export const ContainerLoading = styled.div`
     align-items: center;
     justify-content: center;
     padding: 15px;
-    z-index: 10;
+    z-index: 10000;
     background-color: black;
     opacity: 0.4;
 `;
