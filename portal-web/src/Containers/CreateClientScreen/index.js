@@ -8,6 +8,7 @@ import ClientSidebar from '../../Components/ClientSidebar';
 import Dropzone from '../../Components/Dropzone';
 import Button from '../../Components/Button';
 import Loading from '../../Components/Loading';
+import VideoRecord from '../../Components/VideoRecord';
 
 //Utils
 import { getBase64 } from '../../Utils/Utils.js';
@@ -80,8 +81,12 @@ export default function CreateClientScreen() {
         setIsLoading(false);
     };
 
-    const onDropLivenessVideo = useCallback(async acceptedFiles => {
-        getBase64(acceptedFiles[0], setLivenessVideo);
+    const onDropLivenessVideo = useCallback(async (acceptedFiles, fileRejection) => {
+        if (fileRejection.length > 0) {
+            alert("O arquivo deve ser de no maximo 2MB");
+        } else if (acceptedFiles > 0) {
+            getBase64(acceptedFiles[0], setLivenessVideo);
+        }
     }, [livenessVideo, setLivenessVideo]);
 
     const onDropDocumentFront = useCallback(async acceptedFiles => {
@@ -97,6 +102,7 @@ export default function CreateClientScreen() {
     const handleClickSendLiveness = () => {
         setIsLoading(true);
         if (livenessVideo) {
+
             setShowModalInputImg(true);
         }
         setIsLoading(false);
@@ -113,7 +119,7 @@ export default function CreateClientScreen() {
                     Aqui envie seu video para realizar a prova de vida, durante a gravacao mova sua cabeca para CIMA, BAIXO, ESQUERDA, DIREITA e SORRIA seguindo essa ordem
                 </SpanTitleLiveness>
                 <ContainerImage>
-                    <Dropzone text={"Arraste o video aqui"} onDrop={onDropLivenessVideo}/>
+                    <VideoRecord />
                 </ContainerImage>
                 <ButtonFinish onClick={handleClickSendLiveness}>Enviar</ButtonFinish>
             </ContainerLiveness>
