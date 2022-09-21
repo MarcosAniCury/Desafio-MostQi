@@ -3,7 +3,6 @@ import React, { useState, useCallback } from 'react'
 import moment from "moment";
 
 //Components
-import ModalImageCropper from '../../Components/ModalImageCropper';
 import ClientSidebar from '../../Components/ClientSidebar';
 import Dropzone from '../../Components/Dropzone';
 import Button from '../../Components/Button';
@@ -45,10 +44,9 @@ export default function CreateClientScreen() {
     const [firstTime, setFirstTime] = useState(true);
     const [showModalLiveness, setShowModalLiveness] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [showModalInputImg, setShowModalInputImg] = useState(false);
+    const [livenessVideoURL, setLivenessVideoURL] = useState(undefined);
     const [livenessVideo, setLivenessVideo] = useState(undefined);
-    const [perfilImg, sePerfilImg] = useState(undefined);
-    const [perfilCroppedImg, setPerfilCroppedImg] = useState(undefined);
+    const [perfilImg, setPerfilImg] = useState(undefined);
     const [documentFrontImg, setDocumentFrontImg] = useState(undefined);
     const [documentBackImg, setDocumentBackImg] = useState(undefined);
     const [name, setName] = useState();
@@ -81,14 +79,6 @@ export default function CreateClientScreen() {
         setIsLoading(false);
     };
 
-    const onDropLivenessVideo = useCallback(async (acceptedFiles, fileRejection) => {
-        if (fileRejection.length > 0) {
-            alert("O arquivo deve ser de no maximo 2MB");
-        } else if (acceptedFiles > 0) {
-            getBase64(acceptedFiles[0], setLivenessVideo);
-        }
-    }, [livenessVideo, setLivenessVideo]);
-
     const onDropDocumentFront = useCallback(async acceptedFiles => {
         getBase64(acceptedFiles[0], setDocumentFrontImg);
         await callContentExtractionMostQI(documentFrontImg);
@@ -99,11 +89,18 @@ export default function CreateClientScreen() {
         await callContentExtractionMostQI(documentBackImg);
     }, [documentBackImg, setDocumentBackImg]);
 
-    const handleClickSendLiveness = () => {
+    const handleClickSendLiveness = async () => {
         setIsLoading(true);
         if (livenessVideo) {
-
-            setShowModalInputImg(true);
+            const auth = await MostQI.authentication();
+            if (auth.success) {
+                const imagePerfil = await MostQI.livenessDetection(livenessVideo.split(',')[2], auth.data);
+                if (imagePerfil.success) {
+                    setPerfilImg(`data:image/jpeg;base64,${imagePerfil.data}`);
+                    setShowModalLiveness(false);
+                    setFirstTime(false);
+                }
+            }
         }
         setIsLoading(false);
     };
@@ -113,13 +110,14 @@ export default function CreateClientScreen() {
             <ContainerLiveness>
                 {!firstTime &&
                     <ButtonExit onClick={() => setShowModalLiveness(false)}>
-                        <Icon class="fa-solid fa-xmark" />
+                        <Icon className="fa-solid fa-xmark" />
                     </ButtonExit>}
                 <SpanTitleLiveness>
                     Aqui envie seu video para realizar a prova de vida, durante a gravacao mova sua cabeca para CIMA, BAIXO, ESQUERDA, DIREITA e SORRIA seguindo essa ordem
                 </SpanTitleLiveness>
                 <ContainerImage>
-                    <VideoRecord />
+                    <VideoRecord setVideoBase64={setLivenessVideo} setVideoURL={setLivenessVideoURL} />
+                    <video autoPlay muted src={livenessVideoURL} />
                 </ContainerImage>
                 <ButtonFinish onClick={handleClickSendLiveness}>Enviar</ButtonFinish>
             </ContainerLiveness>
@@ -139,18 +137,12 @@ export default function CreateClientScreen() {
         <Container>
             {(firstTime || showModalLiveness) && <ModalUploadVideoLiveness />}
             {isLoading && <Loading />}
-            {showModalInputImg &&
-                <ModalImageCropper
-                    imageBase64={perfilImg}
-                    onImageCropped={setPerfilCroppedImg}
-                    setShowModal={setShowModalInputImg}
-                />}
             <ClientSidebar />
             <ContainerSelfie>
                 <SpanIputPhotoDescription>Foto de perfil</SpanIputPhotoDescription>
-                {perfilCroppedImg &&
-                    <ContainerPerfilImg>
-                        <ImgPerfil src={perfilCroppedImg} />
+                {perfilImg &&
+                    <ContainerPerfilImg onClick={() => setShowModalLiveness(true)}>
+                        <ImgPerfil src={perfilImg} />
                     </ContainerPerfilImg>}              
             </ContainerSelfie>
             <ContainerDocFront>

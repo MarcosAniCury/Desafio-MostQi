@@ -91,6 +91,8 @@ export const ContainerPerfilImg = styled.div`
 `;
 
 export const ImgPerfil = styled.img`
+    min-width: 60%;
+    min-height: 60%;
     max-width: 100%;
     max-height: 100%;
     border-radius: 10px;

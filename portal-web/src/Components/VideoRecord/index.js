@@ -1,13 +1,12 @@
 //Imports react
-import RecordRTC, { RecordRTCPromisesHandler } from 'recordrtc';
-import { useState } from 'react';
+import { RecordRTCPromisesHandler } from 'recordrtc';
+import { useCallback, useState } from 'react';
 
-export default function VideoRecord() {
+export default function VideoRecord({ setVideoBase64, setVideoURL }) {
     const [recorder, setRecorder] = useState();
     const [stream, setStream] = useState();
-    const [videoBlob, setVideoBlob] = useState();
 
-    const startRecording = async () => {
+    const startRecording = useCallback(async () => {
         const mediaDevices = navigator.mediaDevices
         const stream = await mediaDevices.getUserMedia({
             video: true,
@@ -18,18 +17,19 @@ export default function VideoRecord() {
         });
 
         await recorder.startRecording();
-        setRecorder(recorder);
+        await setRecorder(recorder);
         setStream(stream);
-        setVideoBlob(null);
-    }
+        setVideoURL(null);
+    }, [recorder, stream]);
 
     const stopRecording = async () => {
         if (recorder) {
             await recorder.stopRecording();
+            const videoBase64 = await recorder.getDataURL();
             const blob = await recorder.getBlob();
+            setVideoBase64(videoBase64);
+            setVideoURL(window.URL.createObjectURL(blob));
             stream.stop();
-            setVideoBlob(window.URL.createObjectURL(blob));
-            console.log(window.URL.createObjectURL(blob));
             setStream(null);
             setRecorder(null);
         }
@@ -39,7 +39,6 @@ export default function VideoRecord() {
         <>
             <button onClick={startRecording}> record </button>
             <button onClick={stopRecording}> Stop record </button>
-            <video autoPlay muted src={videoBlob} />
         </>
     );
 }

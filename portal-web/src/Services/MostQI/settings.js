@@ -8,5 +8,6 @@ export const URL = {
     },
     processImage: {
         contentExtract: 'process-image/content-extraction',
+        livenessDetection: 'liveness/detect'
     },
 }
