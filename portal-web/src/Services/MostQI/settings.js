@@ -8,6 +8,7 @@ export const URL = {
     },
     processImage: {
         contentExtract: 'process-image/content-extraction',
-        livenessDetection: 'liveness/detect'
+        livenessDetection: 'liveness/detect',
+        faceCompare: 'process-image/biometrics/face-compare',
     },
 }

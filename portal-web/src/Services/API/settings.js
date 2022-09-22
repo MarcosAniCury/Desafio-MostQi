@@ -11,5 +11,6 @@ export const URL = {
     }, 
     client: {
         getAll: 'client/get',
+        create: '/client/create',
     }
 }

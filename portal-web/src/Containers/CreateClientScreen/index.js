@@ -1,5 +1,6 @@
-//React import
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+//Modules
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import moment from "moment";
 
 //Components
@@ -32,28 +33,36 @@ import {
     ButtonExit,
     Icon,
     ContainerDropzone,
-    SpanTitleLiveness
+    SpanTitleLiveness,
+    SpanErrorLiveness,
+    SpanErrorMessage
 } from './styles.js';
 
 //Services
 import { MostQI } from '../../Services/MostQI';
+import { API } from '../../Services/API';
 
 export default function CreateClientScreen() {
     //useState
     const [firstTime, setFirstTime] = useState(true);
     const [showModalLiveness, setShowModalLiveness] = useState(false);
+    const [livenessErrorMessage, setLivenessErrorMessage] = useState(undefined);
     const [isLoading, setIsLoading] = useState(false);
     const [livenessVideo, setLivenessVideo] = useState(undefined);
     const [perfilImg, setPerfilImg] = useState(undefined);
     const [documentFrontImg, setDocumentFrontImg] = useState(undefined);
     const [documentBackImg, setDocumentBackImg] = useState(undefined);
-    const [name, setName] = useState();
-    const [RG, setRG] = useState();
-    const [dateOfBirth, setDateOfBirth] = useState();
-    const [email, setEmail] = useState();
+    const [name, setName] = useState("");
+    const [RG, setRG] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [email, setEmail] = useState("");
+    const [errorMessage, setErrorMessage] = useState(undefined);
 
     //useRef
     const videoRef = useRef(null);
+
+    //Navigate
+    const navigate = useNavigate();
 
     const setInputWithContentExtraction = contentExtraction => {
         contentExtraction.forEach(content => {
@@ -111,11 +120,13 @@ export default function CreateClientScreen() {
             if (livenessVideo) {
                 const auth = await MostQI.authentication();
                 if (auth.success) {
-                    const imagePerfil = await MostQI.livenessDetection(livenessVideo.split(',')[2], auth.data);
-                    if (imagePerfil.success) {
-                        setPerfilImg(`data:image/jpeg;base64,${imagePerfil.data}`);
+                    const response = await MostQI.livenessDetection(livenessVideo.split(',')[2], auth.data);
+                    if (response.success && response.data.scoreLiveness > 0.5) {
+                        setPerfilImg(`data:image/jpeg;base64,${response.data.frontalImage}`);
                         setShowModalLiveness(false);
                         setFirstTime(false);
+                    } else {
+                        setLivenessErrorMessage("Seu video nao foi aprovado na prova de vida ou ele e muito longo, favor tentar novamente");
                     }
                 }
             }
@@ -125,8 +136,74 @@ export default function CreateClientScreen() {
     }, [livenessVideo, setLivenessVideo]);
 
     const handleClickSendLiveness = async () => {
+        setLivenessErrorMessage(undefined);
+        setShowModalLiveness(undefined);
         setIsLoading(true);
-        getBase64(videoRef.current.blob, setLivenessVideo);
+        try {
+            getBase64(videoRef.current.blob, setLivenessVideo);
+        } catch (ex) {
+            setLivenessErrorMessage("E necessario gravar o video para prosseguir");
+            setIsLoading(false);
+        }
+    };
+
+    const InputValidation = () => {
+        let hasError = false;
+        if (!documentFrontImg) {
+            setErrorMessage("A foto frontal do documento e obrigatoria");
+            hasError = true;
+        }
+        if (!documentBackImg) {
+            setErrorMessage("A foto do verso do documento e obrigatoria ");
+            hasError = true;
+        }
+        if (name.length == 0) {
+            setErrorMessage("O nome e obrigatorio");
+            hasError = true;
+        }
+        if (RG.length == 0) {
+            setErrorMessage("O RG e obrigatorio");
+            hasError = true;
+        } else if (RG.length > 9) {
+            setErrorMessage("O RG tem como numero maximo de caracteres 9");
+            hasError = true;
+        }
+        if (dateOfBirth.length == 0) {
+            setErrorMessage("A data de nascimento e obrigatorio");
+            hasError = true;
+        } else if (dateOfBirth.length > 10) {
+            setErrorMessage("A data de nascimento tem como numero maximo de caracteres 10");
+            hasError = true;
+        }
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (email.length == 0) {
+            setErrorMessage("O email e obrigatorio");
+            hasError = true;
+        } else if (!regex.test(email)) {
+            setErrorMessage("O email digitado nao e um email valido");
+            hasError = true;
+        }
+        return !hasError;
+    };
+
+    const handleClickSend = async () => {
+        setErrorMessage(undefined);
+        setIsLoading(true);
+        if (InputValidation()) {
+            const authFaceCompare = await MostQI.authentication();
+            if (authFaceCompare.success) {
+                const responseFaceCompare = await MostQI.faceCompare(perfilImg, documentFrontImg, authFaceCompare.data);
+                if (responseFaceCompare.sucess && responseFaceCompare.data < 0.5) {
+                    const userToken = JSON.parse(localStorage.getItem('token'));
+                    const responseCreate = await API.createClient(name, email, RG, dateOfBirth, documentFrontImg, documentBackImg, perfilImg, userToken.access_token);
+                    if (responseCreate.sucess) {
+                        alert('Cliente cadastrado com sucesso');
+                        navigate('/collaborator');
+                    }
+                }
+            }
+        }
+        setIsLoading(false);
     };
 
     const ModalUploadVideoLiveness = () => {
@@ -137,8 +214,11 @@ export default function CreateClientScreen() {
                         <Icon className="fa-solid fa-xmark" />
                     </ButtonExit>}
                 <SpanTitleLiveness>
-                    Aqui envie seu video para realizar a prova de vida, durante a gravacao mova sua cabeca para CIMA, BAIXO, ESQUERDA, DIREITA e SORRIA seguindo essa ordem
+                    Envie seu video aqui para realizar a prova de vida, durante a gravacao mova sua cabeca para CIMA, BAIXO, ESQUERDA, DIREITA e SORRIA seguindo essa ordem
                 </SpanTitleLiveness>
+                {livenessErrorMessage && <SpanErrorLiveness>
+                    {livenessErrorMessage}
+                </SpanErrorLiveness>}
                 <VideoRecord videoRef={videoRef} />
                 <ButtonFinish onClick={handleClickSendLiveness}>Enviar</ButtonFinish>
             </ContainerLiveness>
@@ -187,8 +267,12 @@ export default function CreateClientScreen() {
                 <InputTextComponent title="Email" setState={setEmail} value={email}/>
             </ContainerInput>
             <Footer>
+                {
+                    errorMessage &&
+                    <SpanErrorMessage>{errorMessage}</SpanErrorMessage>
+                }
                 <ButtonDiv>
-                    <Button text="Cadastrar" />
+                    <Button onClick={handleClickSend} text="Cadastrar" />
                 </ButtonDiv>
             </Footer>
         </Container>

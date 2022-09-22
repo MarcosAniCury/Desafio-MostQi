@@ -72,6 +72,8 @@ export const Footer = styled.div`
     background-color: #00C6C1;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
 `;
 
 export const ButtonDiv = styled.div`
@@ -107,7 +109,7 @@ export const ContainerLiveness = styled.div`
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 10;
 `;
 
 export const ButtonExit = styled.button`
@@ -148,4 +150,16 @@ export const SpanTitleLiveness = styled.span`
     top: 50px;
     margin-bottom: 40px;
     font-size: 20px;
+`;
+
+export const SpanErrorLiveness = styled.span`
+    margin-bottom: 40px;
+    font-size: 16px; 
+    color: red;
+`;
+
+export const SpanErrorMessage = styled.span`
+    margin-bottom: 10px;
+    font-size: 20px; 
+    color: black;
 `;

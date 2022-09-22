@@ -5,6 +5,7 @@ export const ContainerSidebar = styled.div`
     background-color: #F8F8F8;
     display: flex;
     flex-direction: column;
+    z-index: 20;
 `;
 
 export const IconSidebarController = styled.i.attrs(props => ({
@@ -41,6 +42,7 @@ export const IconSidebarDescription = styled.span`
 export const ContainerLogo = styled.div`
     grid-area: logo;
     background-color: #F8F8F8;
+    z-index: 20;
 `;
 
 export const Logo = styled.img`
@@ -56,6 +58,7 @@ export const ContainerLogout = styled.div`
     align-items: center;
     justify-content: start;
     background-color: #F8F8F8;
+    z-index: 20;
 `;
 
 export const IconLogout = styled.i.attrs(props => ({

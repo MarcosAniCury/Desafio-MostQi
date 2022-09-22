@@ -3,7 +3,12 @@ import RecordRTC from 'recordrtc';
 import { useState } from 'react';
 
 //Styles
-import { ContainerImage, VideoShow } from './styles';
+import {
+    ContainerImage,
+    VideoShow,
+    ContainerButton,
+    Icon
+} from './styles';
 
 export default function VideoRecord({ videoRef }) {
     const [recorder, setRecorder] = useState();
@@ -61,8 +66,10 @@ export default function VideoRecord({ videoRef }) {
 
     return (
         <>
-            <button onClick={startRecording}> record </button>
-            <button onClick={stopRecording}> Stop record </button>
+            <ContainerButton>
+                <Icon className={"fa-solid fa-camera"} onClick={startRecording} />
+                <Icon className={"fa-solid fa-camera-slash"} onClick={stopRecording} />
+            </ContainerButton>
             <ContainerImage>
                 {true && <VideoShow
                     playsInline
