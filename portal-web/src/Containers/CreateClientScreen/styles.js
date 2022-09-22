@@ -110,12 +110,6 @@ export const ContainerLiveness = styled.div`
     z-index: 1000;
 `;
 
-export const ContainerImage = styled.div`
-    width: 70%;
-    height: 700px;
-    margin-bottom: 20px;
-`;
-
 export const ButtonExit = styled.button`
     position: absolute;
     top:10px;
@@ -129,10 +123,12 @@ export const ButtonExit = styled.button`
 `;
 
 export const ButtonFinish = styled.button`
+    position: absolute; 
+    bottom: 40px;
     background-color: #62AF1B;
     color: white;
     margin-top: 10px;
-    padding: 6px 60px 6px 60px;
+    padding: 12px 120px 12px 120px;
     border: none;
     font-size: 20px;
     border-radius: 10px;
@@ -148,6 +144,8 @@ export const ContainerDropzone = styled.div`
 `; 
 
 export const SpanTitleLiveness = styled.span`
+    position: absolute;
+    top: 50px;
     margin-bottom: 40px;
     font-size: 20px;
 `;

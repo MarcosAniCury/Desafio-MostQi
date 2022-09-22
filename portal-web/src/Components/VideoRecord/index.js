@@ -1,11 +1,12 @@
 //Imports react
 import RecordRTC from 'recordrtc';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
-export default function VideoRecord({ setVideoBlob }) {
+//Styles
+import { ContainerImage, VideoShow } from './styles';
+
+export default function VideoRecord({ videoRef }) {
     const [recorder, setRecorder] = useState();
-    const [displayCamera, setDisplayCamera] = useState(false);
-    const videoElement = useRef(null);
 
     const captureCamera = callback => {
         navigator.mediaDevices
@@ -13,13 +14,13 @@ export default function VideoRecord({ setVideoBlob }) {
                 audio: true,
                 video: {
                     width: {
-                        ideal: 1920
+                        ideal: '800'
                     },
                     height: {
-                        ideal: 1080
+                        ideal: '600'
                     },
                     frameRate: {
-                        ideal: 60
+                        ideal: 30
                     },
                     facingMode: `environment`
                 }
@@ -32,31 +33,29 @@ export default function VideoRecord({ setVideoBlob }) {
             });
     };
 
-    const startRecording = async () => {
-        setDisplayCamera(true);
-        setVideoBlob(null);
+    const startRecording = () => {
         captureCamera(camera => {
-            videoElement.current.srcObject = camera;
+            videoRef.current.srcObject = camera;
             const recordRTC = RecordRTC(camera, {
                 type: `video`
             });
             recordRTC.startRecording();
             recordRTC.camera = camera;
-            videoElement.current.play();
+            videoRef.current.play();
             setRecorder(recordRTC);
         });
-    }
+    };
 
-    const stopRecording = async () => {
+    const stopRecording = () => {
         if (recorder) {
             recorder.stopRecording(() => {
-                videoElement.current.src = videoElement.current.srcObject = null;
-                setVideoBlob(recorder.getBlob());
+                videoRef.current.src = videoRef.current.srcObject = null;
+                videoRef.current.blob = recorder.getBlob();
+                videoRef.current.src = URL.createObjectURL(videoRef.current.blob);
+                recorder.camera.stop();
                 recorder.destroy();
                 setRecorder(null);
-                recorder.camera.stop();       
-                setDisplayCamera(false);
-            });            
+            });
         }
     };
 
@@ -64,13 +63,14 @@ export default function VideoRecord({ setVideoBlob }) {
         <>
             <button onClick={startRecording}> record </button>
             <button onClick={stopRecording}> Stop record </button>
-            {displayCamera && <video
-                playsInline
-                muted
-                autoPlay
-                ref={videoElement}
-                style={{ width: `70vw` }}
-            />}
+            <ContainerImage>
+                {true && <VideoShow
+                    playsInline
+                    muted
+                    autoPlay
+                    ref={videoRef}
+                />}
+            </ContainerImage>
         </>
     );
 }

@@ -74,7 +74,7 @@ export const MostQI = {
         }).catch((error) => {
             responseAxios = {
                 success: false,
-                data: error.status.message
+                data: error.response.data.status.errors[0].message
             }
         });
 

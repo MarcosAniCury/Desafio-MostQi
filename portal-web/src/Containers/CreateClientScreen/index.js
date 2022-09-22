@@ -1,5 +1,5 @@
 //React import
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import moment from "moment";
 
 //Components
@@ -28,7 +28,6 @@ import {
     ContainerPerfilImg,
     ImgPerfil,
     ContainerLiveness,
-    ContainerImage,
     ButtonFinish,
     ButtonExit,
     Icon,
@@ -44,7 +43,6 @@ export default function CreateClientScreen() {
     const [firstTime, setFirstTime] = useState(true);
     const [showModalLiveness, setShowModalLiveness] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [livenessVideoBlob, setLivenessVideoBlob] = useState(undefined);
     const [livenessVideo, setLivenessVideo] = useState(undefined);
     const [perfilImg, setPerfilImg] = useState(undefined);
     const [documentFrontImg, setDocumentFrontImg] = useState(undefined);
@@ -53,6 +51,9 @@ export default function CreateClientScreen() {
     const [RG, setRG] = useState();
     const [dateOfBirth, setDateOfBirth] = useState();
     const [email, setEmail] = useState();
+
+    //useRef
+    const videoRef = useRef(null);
 
     const setInputWithContentExtraction = contentExtraction => {
         contentExtraction.forEach(content => {
@@ -105,21 +106,27 @@ export default function CreateClientScreen() {
         getBase64(acceptedFiles[0], setDocumentBackImg);
     };
 
-    const handleClickSendLiveness = async () => {
-        setIsLoading(true);
-        getBase64(livenessVideoBlob, setLivenessVideo);
-        if (livenessVideo) {
-            const auth = await MostQI.authentication();
-            if (auth.success) {
-                const imagePerfil = await MostQI.livenessDetection(livenessVideo.split(',')[2], auth.data);
-                if (imagePerfil.success) {
-                    setPerfilImg(`data:image/jpeg;base64,${imagePerfil.data}`);
-                    setShowModalLiveness(false);
-                    setFirstTime(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            if (livenessVideo) {
+                const auth = await MostQI.authentication();
+                if (auth.success) {
+                    const imagePerfil = await MostQI.livenessDetection(livenessVideo.split(',')[2], auth.data);
+                    if (imagePerfil.success) {
+                        setPerfilImg(`data:image/jpeg;base64,${imagePerfil.data}`);
+                        setShowModalLiveness(false);
+                        setFirstTime(false);
+                    }
                 }
             }
-        }
-        setIsLoading(false);
+            setIsLoading(false);
+        };
+        fetchData();
+    }, [livenessVideo, setLivenessVideo]);
+
+    const handleClickSendLiveness = async () => {
+        setIsLoading(true);
+        getBase64(videoRef.current.blob, setLivenessVideo);
     };
 
     const ModalUploadVideoLiveness = () => {
@@ -132,16 +139,7 @@ export default function CreateClientScreen() {
                 <SpanTitleLiveness>
                     Aqui envie seu video para realizar a prova de vida, durante a gravacao mova sua cabeca para CIMA, BAIXO, ESQUERDA, DIREITA e SORRIA seguindo essa ordem
                 </SpanTitleLiveness>
-                <ContainerImage>
-                    <VideoRecord setVideoBlob={setLivenessVideoBlob} />
-                    {livenessVideoBlob && <video
-                        playsInline
-                        muted
-                        autoPlay
-                        src={URL.createObjectURL(livenessVideoBlob)}
-                        style={{ width: `70vw` }}
-                    />}
-                </ContainerImage>
+                <VideoRecord videoRef={videoRef} />
                 <ButtonFinish onClick={handleClickSendLiveness}>Enviar</ButtonFinish>
             </ContainerLiveness>
         );
