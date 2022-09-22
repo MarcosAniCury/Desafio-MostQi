@@ -82,8 +82,8 @@ export default function LoginScreen() {
         setIsLoading(true);
         if (InputErrorStyleHandle()) {
             await signin(username, password);
-            setIsLoading(false);
         }
+        setIsLoading(false);
     };
     useEffect(() => {
         setErrorMessageAPI(false);

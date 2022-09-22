@@ -21,10 +21,10 @@ export default function MyDropzone({ text, onDrop, imageShow, size = 1048576 }) 
     return (
         <Dropzone
             onDrop={onDrop}
-            accept="image/*"
+            accept={{ "image/*": ['.png', '.gif', '.jpeg', '.jpg'] }}
             minSize={0}
             maxSize={size}>
-            {({ getRootProps, getInputProps, rejectedFiles }) => (
+            {({ getRootProps, getInputProps }) => (
                 <ContainerDropzone {...getRootProps()} showImage={showImage}>
                     <input {...getInputProps()}
                         accept="image/*"

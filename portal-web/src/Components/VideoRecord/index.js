@@ -1,44 +1,76 @@
 //Imports react
-import { RecordRTCPromisesHandler } from 'recordrtc';
-import { useCallback, useState } from 'react';
+import RecordRTC from 'recordrtc';
+import { useState, useRef } from 'react';
 
-export default function VideoRecord({ setVideoBase64, setVideoURL }) {
+export default function VideoRecord({ setVideoBlob }) {
     const [recorder, setRecorder] = useState();
-    const [stream, setStream] = useState();
+    const [displayCamera, setDisplayCamera] = useState(false);
+    const videoElement = useRef(null);
 
-    const startRecording = useCallback(async () => {
-        const mediaDevices = navigator.mediaDevices
-        const stream = await mediaDevices.getUserMedia({
-            video: true,
-            audio: true,
-        });
-        const recorder = new RecordRTCPromisesHandler(stream, {
-            type: 'video',
-        });
+    const captureCamera = callback => {
+        navigator.mediaDevices
+            .getUserMedia({
+                audio: true,
+                video: {
+                    width: {
+                        ideal: 1920
+                    },
+                    height: {
+                        ideal: 1080
+                    },
+                    frameRate: {
+                        ideal: 60
+                    },
+                    facingMode: `environment`
+                }
+            })
+            .then(camera => {
+                callback(camera);
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    };
 
-        await recorder.startRecording();
-        await setRecorder(recorder);
-        setStream(stream);
-        setVideoURL(null);
-    }, [recorder, stream]);
+    const startRecording = async () => {
+        setDisplayCamera(true);
+        setVideoBlob(null);
+        captureCamera(camera => {
+            videoElement.current.srcObject = camera;
+            const recordRTC = RecordRTC(camera, {
+                type: `video`
+            });
+            recordRTC.startRecording();
+            recordRTC.camera = camera;
+            videoElement.current.play();
+            setRecorder(recordRTC);
+        });
+    }
 
     const stopRecording = async () => {
         if (recorder) {
-            await recorder.stopRecording();
-            const videoBase64 = await recorder.getDataURL();
-            const blob = await recorder.getBlob();
-            setVideoBase64(videoBase64);
-            setVideoURL(window.URL.createObjectURL(blob));
-            stream.stop();
-            setStream(null);
-            setRecorder(null);
+            recorder.stopRecording(() => {
+                videoElement.current.src = videoElement.current.srcObject = null;
+                setVideoBlob(recorder.getBlob());
+                recorder.destroy();
+                setRecorder(null);
+                recorder.camera.stop();       
+                setDisplayCamera(false);
+            });            
         }
-    }
+    };
 
     return (
         <>
             <button onClick={startRecording}> record </button>
             <button onClick={stopRecording}> Stop record </button>
+            {displayCamera && <video
+                playsInline
+                muted
+                autoPlay
+                ref={videoElement}
+                style={{ width: `70vw` }}
+            />}
         </>
     );
 }

@@ -1,5 +1,5 @@
 //React import
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import moment from "moment";
 
 //Components
@@ -44,7 +44,7 @@ export default function CreateClientScreen() {
     const [firstTime, setFirstTime] = useState(true);
     const [showModalLiveness, setShowModalLiveness] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [livenessVideoURL, setLivenessVideoURL] = useState(undefined);
+    const [livenessVideoBlob, setLivenessVideoBlob] = useState(undefined);
     const [livenessVideo, setLivenessVideo] = useState(undefined);
     const [perfilImg, setPerfilImg] = useState(undefined);
     const [documentFrontImg, setDocumentFrontImg] = useState(undefined);
@@ -79,18 +79,35 @@ export default function CreateClientScreen() {
         setIsLoading(false);
     };
 
-    const onDropDocumentFront = useCallback(async acceptedFiles => {
-        getBase64(acceptedFiles[0], setDocumentFrontImg);
-        await callContentExtractionMostQI(documentFrontImg);
-    }, [documentFrontImg, setDocumentFrontImg]);
+    useEffect(() => {
+        async function fetchData() {
+            await callContentExtractionMostQI(documentFrontImg);
+        };
+        if (documentFrontImg) {
+            fetchData();
+        }
+    }, [documentFrontImg]);
 
-    const onDropDocumentBack = useCallback(async acceptedFiles => {
+    const onDropDocumentFront = acceptedFiles => {
+        getBase64(acceptedFiles[0], setDocumentFrontImg);
+    };
+
+    useEffect(() => {
+        async function fetchData() {
+            await callContentExtractionMostQI(documentBackImg);
+        };
+        if (documentBackImg) {
+            fetchData();
+        }
+    }, [documentBackImg]);
+
+    const onDropDocumentBack = acceptedFiles => {
         getBase64(acceptedFiles[0], setDocumentBackImg);
-        await callContentExtractionMostQI(documentBackImg);
-    }, [documentBackImg, setDocumentBackImg]);
+    };
 
     const handleClickSendLiveness = async () => {
         setIsLoading(true);
+        getBase64(livenessVideoBlob, setLivenessVideo);
         if (livenessVideo) {
             const auth = await MostQI.authentication();
             if (auth.success) {
@@ -116,8 +133,14 @@ export default function CreateClientScreen() {
                     Aqui envie seu video para realizar a prova de vida, durante a gravacao mova sua cabeca para CIMA, BAIXO, ESQUERDA, DIREITA e SORRIA seguindo essa ordem
                 </SpanTitleLiveness>
                 <ContainerImage>
-                    <VideoRecord setVideoBase64={setLivenessVideo} setVideoURL={setLivenessVideoURL} />
-                    <video autoPlay muted src={livenessVideoURL} />
+                    <VideoRecord setVideoBlob={setLivenessVideoBlob} />
+                    {livenessVideoBlob && <video
+                        playsInline
+                        muted
+                        autoPlay
+                        src={URL.createObjectURL(livenessVideoBlob)}
+                        style={{ width: `70vw` }}
+                    />}
                 </ContainerImage>
                 <ButtonFinish onClick={handleClickSendLiveness}>Enviar</ButtonFinish>
             </ContainerLiveness>
