@@ -77,7 +77,7 @@ export const ContainerInputText = styled.div`
 
 export const InputText = styled.input`
     height: 100%;
-    width: ${props => props.bigSize ? '100%' : '40%'};
+    width: 100%;
     border: none;
     border-radius: 4px;
     padding-left: 4px;

@@ -231,14 +231,29 @@ export default function CreateClientScreen() {
         );
     };
 
-    const InputTextComponent = useCallback(({ title, setState, value, bigSize = false}) => {
+    const InputTextComponent = ({ title, setState, value}) => {
         return (
             <ContainerInputText>
                 <InputTitle>{title}</InputTitle>
-                <InputText type="text" onChange={event => setState(event.target.value)} value={value} bigSize={bigSize}/>
+                <InputText type="text" onChange={event => setState(event.target.value)} value={value}/>
             </ContainerInputText>
         );
-    }, []);
+    };
+
+    const SelfieImgComponent = useCallback(() => (       
+            perfilImg ?
+                <ContainerPerfilImg onClick={() => setShowModalLiveness(true)}>
+                    <ImgPerfil src={perfilImg} />
+                </ContainerPerfilImg>
+                :
+                <ContainerDropzone onClick={() => setShowModalLiveness(true)}>
+                    <ContainerPerfilEmpty>
+                        <ContainerPerfilEmptyText>
+                            <SpanPerfilEmpty>Grave um video que a foto ira ser gerada automaticamente</SpanPerfilEmpty>
+                        </ContainerPerfilEmptyText>
+                    </ContainerPerfilEmpty>
+                </ContainerDropzone>         
+    ), [perfilImg]);
 
     return (      
         <Container>
@@ -250,17 +265,7 @@ export default function CreateClientScreen() {
             <ClientSidebar />
             <ContainerSelfie>
                 <SpanInputPhotoDescription>Foto de perfil</SpanInputPhotoDescription>
-                {perfilImg ?
-                    <ContainerPerfilImg onClick={() => setShowModalLiveness(true)}>
-                        <ImgPerfil src={perfilImg} />
-                    </ContainerPerfilImg> :
-                    <ContainerDropzone onClick={() => setShowModalLiveness(true)}>
-                        <ContainerPerfilEmpty>
-                            <ContainerPerfilEmptyText>
-                                <SpanPerfilEmpty>Grave um video que a foto ira ser gerada automaticamente</SpanPerfilEmpty>
-                            </ContainerPerfilEmptyText>
-                        </ContainerPerfilEmpty>
-                    </ContainerDropzone>}              
+                <SelfieImgComponent />  
             </ContainerSelfie>
             <ContainerDocFront>
                 <SpanInputPhotoDescription>Foto do documento</SpanInputPhotoDescription>
@@ -277,12 +282,12 @@ export default function CreateClientScreen() {
                 </ContainerDropzone>
             </ContainerDocBack>
             <ContainerInput gridSpace="first">
-                <InputTextComponent title="Nome" setState={setName} value={name} bigSize={true}/>
-                <InputTextComponent title="RG" setState={setRG} value={RG} bigSize={true} />
+                <InputTextComponent title="Nome" setState={setName} value={name} />
+                <InputTextComponent title="RG" setState={setRG} value={RG} />
             </ContainerInput>
             <ContainerInput gridSpace="second">
-                <InputTextComponent title="Email" setState={setEmail} value={email} bigSize={true} />
-                <InputTextComponent title="Data de nascimento" setState={setDateOfBirth} value={dateOfBirth} bigSize={true} />
+                <InputTextComponent title="Email" setState={setEmail} value={email} />
+                <InputTextComponent title="Data de nascimento" setState={setDateOfBirth} value={dateOfBirth} />
             </ContainerInput>
             <Footer>
                 {
