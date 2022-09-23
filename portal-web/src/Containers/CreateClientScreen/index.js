@@ -19,7 +19,7 @@ import {
     ContainerSelfie,
     ContainerDocFront,
     ContainerDocBack,
-    SpanIputPhotoDescription,
+    SpanInputPhotoDescription,
     ContainerInput,
     InputText,
     InputTitle,
@@ -35,7 +35,11 @@ import {
     ContainerDropzone,
     SpanTitleLiveness,
     SpanErrorLiveness,
-    SpanErrorMessage
+    SpanErrorMessage,
+    SpanInputPhotoDetail,
+    ContainerPerfilEmpty,
+    ContainerPerfilEmptyText,
+    SpanPerfilEmpty
 } from './styles.js';
 
 //Services
@@ -225,11 +229,11 @@ export default function CreateClientScreen() {
         );
     };
 
-    const InputTextComponent = useCallback(({ title, setState, value }) => {
+    const InputTextComponent = useCallback(({ title, setState, value, bigSize = false}) => {
         return (
             <ContainerInputText>
                 <InputTitle>{title}</InputTitle>
-                <InputText type="text" onChange={event => setState(event.target.value)} value={value}/>
+                <InputText type="text" onChange={event => setState(event.target.value)} value={value} bigSize={bigSize}/>
             </ContainerInputText>
         );
     }, []);
@@ -240,31 +244,40 @@ export default function CreateClientScreen() {
             {isLoading && <Loading />}
             <ClientSidebar />
             <ContainerSelfie>
-                <SpanIputPhotoDescription>Foto de perfil</SpanIputPhotoDescription>
-                {perfilImg &&
+                <SpanInputPhotoDescription>Foto de perfil</SpanInputPhotoDescription>
+                {perfilImg ?
                     <ContainerPerfilImg onClick={() => setShowModalLiveness(true)}>
                         <ImgPerfil src={perfilImg} />
-                    </ContainerPerfilImg>}              
+                    </ContainerPerfilImg> :
+                    <ContainerDropzone onClick={() => setShowModalLiveness(true)}>
+                        <ContainerPerfilEmpty>
+                            <ContainerPerfilEmptyText>
+                                <SpanPerfilEmpty>Grave um video que a foto ira ser gerada automaticamente</SpanPerfilEmpty>
+                            </ContainerPerfilEmptyText>
+                        </ContainerPerfilEmpty>
+                    </ContainerDropzone>}              
             </ContainerSelfie>
             <ContainerDocFront>
-                <SpanIputPhotoDescription>Foto do documento frente</SpanIputPhotoDescription>
+                <SpanInputPhotoDescription>Foto do documento</SpanInputPhotoDescription>
+                <SpanInputPhotoDetail>FRENTE</SpanInputPhotoDetail>
                 <ContainerDropzone>
                     <Dropzone text={"Arraste a foto de frente do documento aqui"} onDrop={onDropDocumentFront} imageShow={documentFrontImg} />   
                 </ContainerDropzone>
             </ContainerDocFront>
             <ContainerDocBack>
-                <SpanIputPhotoDescription>Foto do documento verso</SpanIputPhotoDescription>
+                <SpanInputPhotoDescription>Foto do documento</SpanInputPhotoDescription>
+                <SpanInputPhotoDetail>VERSO</SpanInputPhotoDetail>
                 <ContainerDropzone>
                     <Dropzone text={"Arraste a foto do verso do documento aqui"} onDrop={onDropDocumentBack} imageShow={documentBackImg} />   
                 </ContainerDropzone>
             </ContainerDocBack>
             <ContainerInput gridSpace="first">
-                <InputTextComponent title="Nome" setState={setName} value={name} />
+                <InputTextComponent title="Nome" setState={setName} value={name} bigSize={true}/>
                 <InputTextComponent title="RG" setState={setRG} value={RG} />
-                <InputTextComponent title="Data de nascimento" setState={setDateOfBirth} value={dateOfBirth}/>
             </ContainerInput>
             <ContainerInput gridSpace="second">
-                <InputTextComponent title="Email" setState={setEmail} value={email}/>
+                <InputTextComponent title="Email" setState={setEmail} value={email} bigSize={true} />
+                <InputTextComponent title="Data de nascimento" setState={setDateOfBirth} value={dateOfBirth} />
             </ContainerInput>
             <Footer>
                 {

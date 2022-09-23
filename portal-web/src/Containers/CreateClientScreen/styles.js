@@ -41,9 +41,18 @@ export const ContainerDocBack = styled.div`
     flex-direction: column;  
 `;
 
-export const SpanIputPhotoDescription = styled.span`
-    color: black; 
-    margin-bottom: 20px;
+export const SpanInputPhotoDescription = styled.span`
+    font-family: Montserrat;
+    color: #FFFFFF; 
+    font-size: 26px;
+    font-weight: 500;
+`;
+
+export const SpanInputPhotoDetail = styled.span`
+    font-family: Montserrat;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 800;
 `;
 
 export const ContainerInput = styled.div`
@@ -59,12 +68,24 @@ export const ContainerInputText = styled.div`
     align-items: start;
     justify-content: center;
     flex-direction: column; 
+    width: 30%;
+    height: 24%;
 `;
 
-export const InputText = styled.input``;
+export const InputText = styled.input`
+    height: 100%;
+    width: ${props => props.bigSize ? '100%' : '40%'};
+    border: none;
+    border-radius: 4px;
+    padding-left: 4px;
+    font-size: 20px;
+`;
 
 export const InputTitle = styled.span`
     margin-bottom: 4px;
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
 `;
 
 export const Footer = styled.div`
@@ -141,6 +162,7 @@ export const Icon = styled.i.attrs(props => ({
 }))``;
 
 export const ContainerDropzone = styled.div`
+    margin-top: 20px;
     height: 240px;
     width: 200px;
 `; 
@@ -162,4 +184,35 @@ export const SpanErrorMessage = styled.span`
     margin-bottom: 10px;
     font-size: 20px; 
     color: black;
+`;
+
+export const ContainerPerfilEmpty = styled.div`
+    margin-top: 20px;
+    height: 100%;
+    width: 100%;
+    background: ${props => props.showImage ? 'transparent' : '#e1faec'};
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 0;
+`;
+
+export const ContainerPerfilEmptyText = styled.div`
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
+    border-radius: 10px;
+    border: 1px dashed #79ab7f;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+`;
+
+export const SpanPerfilEmpty = styled.span`
+    padding-top: 10px;
+    text-align: center;
 `;
