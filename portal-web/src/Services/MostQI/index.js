@@ -98,7 +98,7 @@ export const MostQI = {
         await axios.post(`${URL.base}${URL.processImage.faceCompare}`, params, config).then((response) => {
             responseAxios = {
                 success: true,
-                data: response.data.result.distances
+                data: response.data.result.distances[0]
             };
         }).catch((error) => {
             responseAxios = {

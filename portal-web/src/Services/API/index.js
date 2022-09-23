@@ -140,7 +140,7 @@ export const API = {
 
         let responseAxios = {};
 
-        await axios.post(`${URL.base}${URL.user.client.create}`, params, config).then((response) => {
+        await axios.post(`${URL.base}${URL.client.create}`, params, config).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
             responseAxios = error.response.data;
