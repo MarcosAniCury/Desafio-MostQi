@@ -4,9 +4,10 @@ export const Container = styled.div`
     display: grid;
     height: 100vh;
     color: white;
-    grid-template-rows: 0.1fr 1fr 1fr 1fr 0.1fr;
+    grid-template-rows: 0.2fr 0.3fr 1fr 1fr 1fr 0.1fr;
     grid-template-columns: 0.1fr 2fr 2fr 2fr;
     grid-template-areas:
+        "logo navbar navbar navbar"
         "logo selfie doc-front doc-back"
         "sidebar selfie doc-front doc-back"
         "sidebar input-first input-first input-first"
@@ -30,6 +31,7 @@ export const ContainerDocFront = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;  
+    padding-top: 10px;
 `;
 
 export const ContainerDocBack = styled.div`
@@ -39,6 +41,7 @@ export const ContainerDocBack = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;  
+    padding-top: 10px;
 `;
 
 export const SpanInputPhotoDescription = styled.span`
@@ -215,4 +218,19 @@ export const ContainerPerfilEmptyText = styled.div`
 export const SpanPerfilEmpty = styled.span`
     padding-top: 10px;
     text-align: center;
+`;
+
+export const ContainerNavBar = styled.span`
+    grid-area: navbar;
+    background-color: #1B406A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const NavBarTitle = styled.span`
+    margin-bottom: 4px;
+    font-size: 30px;
+    font-family: Montserrat;
+    font-weight: 500;
 `;

@@ -39,7 +39,9 @@ import {
     SpanInputPhotoDetail,
     ContainerPerfilEmpty,
     ContainerPerfilEmptyText,
-    SpanPerfilEmpty
+    SpanPerfilEmpty,
+    ContainerNavBar,
+    NavBarTitle
 } from './styles.js';
 
 //Services
@@ -242,6 +244,9 @@ export default function CreateClientScreen() {
         <Container>
             {(firstTime || showModalLiveness) && <ModalUploadVideoLiveness />}
             {isLoading && <Loading />}
+            <ContainerNavBar>
+                <NavBarTitle>Cadastro de Cliente</NavBarTitle>
+            </ContainerNavBar>
             <ClientSidebar />
             <ContainerSelfie>
                 <SpanInputPhotoDescription>Foto de perfil</SpanInputPhotoDescription>
@@ -273,11 +278,11 @@ export default function CreateClientScreen() {
             </ContainerDocBack>
             <ContainerInput gridSpace="first">
                 <InputTextComponent title="Nome" setState={setName} value={name} bigSize={true}/>
-                <InputTextComponent title="RG" setState={setRG} value={RG} />
+                <InputTextComponent title="RG" setState={setRG} value={RG} bigSize={true} />
             </ContainerInput>
             <ContainerInput gridSpace="second">
                 <InputTextComponent title="Email" setState={setEmail} value={email} bigSize={true} />
-                <InputTextComponent title="Data de nascimento" setState={setDateOfBirth} value={dateOfBirth} />
+                <InputTextComponent title="Data de nascimento" setState={setDateOfBirth} value={dateOfBirth} bigSize={true} />
             </ContainerInput>
             <Footer>
                 {
