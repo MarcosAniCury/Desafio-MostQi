@@ -231,14 +231,12 @@ export default function CreateClientScreen() {
         );
     };
 
-    const InputTextComponent = ({ title, setState, value}) => {
-        return (
+    const InputTextComponent = useCallback(({ title, setState, value}) => (
             <ContainerInputText>
                 <InputTitle>{title}</InputTitle>
                 <InputText type="text" onChange={event => setState(event.target.value)} value={value}/>
             </ContainerInputText>
-        );
-    };
+    ), []);
 
     const SelfieImgComponent = useCallback(() => (       
             perfilImg ?

@@ -1,5 +1,6 @@
 //Imports react
 import { useEffect, useState } from 'react';
+import moment from "moment";
 
 //Services
 import { API } from '../../Services/API';
@@ -14,7 +15,7 @@ import {
     ContainerPaginationTop,
     ContainerContent,
     ContainerPaginationBottom,
-    ButtonResarch,
+    ButtonResearch,
     Input,
     ButtonSelectPage,
     IconPaginate,
@@ -22,16 +23,21 @@ import {
     ContainerCardClient,
     ContainerCardClientImage,
     ContainerCardClientDesription,
-    CardClientImg
+    CardClientImg,
+    CardClient,
+    SpanTitleCard,
+    SpanDescriptionCard,
+    Column
 } from './styles';
 
 export default function ClientsDataScreen() {
     //useState
-    const [resarch, setResarch] = useState();
+    const [research, setResearch] = useState();
     const [clients, setClients] = useState([]);
+    const [loadingClients, setLoadingClients] = useState(true);
 
     //Strings
-    const ResarchInputPlaceholderString = 'Pesquisar';
+    const ResearchInputPlaceholderString = 'Pesquisar';
 
     useEffect(() => {
         const fenchData = async () => {
@@ -39,8 +45,11 @@ export default function ClientsDataScreen() {
             const response = await API.getAllClients(userToken.access_token);
             setClients(response.data);
         };
-        fenchData();
-    }, []);
+        if (loadingClients) {
+            fenchData();
+            setLoadingClients(false);
+        }
+    }, [loadingClients]);
 
     const ButtonPaginate = ({ text, isSelect = false }) => (
         <ButtonSelectPage isSelect={isSelect}>
@@ -64,31 +73,43 @@ export default function ClientsDataScreen() {
         </>
     );
 
-    const ClientCard = ({ client }) => (
-        <ContainerCardClient cardI={1}>
-            <ContainerCardClientImage>
-                <CardClientImg src={`data:image/jpeg;base64,${client.selfie}`} />
-            </ContainerCardClientImage>
-            <ContainerCardClientDesription>
-                {client.name}
-            </ContainerCardClientDesription>
-        </ContainerCardClient>    
+    const CardClientItems = ({ title, description, isFirst }) => (
+        <ContainerCardClientDesription isFirst={isFirst}>
+            <SpanTitleCard>{title}</SpanTitleCard>
+            <SpanDescriptionCard>{description}</SpanDescriptionCard>
+        </ContainerCardClientDesription>
+    );
+
+    const ClientCard = ({ client, index }) => (
+        <ContainerCardClient cardI={index}>
+            <CardClient>
+                <ContainerCardClientImage>
+                    <CardClientImg src={`data:image/jpeg;base64,${client.selfie}`} />
+                </ContainerCardClientImage>
+                <Column>
+                    <CardClientItems title="Nome:" description={client.name} isFirst={true}/>
+                    <CardClientItems title="RG:" description={client.rg} />
+                    <CardClientItems title="Data de Nascimento:" description={moment(client.dateOfBirth).format('DD/MM/YYYY')} />
+                    <CardClientItems title="Email:" description={client.email} />
+                </Column>
+            </CardClient>
+        </ContainerCardClient>
     );
 
     return (
         <Container>
             <ContainerNavBar> 
-                <Input placeholder={ResarchInputPlaceholderString}
-                    value={resarch}
-                    onChange={event => {setResarch(event.target.value)}}
+                <Input placeholder={ResearchInputPlaceholderString}
+                    value={research}
+                    onChange={event => {setResearch(event.target.value)}}
                 />
-                <ButtonResarch><i class="fa-solid fa-magnifying-glass"></i></ButtonResarch>
+                <ButtonResearch><i class="fa-solid fa-magnifying-glass"></i></ButtonResearch>
             </ContainerNavBar>
             <Sidebar />
             <ContainerPaginationTop>
                 <Paginate />
             </ContainerPaginationTop>
-            <ContainerContent> {clients && clients.map(client => <ClientCard client={client}/>)} </ContainerContent>    
+            <ContainerContent> { clients && clients.map((client, key) => <ClientCard client={client} index={key} /> )} </ContainerContent>    
             <ContainerPaginationBottom>
                 <Paginate />
             </ContainerPaginationBottom>

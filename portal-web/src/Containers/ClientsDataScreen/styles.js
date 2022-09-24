@@ -31,14 +31,14 @@ export const ContainerPaginationTop = styled.div`
 
 export const ContainerContent = styled.div`
     grid-area: content;
-    background-color: purple;
+    background-color: #1B406A;
     display: grid;
     height: 100%;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-columns: 2fr 2fr 2fr ;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 2fr 2fr;
     grid-template-areas:
-        "card1 card2 card3"
-        "card4 card5 card6"
+        "card0 card1"
+        "card2 card3"
 `;
 
 export const ContainerPaginationBottom = styled.div`
@@ -51,12 +51,12 @@ export const ContainerPaginationBottom = styled.div`
 
 export const Input = styled.input`
     font-size: 15px;
-    color: #FFFFFF;
+    color: black;
     line-height: 1.2;
     border: none;
     width: 80%;
     height: 30px;
-    background-color: #1B406A;
+    background-color: #FFFFFF;
     border-radius: 10px 0px 0px 10px;
     padding-left: 10px;
 
@@ -66,14 +66,14 @@ export const Input = styled.input`
     }
 
     ::placeholder {
-        color:white;
+        color:black;
     }
 `;
 
-export const ButtonResarch = styled.button`
-    height: 30px;
-    width: 30px;
-    background-color: transparent;
+export const ButtonResearch = styled.button`
+    height: 34px;
+    width: 32px;
+    background-color: #d3d3d3;
     border-radius: 0px 10px 10px 0px;
 `;
 
@@ -108,29 +108,64 @@ export const ItensPaginate = styled.span`
 
 export const ContainerCardClient = styled.div`
     grid-area: ${props => `card${props.cardI}`};
-    background-color: #FFFFFF;
+    background-color: #1B406A;
     width: 100%;
     height: 100%;
+    display: flex;
     align-items: center;
-    border-radius: 10px;
-    margin: 20px;
+    justify-content: center;
 `;
 
 export const ContainerCardClientImage = styled.div`
-    background-color: green;
-    height: 100%;
-    width: 100%;
+    background-color: #d3d3d3;
+    height: 296px;
+    width: 186px;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 20px;
 `;
 
 export const ContainerCardClientDesription = styled.div`
-    background-color: red;
+    background-color: #d3d3d3;
     height: 100%;
     width: 100%;
+    display: flex;
+    align-items: center;
+    ${props => !props.isFirst && 'padding-top: 10px;'}
 `;
 
 export const CardClientImg = styled.img`
-    height: auto;
-    width: 50%;
+    background-color: #d3d3d3;
+    height: 90%;
+    width: auto;
     border-radius: 10px;
+`;
+
+export const CardClient = styled.div`
+    width: 64%;
+    height: 80%;
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+    background-color: #d3d3d3;
+    border-radius: 10px;
+`;
+
+export const SpanTitleCard = styled.span`
+    font-size: 20px;
+    color: black;
+`;
+
+export const SpanDescriptionCard = styled.span`
+    font-size: 20px;
+    padding-left: 10px;
+    color: black;
+`;
+
+export const Column = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 `;
