@@ -68,26 +68,16 @@ namespace portal_web_api.Controllers
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpPost]
+        [Route("get-by-name")]
         [Authorize(Roles = "collaborator")]
-        public IActionResult FindById(string id)
+        public IActionResult GetByNameLike(ClientGetByNameRequest request)
         {
-            var client = _userRepository.FindById(id);
-
-            if (client == null)
-            {
-                string[] error = { "Não existe usuários com esse id" };
-                return NotFound(new
-                {
-                    success = true,
-                    errors = new { Id = error }
-                });
-            }
-
+            //var client = _userRepository.GetAllClients();
             return Ok(new
             {
                 success = true,
-                data = client
+                //data = client
             });
         }
     }
