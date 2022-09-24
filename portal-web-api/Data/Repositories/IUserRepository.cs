@@ -4,10 +4,11 @@ namespace portal_web_api.Data.Repositories
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAllClients();
+        List<User> GetAllClients();
         User FindById(string id);
         User FindByNameAndPassword(string name, string password);
         User FindByNameAndEmail(string name, string email);
+        List<User> FindByNameLike(string name);
         User FindByName(string name);
         User Create(User user);
         void Update(User user);

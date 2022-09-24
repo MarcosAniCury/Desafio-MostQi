@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using portal_web_api.Data.MongoSettings;
 using portal_web_api.Models;
 
@@ -16,7 +17,7 @@ namespace portal_web_api.Data.Repositories
             _dbCollection = database.GetCollection<User>(typeof(User).Name);
         }
 
-        public IEnumerable<User> GetAllClients()
+        public List<User> GetAllClients()
         {
             return _dbCollection.Find(user => user.Type == "client").ToList();
         }
@@ -39,6 +40,12 @@ namespace portal_web_api.Data.Repositories
         public User FindByName(string name)
         {
             return _dbCollection.Find(user => user.Name == name).FirstOrDefault();
+        }
+
+        public List<User> FindByNameLike(string name)
+        {
+            var filter = new BsonDocument { { "Name", new BsonDocument { { "$regex", name }, { "$options", "i" } } }, { "Type", "client" } };
+            return _dbCollection.Find(filter).ToList();
         }
 
         public User Create(User user)

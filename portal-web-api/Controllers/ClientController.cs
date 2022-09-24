@@ -14,6 +14,11 @@ namespace portal_web_api.Controllers
     [ApiController]
     public class ClientController : Controller
     {
+        /*
+         Constants
+         */
+        private const int NUMBER_OF_ITEMS_IN_PAGE = 4;
+
         private IUserRepository _userRepository;
         private IEmailSenderRepository _emailSender;
 
@@ -55,16 +60,45 @@ namespace portal_web_api.Controllers
             });
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("get")]
         [Authorize(Roles = "collaborator")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(ClientGetAll request)
         {
-            var client = _userRepository.GetAllClients();
+            var clients = _userRepository.GetAllClients();
+
+            if (clients == null)
+            {
+                string[] error = { "Nenhum usuário foi encontrado" };
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = new { Reseach = error }
+                });
+            }
+
+            int itemsSkip = (request.PageIndex - 1) * NUMBER_OF_ITEMS_IN_PAGE;
+            if (itemsSkip >= clients.Count)
+            {
+                string[] error = { "Não possui usuários nessa página" };
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = new { PageNotFound = error }
+                });
+            }
+
+            var SelectedClients = clients.Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).ToArray();
+
+            foreach (var client in SelectedClients)
+            {
+                client.Password = "";
+            }
+
             return Ok(new
             {
                 success = true,
-                data = client
+                data = SelectedClients
             });
         }
 
@@ -73,11 +107,39 @@ namespace portal_web_api.Controllers
         [Authorize(Roles = "collaborator")]
         public IActionResult GetByNameLike(ClientGetByNameRequest request)
         {
-            //var client = _userRepository.GetAllClients();
+            var clients = _userRepository.FindByNameLike(request.Research);
+            if (clients == null)
+            {
+                string[] error = { "Nenhum usuário foi encontrado" };
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = new { Reseach = error }
+                });
+            }
+
+            int itemsSkip = (request.PageIndex - 1) * NUMBER_OF_ITEMS_IN_PAGE;
+            if (itemsSkip >= clients.Count) 
+            {
+                string[] error = { "Não possui usuários nessa página" };
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = new { PageNotFound = error }
+                });
+            }
+
+            var SelectedClients = clients.Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).ToArray();
+
+            foreach(var client in SelectedClients)
+            {
+                client.Password = "";
+            }
+
             return Ok(new
             {
                 success = true,
-                //data = client
+                data = SelectedClients
             });
         }
     }

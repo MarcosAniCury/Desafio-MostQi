@@ -1,4 +1,5 @@
-﻿using portal_web_api.DTOs;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using portal_web_api.DTOs;
 
 namespace portal_web_api.Models
 {
@@ -38,18 +39,23 @@ namespace portal_web_api.Models
         public string Password { get; set; }
 
         public string Type { get; set; }
-        
+
+        [BsonIgnoreIfNull]
         public string? RG { get; set; }
 
+        [BsonIgnoreIfNull]
         public DateTime? DateOfBirth { get; set; }
 
+        [BsonIgnoreIfNull]
         public string? DocumentFront { get; set; }
 
+        [BsonIgnoreIfNull]
         public string? DocumentBack { get; set; }
 
+        [BsonIgnoreIfNull]
         public string? Selfie { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public static explicit operator User(UserCreateRequest user)
         {

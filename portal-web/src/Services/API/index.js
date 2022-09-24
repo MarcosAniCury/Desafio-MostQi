@@ -16,7 +16,7 @@ export const API = {
             responseAxios = error.response.data;
             if (responseAxios['success'] == undefined)
             {
-                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
             }
         });
 
@@ -37,7 +37,7 @@ export const API = {
         }).catch((error) => {
             responseAxios = error.response.data;
             if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
             }
         });
 
@@ -56,7 +56,7 @@ export const API = {
             responseAxios = error.response.data;
             if (responseAxios['success'] == undefined)
             {
-                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
             }
         });
 
@@ -75,7 +75,7 @@ export const API = {
         }).catch((error) => {
             responseAxios = error.response.data;
             if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
             }
         });
 
@@ -98,25 +98,29 @@ export const API = {
         }).catch((error) => {
             responseAxios = error.response.data;
             if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
             }
         });
 
         return { ...responseAxios };
     },
-    getAllClients: async access_token => {
+    getAllClients: async (pageIndex, access_token) => {
+        const params = {
+            'PageIndex': pageIndex
+        };
+
         const config = {
             headers: { 'Authorization': `Bearer ${access_token}` }
         };
 
         let responseAxios = {};
 
-        await axios.get(`${URL.base}${URL.client.getAll}`, config).then((response) => {
+        await axios.post(`${URL.base}${URL.client.getAll}`, params, config).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
             responseAxios = error.response.data;
             if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
             }
         });
 
@@ -145,7 +149,30 @@ export const API = {
         }).catch((error) => {
             responseAxios = error.response.data;
             if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 || responseAxios.status != 500;
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
+            }
+        });
+
+        return { ...responseAxios };
+    },
+    getClientByNameLike: async (research, pageIndex, access_token) => {
+        const params = {
+            'Research': research,
+            'PageIndex': pageIndex
+        };
+
+        const config = {
+            headers: { 'Authorization': `Bearer ${access_token}` }
+        };
+
+        let responseAxios = {};
+
+        await axios.post(`${URL.base}${URL.client.getByNameLike}`, params, config).then((response) => {
+            responseAxios = response.data;
+        }).catch((error) => {
+            responseAxios = error.response.data;
+            if (responseAxios['success'] == undefined) {
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
             }
         });
 
