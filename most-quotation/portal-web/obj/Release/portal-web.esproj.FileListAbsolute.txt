@@ -1,0 +1,2 @@
+C:\Users\Marcos\Documents\Git\desafios-fullstack\most-quotation\portal-web\obj\Release\portal-web.esproj.SuggestedBindingRedirects.cache
+C:\Users\Marcos\Documents\Git\desafios-fullstack\most-quotation\portal-web\obj\Release\portal-web.esproj.CoreCompileInputs.cache

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  portal-web-api:
+    image: ${DOCKER_REGISTRY-}portalwebapi
+    build:
+      context: .
+      dockerfile: portal-web-api/Dockerfile
