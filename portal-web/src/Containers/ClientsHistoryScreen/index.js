@@ -23,7 +23,7 @@ import {
     ItensPaginate
 } from './styles';
 
-export default function ClientsDataScreen() {
+export default function ClientsHistoryScreen() {
     //useState
     const [isLoading, setIsLoading] = useState(false);
     const [research, setResearch] = useState();
@@ -128,10 +128,10 @@ export default function ClientsDataScreen() {
     return (
         <Container>
             {isLoading && <Loading />}
-            <ContainerNavBar> 
+            <ContainerNavBar>
                 <Input placeholder={ResearchInputPlaceholderString}
                     value={research}
-                    onChange={event => {setResearch(event.target.value)}}
+                    onChange={event => { setResearch(event.target.value) }}
                 />
                 <ButtonResearch onClick={handleClickResearch}><i class="fa-solid fa-magnifying-glass"></i></ButtonResearch>
             </ContainerNavBar>
@@ -139,7 +139,7 @@ export default function ClientsDataScreen() {
             <ContainerPaginationTop>
                 <Paginate />
             </ContainerPaginationTop>
-            <ContainerContent> {clients && clients.map((client, key) => <ClientCard key={client.name} client={client} index={key} /> )} </ContainerContent>    
+            <ContainerContent> {clients && clients.map((client, key) => <ClientCard key={client.name} client={client} index={key} />)} </ContainerContent>
             <ContainerPaginationBottom>
                 <Paginate />
             </ContainerPaginationBottom>

@@ -67,7 +67,7 @@ export default function ClientSidebar() {
                     </IconSidebarDescription>
                 }
             </ContainerIconSidebar>
-            <ContainerIconSidebar>
+            <ContainerIconSidebar onClick={() => navigate('/collaborator/client/history')}>
                 <IconSidebar className="fa-solid fa-clock-rotate-left" />
                 {isSidebarOpen &&
                     <IconSidebarDescription>

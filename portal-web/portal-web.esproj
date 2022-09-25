@@ -19,8 +19,10 @@
     <Folder Include="src\Components\ModalImageCropper\" />
     <Folder Include="src\Components\ClientSidebar\" />
     <Folder Include="src\Components\Dropzone\" />
+    <Folder Include="src\Components\ClientCard\" />
     <Folder Include="src\Components\VideoRecord\" />
     <Folder Include="src\Containers\CreateClientScreen\" />
+    <Folder Include="src\Containers\ClientsHistoryScreen\" />
     <Folder Include="src\Containers\RecoverPasswordScreen\" />
     <Folder Include="src\Containers\SignupScreen\" />
     <Folder Include="src\Containers\ClientsDataScreen\" />

@@ -12,6 +12,7 @@ import CreateClient from '../Containers/CreateClientScreen';
 import NotFound from '../Containers/NotFoundScreen';
 import ForgetPassword from '../Containers/ForgetPasswordScreen';
 import RecoverPassword from '../Containers/RecoverPasswordScreen';
+import ClientsHistory from '../Containers/ClientsHistoryScreen';
 
 const Private = ({ Item }) => {
     const { signed } = useAuth();
@@ -30,6 +31,7 @@ export default function RoutesApp() {
                 <Routes>
                     <Route path='/collaborator' element={<Private Item={ClientsData} />} />
                     <Route path='/collaborator/client/create' element={<Private Item={CreateClient} />} />
+                    <Route path='/collaborator/client/history' element={<Private Item={ClientsHistory} />} />
                     <Route path='/signup' element={<Signup />} />
                     <Route path='/forgetPassword' element={<ForgetPassword />} />
                     <Route path='/recoverPassword/:token' element={<RecoverPasswordLink />} />

@@ -8,7 +8,7 @@ export const Container = styled.div`
     grid-template-columns: 0.1fr 2fr 2fr 2fr;
     grid-template-areas:
         "logo navbar navbar navbar"
-        "logo selfie doc-front doc-back"
+        "sidebar selfie doc-front doc-back"
         "sidebar selfie doc-front doc-back"
         "sidebar input-first input-first input-first"
         "sidebar input-second input-second input-second"
