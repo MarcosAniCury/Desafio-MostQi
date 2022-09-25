@@ -4,7 +4,7 @@ namespace portal_web_api.DTOs
 {
     public class ClientCreateRequest
     {
-        public ClientCreateRequest(string name, string password, string email, string rg, string dateOfBirth, string documentFront, string documentBack, string selfie)
+        public ClientCreateRequest(string name, string password, string email, string rg, string dateOfBirth, string documentFront, string documentBack, string selfie, string collaborator)
         {
             Name = name;
             Email = email;
@@ -14,6 +14,7 @@ namespace portal_web_api.DTOs
             DocumentFront = documentFront;
             DocumentBack = documentBack;
             Selfie = selfie;
+            Collaborator = collaborator;
         }
 
         [Required(ErrorMessage = "O campo nome é obrigatório")]
@@ -42,6 +43,9 @@ namespace portal_web_api.DTOs
 
         [Required(ErrorMessage = "O campo selfie é obrigatório")]
         public string Selfie { get; set; }
+
+        [Required(ErrorMessage = "O campo colaborador é obrigatório")]
+        public string Collaborator { get; set; }
 
     }
 }

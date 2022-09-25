@@ -44,7 +44,25 @@ namespace portal_web_api.Data.Repositories
 
         public List<User> FindByNameLike(string name)
         {
-            var filter = new BsonDocument { { "Name", new BsonDocument { { "$regex", name }, { "$options", "i" } } }, { "Type", "client" } };
+            var filter = new BsonDocument { { "Type", "client" } };
+            if (name != null)
+            {
+                filter.Add("Name", new BsonDocument { { "$regex", name }, { "$options", "i" } });
+            }
+            return _dbCollection.Find(filter).ToList();
+        }
+
+        public List<User> FindByNameLikeAndCollaboratorLike(string name, string collaborator)
+        {
+            var filter = new BsonDocument { { "Type", "client" } };
+            if (name != null)
+            {
+                filter.Add("Name", new BsonDocument { { "$regex", name }, { "$options", "i" } });
+            }
+            if (collaborator != null)
+            {
+                filter.Add("Collaborator", new BsonDocument { { "$regex", collaborator }, { "$options", "i" } });
+            }
             return _dbCollection.Find(filter).ToList();
         }
 

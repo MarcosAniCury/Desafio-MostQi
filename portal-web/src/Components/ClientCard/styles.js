@@ -12,7 +12,7 @@ export const ContainerCardClient = styled.div`
 
 export const ContainerCardClientImage = styled.div`
     background-color: #d3d3d3;
-    height: 296px;
+    height: 100%;
     width: 186px;
     border-radius: 10px;
     display: flex;
@@ -28,6 +28,7 @@ export const ContainerCardClientDesription = styled.div`
     display: flex;
     align-items: center;
     ${props => !props.isFirst && 'padding-top: 10px;'}
+    border-radius: 10px;
 `;
 
 export const CardClientImg = styled.img`
@@ -38,7 +39,7 @@ export const CardClientImg = styled.img`
 `;
 
 export const CardClient = styled.div`
-    width: 64%;
+    width: 70%;
     height: 80%;
     display: flex;
     align-items: stretch;
@@ -62,4 +63,5 @@ export const Column = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    padding-left: 30px;
 `;

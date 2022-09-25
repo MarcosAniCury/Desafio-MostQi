@@ -15,7 +15,7 @@ namespace portal_web_api.Models
             this.CreatedAt = DateTime.Now;
         }
 
-        public User(string name, string password, string email, string type, string rg, string dateOfBirth, string documentFront, string documentBack, string selfie)
+        public User(string name, string password, string email, string type, string rg, string dateOfBirth, string documentFront, string documentBack, string selfie, string collaborator)
         {
             this.Id = Guid.NewGuid().ToString();
             this.Name = name;
@@ -27,6 +27,7 @@ namespace portal_web_api.Models
             this.DocumentFront = documentFront;
             this.DocumentBack = documentBack;
             this.Selfie = selfie;
+            this.Collaborator = collaborator;
             this.CreatedAt = DateTime.Now;
         }
 
@@ -55,6 +56,9 @@ namespace portal_web_api.Models
         [BsonIgnoreIfNull]
         public string? Selfie { get; set; }
 
+        [BsonIgnoreIfNull]
+        public string? Collaborator { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public static explicit operator User(UserCreateRequest user)
@@ -73,7 +77,8 @@ namespace portal_web_api.Models
                 user.DateOfBirth, 
                 user.DocumentFront, 
                 user.DocumentBack, 
-                user.Selfie
+                user.Selfie,
+                user.Collaborator
             );
         }
     }

@@ -12,6 +12,7 @@ export const URL = {
     client: {
         getAll: 'client/get',
         create: 'client/create',
-        getByNameLike: 'client/get-by-name'
+        getByNameLike: 'client/get-by-name',
+        getByNameLikeAndCollaboratorLike: 'client/get-by-name-and-collaborator'
     }
 }

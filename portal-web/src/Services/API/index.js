@@ -104,29 +104,7 @@ export const API = {
 
         return { ...responseAxios };
     },
-    getAllClients: async (pageIndex, access_token) => {
-        const params = {
-            'PageIndex': pageIndex
-        };
-
-        const config = {
-            headers: { 'Authorization': `Bearer ${access_token}` }
-        };
-
-        let responseAxios = {};
-
-        await axios.post(`${URL.base}${URL.client.getAll}`, params, config).then((response) => {
-            responseAxios = response.data;
-        }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
-        });
-
-        return { ...responseAxios };
-    },
-    createClient: async (name, email, rg, dateOfBirth, documentFront, documentBack, selfie, access_token) => {
+    createClient: async (name, email, rg, dateOfBirth, documentFront, documentBack, selfie, userName, access_token) => {
         const params = {
             'name': name,
             'password': Math.random().toString(16),
@@ -136,6 +114,7 @@ export const API = {
             'documentFront': documentFront,
             'documentBack': documentBack,
             'selfie': selfie,
+            'collaborator': userName, 
         }
 
         const config = {
@@ -157,9 +136,12 @@ export const API = {
     },
     getClientByNameLike: async (research, pageIndex, access_token) => {
         const params = {
-            'Research': research,
             'PageIndex': pageIndex
         };
+
+        if (research && research != '') {
+            params['Research'] = research;
+        }
 
         const config = {
             headers: { 'Authorization': `Bearer ${access_token}` }
@@ -178,4 +160,34 @@ export const API = {
 
         return { ...responseAxios };
     },
+    getClientByNameLikeAndCollaboratorLike: async (name, collaborator, pageIndex, access_token) => {
+        const params = {
+            'pageIndex': pageIndex
+        };
+
+        if (name && name != '') {
+            params['name'] = name;
+        }
+
+        if (collaborator && collaborator != '') {
+            params['collaborator'] = collaborator;
+        }
+
+        const config = {
+            headers: { 'Authorization': `Bearer ${access_token}` }
+        };
+
+        let responseAxios = {};
+
+        await axios.post(`${URL.base}${URL.client.getByNameLikeAndCollaboratorLike}`, params, config).then((response) => {
+            responseAxios = response.data;
+        }).catch((error) => {
+            responseAxios = error.response.data;
+            if (responseAxios['success'] == undefined) {
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
+            }
+        });
+
+        return { ...responseAxios };
+    }
 }

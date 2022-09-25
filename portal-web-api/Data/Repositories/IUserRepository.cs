@@ -9,6 +9,7 @@ namespace portal_web_api.Data.Repositories
         User FindByNameAndPassword(string name, string password);
         User FindByNameAndEmail(string name, string email);
         List<User> FindByNameLike(string name);
+        List<User> FindByNameLikeAndCollaboratorLike(string name, string collaborator);
         User FindByName(string name);
         User Create(User user);
         void Update(User user);

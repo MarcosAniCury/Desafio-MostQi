@@ -61,48 +61,6 @@ namespace portal_web_api.Controllers
         }
 
         [HttpPost]
-        [Route("get")]
-        [Authorize(Roles = "collaborator")]
-        public IActionResult GetAll(ClientGetAll request)
-        {
-            var clients = _userRepository.GetAllClients();
-
-            if (clients == null)
-            {
-                string[] error = { "Nenhum usuário foi encontrado" };
-                return BadRequest(new
-                {
-                    success = false,
-                    errors = new { Reseach = error }
-                });
-            }
-
-            int itemsSkip = (request.PageIndex - 1) * NUMBER_OF_ITEMS_IN_PAGE;
-            if (itemsSkip >= clients.Count)
-            {
-                string[] error = { "Não possui usuários nessa página" };
-                return BadRequest(new
-                {
-                    success = false,
-                    errors = new { PageNotFound = error }
-                });
-            }
-
-            var SelectedClients = clients.Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).ToArray();
-
-            foreach (var client in SelectedClients)
-            {
-                client.Password = "";
-            }
-
-            return Ok(new
-            {
-                success = true,
-                data = SelectedClients
-            });
-        }
-
-        [HttpPost]
         [Route("get-by-name")]
         [Authorize(Roles = "collaborator")]
         public IActionResult GetByNameLike(ClientGetByNameRequest request)
@@ -129,9 +87,50 @@ namespace portal_web_api.Controllers
                 });
             }
 
-            var SelectedClients = clients.Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).ToArray();
+            var SelectedClients = clients.Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).OrderByDescending(x => x.CreatedAt).ToArray();
 
             foreach(var client in SelectedClients)
+            {
+                client.Password = "";
+            }
+
+            return Ok(new
+            {
+                success = true,
+                data = SelectedClients
+            });
+        }
+
+        [HttpPost]
+        [Route("get-by-name-and-collaborator")]
+        [Authorize(Roles = "collaborator")]
+        public IActionResult GetByNameLikeAndCollaboratorLike(ClientGetByNameAndCollaboratorRequest request)
+        {
+            var clients = _userRepository.FindByNameLikeAndCollaboratorLike(request.Name, request.Collaborator);
+            if (clients == null)
+            {
+                string[] error = { "Nenhum usuário foi encontrado" };
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = new { Reseach = error }
+                });
+            }
+
+            int itemsSkip = (request.PageIndex - 1) * NUMBER_OF_ITEMS_IN_PAGE;
+            if (itemsSkip >= clients.Count)
+            {
+                string[] error = { "Não possui usuários nessa página" };
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = new { PageNotFound = error }
+                });
+            }
+
+            var SelectedClients = clients.Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).OrderByDescending(x => x.CreatedAt).ToArray();
+
+            foreach (var client in SelectedClients)
             {
                 client.Password = "";
             }

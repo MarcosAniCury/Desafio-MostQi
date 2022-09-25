@@ -2,15 +2,18 @@
 
 namespace portal_web_api.DTOs
 {
-    public class ClientGetByNameRequest
+    public class ClientGetByNameAndCollaboratorRequest
     {
-        public ClientGetByNameRequest(string research, int pageIndex)
+        public ClientGetByNameAndCollaboratorRequest(string name, string collaborator, int pageIndex)
         {
-            Research = research;
+            Name = name;
+            Collaborator = collaborator;
             PageIndex = pageIndex;
         }
 
-        public string? Research { get; private set; }
+        public string? Name { get; private set; }
+
+        public String? Collaborator { get; private set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "O campo página deve ter o valor minimo de 1")]
         [Required(ErrorMessage = "O campo página é obrigatório")]

@@ -8,51 +8,40 @@ import { API } from '../../Services/API';
 import Sidebar from '../../Components/ClientSidebar';
 import Loading from '../../Components/Loading';
 import ClientCard from '../../Components/ClientCard';
+import Button from '../../Components/Button';
 
 //Styles
 import {
     Container,
-    ContainerNavBar,
+    ContainerFilter,
     ContainerPaginationTop,
     ContainerContent,
     ContainerPaginationBottom,
-    ButtonResearch,
-    Input,
     ButtonSelectPage,
     IconPaginate,
-    ItensPaginate
+    ItensPaginate,
+    ContainerNavbar,
+    NavbarTitle,
+    InputFilter,
+    FilterTitle,
+    WarpFilter,
+    WarpButton
 } from './styles';
 
 export default function ClientsHistoryScreen() {
     //useState
     const [isLoading, setIsLoading] = useState(false);
-    const [research, setResearch] = useState();
+    const [nameClient, setNameClient] = useState(undefined);
+    const [nameCollaborator, setNameCollaborator] = useState(undefined);
     const [clients, setClients] = useState([]);
     const [loadingClients, setLoadingClients] = useState(true);
     const [pageIndex, setPageIndex] = useState(1);
     const [showPage, setShowPage] = useState(1);
 
-    //Strings
-    const ResearchInputPlaceholderString = 'Pesquisar';
-
-    const callApiGetClientByNameLike = async page => {
+    const callApiGetClientByNameLikeAndCollaboratorLike = async page => {
         setIsLoading(true);
         const userToken = JSON.parse(localStorage.getItem('token'));
-        const response = await API.getClientByNameLike(research, page, userToken.access_token);
-        if (response.success) {
-            setPageIndex(page);
-            setClients(response.data);
-            if (showPage + 2 < page || page < showPage) {
-                setShowPage(page);
-            }
-        }
-        setIsLoading(false);
-    };
-
-    const callApiGetAllClients = async page => {
-        setIsLoading(true);
-        const userToken = JSON.parse(localStorage.getItem('token'));
-        const response = await API.getAllClients(page, userToken.access_token);
+        const response = await API.getClientByNameLikeAndCollaboratorLike(nameClient, nameCollaborator, page, userToken.access_token);
         if (response.success) {
             setPageIndex(page);
             setClients(response.data);
@@ -65,76 +54,51 @@ export default function ClientsHistoryScreen() {
 
     useEffect(() => {
         if (loadingClients) {
-            callApiGetAllClients(pageIndex);
+            callApiGetClientByNameLikeAndCollaboratorLike(pageIndex);
             setLoadingClients(false);
         }
     }, [loadingClients]);
 
-    const handleClickResearch = async () => {
-        if (!research || research == '') {
-            await callApiGetAllClients(pageIndex);
-        } else {
-            await callApiGetClientByNameLike(pageIndex);
-        }
-    };
-
-    const HandleClickArrowForward = async () => {
-        if (!research || research == '') {
-            await callApiGetAllClients(pageIndex + 1);
-        } else {
-            await callApiGetClientByNameLike(pageIndex + 1);
-        }
-    };
-
-    const HandleClickArrowBackward = async () => {
-        if (!research || research == '') {
-            await callApiGetAllClients(pageIndex - 1);
-        } else {
-            await callApiGetClientByNameLike(pageIndex - 1);
-        }
-    }
-
-    const HandleClickPaginate = async page => {
-        console.log(research);
-        if (!research || research == '') {
-            await callApiGetAllClients(page);
-        } else {
-            await callApiGetClientByNameLike(page);
-        }
-    };
-
     const ButtonPaginate = useCallback(({ text, isSelect }) => (
-        <ButtonSelectPage isSelect={isSelect} onClick={() => HandleClickPaginate(text)}>
+        <ButtonSelectPage isSelect={isSelect} onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(text)}>
             <ItensPaginate>
                 {text}
             </ItensPaginate>
         </ButtonSelectPage>
-    ), [pageIndex, showPage, research]);
+    ), [pageIndex, showPage, nameClient]);
 
     const Paginate = useCallback(() => (
         <>
-            <ButtonSelectPage onClick={HandleClickArrowBackward}>
+            <ButtonSelectPage onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(pageIndex - 1)}>
                 <IconPaginate className='fa-sharp fa-solid fa-caret-left' />
             </ButtonSelectPage>
             <ButtonPaginate text={showPage} isSelect={pageIndex === showPage} />
             <ButtonPaginate text={showPage + 1} isSelect={pageIndex === showPage + 1} />
             <ButtonPaginate text={showPage + 2} isSelect={pageIndex === showPage + 2} />
-            <ButtonSelectPage onClick={HandleClickArrowForward}>
+            <ButtonSelectPage onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(pageIndex + 1)}>
                 <IconPaginate className='fa-sharp fa-solid fa-caret-right' />
             </ButtonSelectPage>
         </>
-    ), [showPage, pageIndex, research]);
+    ), [showPage, pageIndex, nameClient]);
+
+    const InputFilterItem = useCallback(({ title, value, setState }) => (
+        <WarpFilter>
+            <FilterTitle>{title}</FilterTitle>
+            <InputFilter value={value} onChange={event => setState(event.target.value)} />
+        </WarpFilter>    
+    ), [])
 
     return (
         <Container>
+            <ContainerNavbar><NavbarTitle>HISTORICO DE CLIENTE</NavbarTitle></ContainerNavbar>
             {isLoading && <Loading />}
-            <ContainerNavBar>
-                <Input placeholder={ResearchInputPlaceholderString}
-                    value={research}
-                    onChange={event => { setResearch(event.target.value) }}
-                />
-                <ButtonResearch onClick={handleClickResearch}><i class="fa-solid fa-magnifying-glass"></i></ButtonResearch>
-            </ContainerNavBar>
+            <ContainerFilter>
+                <InputFilterItem title="Filtro por nome" value={nameClient} setState={setNameClient} />
+                <InputFilterItem title="Nome do cadastrante" value={nameCollaborator} setState={setNameCollaborator} />
+                <WarpButton onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(pageIndex)}>
+                    <Button text="Filtrar" />
+                </WarpButton>
+            </ContainerFilter>
             <Sidebar />
             <ContainerPaginationTop>
                 <Paginate />

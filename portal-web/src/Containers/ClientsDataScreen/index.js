@@ -49,62 +49,15 @@ export default function ClientsDataScreen() {
         setIsLoading(false);
     };
 
-    const callApiGetAllClients = async page => {
-        setIsLoading(true);
-        const userToken = JSON.parse(localStorage.getItem('token'));
-        const response = await API.getAllClients(page, userToken.access_token);
-        if (response.success) {
-            setPageIndex(page);
-            setClients(response.data);
-            if (showPage + 2 < page || page < showPage) {
-                setShowPage(page);
-            }
-        }
-        setIsLoading(false);
-    };
-
     useEffect(() => {
         if (loadingClients) {
-            callApiGetAllClients(pageIndex);
+            callApiGetClientByNameLike(pageIndex);
             setLoadingClients(false);
         }
     }, [loadingClients]);
 
-    const handleClickResearch = async () => {
-        if (!research || research == '') {
-            await callApiGetAllClients(pageIndex);
-        } else {
-            await callApiGetClientByNameLike(pageIndex);
-        }
-    };
-
-    const HandleClickArrowForward = async () => {
-        if (!research || research == '') {
-            await callApiGetAllClients(pageIndex + 1);
-        } else {
-            await callApiGetClientByNameLike(pageIndex + 1);
-        }
-    };
-
-    const HandleClickArrowBackward = async () => {
-        if (!research || research == '') {
-            await callApiGetAllClients(pageIndex - 1);
-        } else {
-            await callApiGetClientByNameLike(pageIndex - 1);
-        }
-    }
-
-    const HandleClickPaginate = async page => {
-        console.log(research);
-        if (!research || research == '') {
-            await callApiGetAllClients(page);
-        } else {
-            await callApiGetClientByNameLike(page);
-        }
-    };
-
     const ButtonPaginate = useCallback(({ text, isSelect }) => (
-        <ButtonSelectPage isSelect={isSelect} onClick={() => HandleClickPaginate(text)}>
+        <ButtonSelectPage isSelect={isSelect} onClick={async () => await callApiGetClientByNameLike(text)}>
             <ItensPaginate>
                 {text}
             </ItensPaginate>
@@ -113,13 +66,13 @@ export default function ClientsDataScreen() {
 
     const Paginate = useCallback(() => (
         <>
-            <ButtonSelectPage onClick={HandleClickArrowBackward}>
+            <ButtonSelectPage onClick={async () => await callApiGetClientByNameLike(pageIndex - 1)}>
                 <IconPaginate className='fa-sharp fa-solid fa-caret-left' />
             </ButtonSelectPage>
             <ButtonPaginate text={showPage} isSelect={pageIndex === showPage} />
             <ButtonPaginate text={showPage + 1} isSelect={pageIndex === showPage + 1} />
             <ButtonPaginate text={showPage + 2} isSelect={pageIndex === showPage + 2} />
-            <ButtonSelectPage onClick={HandleClickArrowForward}>
+            <ButtonSelectPage onClick={async () => await callApiGetClientByNameLike(pageIndex + 1)}>
                 <IconPaginate className='fa-sharp fa-solid fa-caret-right' />
             </ButtonSelectPage>
         </>
@@ -133,7 +86,7 @@ export default function ClientsDataScreen() {
                     value={research}
                     onChange={event => {setResearch(event.target.value)}}
                 />
-                <ButtonResearch onClick={handleClickResearch}><i class="fa-solid fa-magnifying-glass"></i></ButtonResearch>
+                <ButtonResearch onClick={async () => await callApiGetClientByNameLike(pageIndex)}><i class="fa-solid fa-magnifying-glass"></i></ButtonResearch>
             </ContainerNavBar>
             <Sidebar />
             <ContainerPaginationTop>

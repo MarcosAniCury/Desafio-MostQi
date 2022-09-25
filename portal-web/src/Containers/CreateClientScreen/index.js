@@ -201,7 +201,8 @@ export default function CreateClientScreen() {
                 const responseFaceCompare = await MostQI.faceCompare(perfilImg.split(',')[1], documentFrontImg.split(',')[1], authFaceCompare.data);
                 if (responseFaceCompare.success && responseFaceCompare.data < 0.5) {
                     const userToken = JSON.parse(localStorage.getItem('token'));
-                    const responseCreate = await API.createClient(name, email, RG, dateOfBirth, documentFrontImg.split(',')[1], documentBackImg.split(',')[1], perfilImg.split(',')[1], userToken.access_token);
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    const responseCreate = await API.createClient(name, email, RG, dateOfBirth, documentFrontImg.split(',')[1], documentBackImg.split(',')[1], perfilImg.split(',')[1], user.name, userToken.access_token);
                     if (responseCreate.success) {
                         alert('Cliente cadastrado com sucesso');
                         navigate('/collaborator');

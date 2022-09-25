@@ -4,21 +4,22 @@ export const Container = styled.div`
     display: grid;
     height: 100vh;
     color: white;
-    grid-template-rows: 0.1fr 0.1fr 1.2fr 0.1fr;
+    grid-template-rows: 0.1fr 0.4fr 0.4fr 4fr 0.1fr;
     grid-template-columns: 0.1fr 2fr 2fr 2fr;
     grid-template-areas:
         "logo nav nav nav"
+        "sidebar filter filter filter"
         "sidebar pagination-top pagination-top pagination-top"
         "sidebar content content content"
         "logout pagination-bottom pagination-bottom pagination-bottom";
 `;
 
-export const ContainerNavBar = styled.nav`
-    grid-area: nav;
-    background-color: #1B406A;
+export const ContainerFilter = styled.nav`
+    grid-area: filter;
+    background-color: #d3d3d3;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 `;
 
 export const ContainerPaginationTop = styled.div`
@@ -49,34 +50,6 @@ export const ContainerPaginationBottom = styled.div`
     justify-content: center;
 `;
 
-export const Input = styled.input`
-    font-size: 15px;
-    color: black;
-    line-height: 1.2;
-    border: none;
-    width: 80%;
-    height: 30px;
-    background-color: #FFFFFF;
-    border-radius: 10px 0px 0px 10px;
-    padding-left: 10px;
-
-    &:focus {
-        outline: 0;
-        box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
-    }
-
-    ::placeholder {
-        color:black;
-    }
-`;
-
-export const ButtonResearch = styled.button`
-    height: 34px;
-    width: 32px;
-    background-color: #d3d3d3;
-    border-radius: 0px 10px 10px 0px;
-`;
-
 export const ButtonSelectPage = styled.button`
     float: left;
     padding: 8px 16px;
@@ -104,4 +77,57 @@ export const IconPaginate = styled.i.attrs(props => ({
 
 export const ItensPaginate = styled.span`
     font-size: 16px;
+`;
+
+export const ContainerNavbar = styled.div`
+    grid-area: nav;
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+    background-color: #d3d3d3;
+`;
+
+export const NavbarTitle = styled.span`
+    color: black;
+    margin-bottom: 4px;
+    font-size: 30px;
+    font-family: Montserrat;
+    font-weight: 500;
+`;
+
+export const InputFilter = styled.input`
+    font-size: 15px;
+    color: black;
+    line-height: 1.2;
+    border: none;
+    width: 100%;
+    height: 24px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding-left: 10px;
+
+    &:focus {
+        outline: 0;
+        box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    ::placeholder {
+        color:black;
+    }
+`;
+
+export const FilterTitle = styled.span`
+    padding-bottom: 4px;
+`;
+
+export const WarpFilter = styled.div`
+    display: flex;
+    width: 20%;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+`;
+
+export const WarpButton = styled.div`
+    width: 8%;
 `;
