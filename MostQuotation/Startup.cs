@@ -30,7 +30,7 @@ namespace portal_web_api
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "portal_web_api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MostQuotation", Version = "v1" });
             });
 
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder => {
