@@ -2,13 +2,13 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using portal_web_api.Data.MongoSettings;
-using portal_web_api.Data.Repositories;
-using portal_web_api.Models;
-using portal_web_api.Services;
-using portal_web_api.Services.Repository;
+using MostQuotation.Data.MongoSettings;
+using MostQuotation.Data.Repositories;
+using MostQuotation.Models;
+using MostQuotation.Services;
+using MostQuotation.Services.Repository;
 
-namespace portal_web_api
+namespace MostQuotation
 {
     public class Startup
     {

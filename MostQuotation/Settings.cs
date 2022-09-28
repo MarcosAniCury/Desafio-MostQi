@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace portal_web_api
+namespace MostQuotation
 {
     public class Settings
     {

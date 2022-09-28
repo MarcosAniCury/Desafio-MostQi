@@ -1,6 +1,6 @@
-﻿using portal_web_api.Models;
+﻿using MostQuotation.Models;
 
-namespace portal_web_api.Data.Repositories
+namespace MostQuotation.Data.Repositories
 {
     public interface IUserRepository
     {

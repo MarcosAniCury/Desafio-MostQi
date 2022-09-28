@@ -1,7 +1,7 @@
-﻿using portal_web_api.Models;
+﻿using MostQuotation.Models;
 using System.Text.Json.Serialization;
 
-namespace portal_web_api.DTOs
+namespace MostQuotation.DTOs
 {
     public class UserLoginResponse
     {

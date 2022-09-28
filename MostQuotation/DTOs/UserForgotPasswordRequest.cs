@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace portal_web_api.DTOs
+namespace MostQuotation.DTOs
 {
     public class UserForgotPasswordRequest
     {

@@ -1,4 +1,4 @@
-﻿namespace portal_web_api.Models
+﻿namespace MostQuotation.Models
 {
     public class EmailConfiguration
     {

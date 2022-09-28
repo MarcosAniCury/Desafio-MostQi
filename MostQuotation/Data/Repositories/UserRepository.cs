@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using portal_web_api.Data.MongoSettings;
-using portal_web_api.Models;
+using MostQuotation.Data.MongoSettings;
+using MostQuotation.Models;
 
-namespace portal_web_api.Data.Repositories
+namespace MostQuotation.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {

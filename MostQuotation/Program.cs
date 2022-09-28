@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 
-namespace portal_web_api
+namespace MostQuotation
 {
     public class Program
     {

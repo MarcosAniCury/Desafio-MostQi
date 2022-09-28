@@ -1,4 +1,4 @@
-﻿namespace portal_web_api.Services.Repository
+﻿namespace MostQuotation.Services.Repository
 {
     public interface IEmailSenderRepository
     {

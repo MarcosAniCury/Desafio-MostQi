@@ -1,9 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using portal_web_api.Models;
+using MostQuotation.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace portal_web_api.Services
+namespace MostQuotation.Services
 {
     public class TokenService
     {

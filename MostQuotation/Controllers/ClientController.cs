@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using portal_web_api.Data.Repositories;
-using portal_web_api.DTOs;
-using portal_web_api.Models;
-using portal_web_api.Services;
+using MostQuotation.Data.Repositories;
+using MostQuotation.DTOs;
+using MostQuotation.Models;
+using MostQuotation.Services;
 using System.Text.Encodings.Web;
 using System.Text;
-using portal_web_api.Services.Repository;
+using MostQuotation.Services.Repository;
 
-namespace portal_web_api.Controllers
+namespace MostQuotation.Controllers
 {
     [Route("api/client")]
     [ApiController]

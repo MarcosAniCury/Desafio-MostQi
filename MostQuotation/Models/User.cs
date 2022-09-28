@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using portal_web_api.DTOs;
+using MostQuotation.DTOs;
 
-namespace portal_web_api.Models
+namespace MostQuotation.Models
 {
     public class User
     {

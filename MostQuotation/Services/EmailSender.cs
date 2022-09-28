@@ -1,10 +1,10 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using portal_web_api.Models;
-using portal_web_api.Services.Repository;
+using MostQuotation.Models;
+using MostQuotation.Services.Repository;
 
-namespace portal_web_api.Services
+namespace MostQuotation.Services
 {
     public class EmailSender : IEmailSenderRepository
     {

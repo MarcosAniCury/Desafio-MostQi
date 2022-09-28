@@ -1,4 +1,4 @@
-﻿namespace portal_web_api.Data.MongoSettings
+﻿namespace MostQuotation.Data.MongoSettings
 {
     public class MongoSettings : IMongoSettings
     {
