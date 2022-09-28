@@ -21,16 +21,16 @@ RUN dotnet publish -c release -o published --no-cache
 WORKDIR /src
 
 FROM node:16 AS build-web
-COPY ./MostQuotation/ClientApp/package.json /MostQuotation/ClientApp/package.json
-COPY ./MostQuotation/ClientApp/package-lock.json /MostQuotation/ClientApp/package-lock.json
-WORKDIR /MostQuotation/ClientApp
+COPY ./ClientApp/package.json /ClientApp/package.json
+COPY ./ClientApp/package-lock.json /ClientApp/package-lock.json
+WORKDIR /ClientApp
 RUN npm ci
-COPY ./MostQuotation/ClientApp/ /MostQuotation/ClientApp
+COPY ./ClientApp/ /ClientApp
 RUN npm run build
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /build/published ./
-COPY --from=build-web /MostQuotation/ClientApp/build ./ClientApp/build
+COPY --from=build-web /ClientApp/build ./ClientApp/build
 ENTRYPOINT ["dotnet", "MostQuotation.dll"]
