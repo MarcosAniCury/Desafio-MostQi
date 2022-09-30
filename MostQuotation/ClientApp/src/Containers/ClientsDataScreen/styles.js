@@ -23,7 +23,7 @@ export const ContainerNavBar = styled.nav`
 
 export const ContainerPaginationTop = styled.div`
     grid-area: pagination-top;
-    background-color: #00C6C1;
+    background-color: #EBEBEB;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,7 +31,7 @@ export const ContainerPaginationTop = styled.div`
 
 export const ContainerContent = styled.div`
     grid-area: content;
-    background-color: #1B406A;
+    background-color: #EBEBEB;
     display: grid;
     height: 100%;
     grid-template-rows: 1fr 1fr;
@@ -43,26 +43,26 @@ export const ContainerContent = styled.div`
 
 export const ContainerPaginationBottom = styled.div`
     grid-area: pagination-bottom;
-    background-color: #00C6C1;
+    background-color: #EBEBEB;
     display: flex;
     align-items: center;
     justify-content: center;
 `;
 
-export const Input = styled.input`
+export const InputResearch = styled.input`
     font-size: 15px;
     color: black;
     line-height: 1.2;
     border: none;
     width: 80%;
-    height: 30px;
+    height: 40px;
     background-color: #FFFFFF;
     border-radius: 10px 0px 0px 10px;
     padding-left: 10px;
 
     &:focus {
         outline: 0;
-        box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.8);
     }
 
     ::placeholder {
@@ -71,8 +71,8 @@ export const Input = styled.input`
 `;
 
 export const ButtonResearch = styled.button`
-    height: 34px;
-    width: 32px;
+    height: 44px;
+    width: 40px;
     background-color: #d3d3d3;
     border-radius: 0px 10px 10px 0px;
 `;

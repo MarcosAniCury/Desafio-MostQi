@@ -13,7 +13,10 @@ import {
     Column
 } from './styles';
 
-export default function ClientCard({ client, index }) {
+//Translates
+import { translate } from './translate';
+ 
+export default function ClientCard({ client, index, paramsShow }) {
     const CardClientItems = ({ title, description, isFirst }) => (
         <ContainerCardClientDesription isFirst={isFirst}>
             <SpanTitleCard>{title}</SpanTitleCard>
@@ -28,10 +31,10 @@ export default function ClientCard({ client, index }) {
                     <CardClientImg src={`data:image/jpeg;base64,${client.selfie}`} />
                 </ContainerCardClientImage>
                 <Column>
-                    <CardClientItems title="Nome:" description={client.name} isFirst={true} />
-                    <CardClientItems title="RG:" description={client.rg} />
-                    <CardClientItems title="Data de Nascimento:" description={moment(client.dateOfBirth).format('DD/MM/YYYY')} />
-                    <CardClientItems title="Email:" description={client.email} />
+                    <CardClientItems title={translate[paramsShow[0]] + ":"} description={client[paramsShow[0]]} isFirst={true} />
+                    <CardClientItems title={translate[paramsShow[1]] + ":"} description={client[paramsShow[1]]} />
+                    <CardClientItems title={translate[paramsShow[2]] + ":"} description={moment(client[paramsShow[2]]).format('DD/MM/YYYY')} />
+                    <CardClientItems title={translate[paramsShow[3]] + ":"} description={client[paramsShow[3]]} />
                 </Column>
             </CardClient>
         </ContainerCardClient>

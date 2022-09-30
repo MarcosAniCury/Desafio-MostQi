@@ -4,7 +4,7 @@ export const ContainerButtonSubmit = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding-bottom: 13px;
+    width: 100%;
 `;
 
 export const ButtonSubmit = styled.div`

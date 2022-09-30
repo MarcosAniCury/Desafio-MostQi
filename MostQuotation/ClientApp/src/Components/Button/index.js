@@ -1,9 +1,9 @@
 import { ContainerButtonSubmit, ButtonSubmit } from './styles';
 
-export default function Button({ onClick, text }) {
+export default function Button({ onClick, text, style }) {
     return (
         <ContainerButtonSubmit>
-            <ButtonSubmit onClick={onClick}>{text}</ButtonSubmit>
+            <ButtonSubmit onClick={onClick} style={style}>{text}</ButtonSubmit>
         </ContainerButtonSubmit>    
     );
 }

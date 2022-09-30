@@ -9,6 +9,7 @@ import Dropzone from '../../Components/Dropzone';
 import Button from '../../Components/Button';
 import Loading from '../../Components/Loading';
 import VideoRecord from '../../Components/VideoRecord';
+import Form from '../../Components/Form';
 
 //Utils
 import { getBase64 } from '../../Utils/Utils.js';
@@ -17,10 +18,6 @@ import { getBase64 } from '../../Utils/Utils.js';
 import {
     Container,
     ContainerSelfie,
-    ContainerDocFront,
-    ContainerDocBack,
-    SpanInputPhotoDescription,
-    ContainerInput,
     InputText,
     InputTitle,
     ContainerInputText,
@@ -36,12 +33,13 @@ import {
     SpanTitleLiveness,
     SpanErrorLiveness,
     SpanErrorMessage,
-    SpanInputPhotoDetail,
     ContainerPerfilEmpty,
     ContainerPerfilEmptyText,
     SpanPerfilEmpty,
     ContainerNavBar,
-    NavBarTitle
+    NavBarTitle,
+    Row,
+    ContainerButtonSubmit
 } from './styles.js';
 
 //Services
@@ -221,7 +219,7 @@ export default function CreateClientScreen() {
                         <Icon className="fa-solid fa-xmark" />
                     </ButtonExit>}
                 <SpanTitleLiveness>
-                    Envie seu video aqui para realizar a prova de vida, durante a gravacao mova sua cabeca para CIMA, BAIXO, ESQUERDA, DIREITA e SORRIA seguindo essa ordem
+                    Grave seu video aqui para realizar a prova de vida, durante a gravacao mova sua cabeca para CIMA, BAIXO, ESQUERDA, DIREITA e SORRIA seguindo essa ordem
                 </SpanTitleLiveness>
                 {livenessErrorMessage && <SpanErrorLiveness>
                     {livenessErrorMessage}
@@ -239,64 +237,55 @@ export default function CreateClientScreen() {
             </ContainerInputText>
     ), []);
 
-    const SelfieImgComponent = useCallback(() => (       
-            perfilImg ?
-                <ContainerPerfilImg onClick={() => setShowModalLiveness(true)}>
-                    <ImgPerfil src={perfilImg} />
-                </ContainerPerfilImg>
-                :
-                <ContainerDropzone onClick={() => setShowModalLiveness(true)}>
-                    <ContainerPerfilEmpty>
-                        <ContainerPerfilEmptyText>
-                            <SpanPerfilEmpty>Grave um video que a foto ira ser gerada automaticamente</SpanPerfilEmpty>
-                        </ContainerPerfilEmptyText>
-                    </ContainerPerfilEmpty>
-                </ContainerDropzone>         
+    const SelfieImgComponent = useCallback(() => (
+        perfilImg ?
+            <ContainerPerfilImg onClick={() => setShowModalLiveness(true)}>
+                <ImgPerfil src={perfilImg} />
+            </ContainerPerfilImg>
+            :
+            <ContainerDropzone onClick={() => setShowModalLiveness(true)} isSelfie={true}>
+                <ContainerPerfilEmpty>
+                    <ContainerPerfilEmptyText>
+                        <Icon className="fa-solid fa-camera" />
+                        <SpanPerfilEmpty>Grave um video aqui, que a foto ira ser gerada automaticamente</SpanPerfilEmpty>
+                    </ContainerPerfilEmptyText>
+                </ContainerPerfilEmpty>
+            </ContainerDropzone>         
     ), [perfilImg]);
 
-    return (      
+    return (
         <Container>
             {(firstTime || showModalLiveness) && <ModalUploadVideoLiveness />}
             {isLoading && <Loading />}
+            <ClientSidebar />
             <ContainerNavBar>
                 <NavBarTitle>Cadastro de Cliente</NavBarTitle>
             </ContainerNavBar>
-            <ClientSidebar />
-            <ContainerSelfie>
-                <SpanInputPhotoDescription>Foto de perfil</SpanInputPhotoDescription>
-                <SelfieImgComponent />  
-            </ContainerSelfie>
-            <ContainerDocFront>
-                <SpanInputPhotoDescription>Foto do documento</SpanInputPhotoDescription>
-                <SpanInputPhotoDetail>FRENTE</SpanInputPhotoDetail>
-                <ContainerDropzone>
-                    <Dropzone text={"Arraste a foto de frente do documento aqui"} onDrop={onDropDocumentFront} imageShow={documentFrontImg} />   
-                </ContainerDropzone>
-            </ContainerDocFront>
-            <ContainerDocBack>
-                <SpanInputPhotoDescription>Foto do documento</SpanInputPhotoDescription>
-                <SpanInputPhotoDetail>VERSO</SpanInputPhotoDetail>
-                <ContainerDropzone>
-                    <Dropzone text={"Arraste a foto do verso do documento aqui"} onDrop={onDropDocumentBack} imageShow={documentBackImg} />   
-                </ContainerDropzone>
-            </ContainerDocBack>
-            <ContainerInput gridSpace="first">
-                <InputTextComponent title="Nome" setState={setName} value={name} />
-                <InputTextComponent title="RG" setState={setRG} value={RG} />
-            </ContainerInput>
-            <ContainerInput gridSpace="second">
-                <InputTextComponent title="Email" setState={setEmail} value={email} />
-                <InputTextComponent title="Data de nascimento" setState={setDateOfBirth} value={dateOfBirth} />
-            </ContainerInput>
-            <Footer>
-                {
-                    errorMessage &&
-                    <SpanErrorMessage>{errorMessage}</SpanErrorMessage>
-                }
-                <ButtonDiv>
-                    <Button onClick={handleClickSend} text="Cadastrar" />
-                </ButtonDiv>
-            </Footer>
+            <Form isGrid={true}>
+                <Row>
+                    <ContainerSelfie>
+                        <SelfieImgComponent />
+                    </ContainerSelfie>
+                    <ContainerDropzone>
+                        <Dropzone text={"Coloque aqui a foto frontal do documento"} onDrop={onDropDocumentFront} imageShow={documentFrontImg} iconShow="fa-solid fa-upload" />
+                    </ContainerDropzone>
+                    <ContainerDropzone>
+                        <Dropzone text={"Coloque aqui a foto do anverso do documento aqui"} onDrop={onDropDocumentBack} imageShow={documentBackImg} iconShow="fa-solid fa-upload" />
+                    </ContainerDropzone>
+                </Row>
+                <InputTextComponent title="Nome:" setState={setName} value={name} />
+                <InputTextComponent title="RG:" setState={setRG} value={RG} />
+                <InputTextComponent title="Data de nascimento:" setState={setDateOfBirth} value={dateOfBirth} />
+                <InputTextComponent title="Email:" setState={setEmail} value={email} />
+                <ContainerButtonSubmit hasErrorMessage={errorMessage}>
+                    {errorMessage &&
+                        <SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
+                    <ButtonDiv>
+                        <Button onClick={handleClickSend} text="Cadastrar" />
+                    </ButtonDiv>
+                </ContainerButtonSubmit>
+            </Form>
+            <Footer />
         </Container>
     );
 }

@@ -11,7 +11,7 @@ import {
     Img
 } from './styles.js';
 
-export default function MyDropzone({ text, onDrop, imageShow, size = 1048576 }) {
+export default function MyDropzone({ text, onDrop, imageShow, iconShow, size = 1048576 }) {
     const [showImage, setShowImage] = useState(false);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export default function MyDropzone({ text, onDrop, imageShow, size = 1048576 }) 
                         showImage ?
                             <Img src={imageShow} /> :
                             <ContainerItems>
-                                <IconExport className="fa-solid fa-upload" />
+                                {iconShow && <IconExport className={iconShow} />}
                                 <SpanDescription>{text} </SpanDescription>
                             </ContainerItems>
                     }

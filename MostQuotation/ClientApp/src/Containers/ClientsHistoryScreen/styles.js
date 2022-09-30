@@ -1,3 +1,4 @@
+// Modules
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -8,23 +9,24 @@ export const Container = styled.div`
     grid-template-columns: 0.1fr 2fr 2fr 2fr;
     grid-template-areas:
         "logo nav nav nav"
-        "sidebar filter filter filter"
         "sidebar pagination-top pagination-top pagination-top"
+        "sidebar filter filter filter"
         "sidebar content content content"
         "logout pagination-bottom pagination-bottom pagination-bottom";
 `;
 
 export const ContainerFilter = styled.nav`
     grid-area: filter;
-    background-color: #d3d3d3;
+    background-color: #EBEBEB;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    flex-direction: column;
 `;
 
 export const ContainerPaginationTop = styled.div`
     grid-area: pagination-top;
-    background-color: #00C6C1;
+    background-color: #EBEBEB;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,7 +34,7 @@ export const ContainerPaginationTop = styled.div`
 
 export const ContainerContent = styled.div`
     grid-area: content;
-    background-color: #1B406A;
+    background-color: #EBEBEB;
     display: grid;
     height: 100%;
     grid-template-rows: 1fr 1fr;
@@ -44,7 +46,7 @@ export const ContainerContent = styled.div`
 
 export const ContainerPaginationBottom = styled.div`
     grid-area: pagination-bottom;
-    background-color: #00C6C1;
+    background-color: #EBEBEB;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,7 +61,7 @@ export const ButtonSelectPage = styled.button`
 
     ${props => props.isSelect ? `
             background-color: #1B406A;
-            color: white;`
+            color: #FFFFFF;`
         : `
             color: black;
             background-color: transparent;
@@ -84,15 +86,13 @@ export const ContainerNavbar = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;   
-    background-color: #d3d3d3;
+    background-color: #1B406A;
 `;
 
 export const NavbarTitle = styled.span`
-    color: black;
+    color: #FFFFFF;
     margin-bottom: 4px;
-    font-size: 30px;
-    font-family: Montserrat;
-    font-weight: 500;
+    font-size: 50px;
 `;
 
 export const InputFilter = styled.input`
@@ -101,7 +101,7 @@ export const InputFilter = styled.input`
     line-height: 1.2;
     border: none;
     width: 100%;
-    height: 24px;
+    height: 36px;
     background-color: #FFFFFF;
     border-radius: 10px;
     padding-left: 10px;
@@ -116,18 +116,29 @@ export const InputFilter = styled.input`
     }
 `;
 
-export const FilterTitle = styled.span`
-    padding-bottom: 4px;
-`;
-
 export const WarpFilter = styled.div`
-    display: flex;
     width: 20%;
-    align-items: flex-start;
-    justify-content: center;
-    flex-direction: column;
+    padding: 4px;
 `;
 
 export const WarpButton = styled.div`
+    margin-right: 10px;
     width: 8%;
+`;
+
+export const ContainerTitle = styled.div`
+    width: 85%;
+    height: 70px;
+    margin-top: 20px;
+    background-color: #1B406A;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+export const SpanTitle = styled.span`
+    color: #FFFFFFF;
+    margin-left: 10px;
+    font-size: 26px;
 `;

@@ -2,8 +2,8 @@ import { ContainerBody, ContainerLogin, WrapLogin, ContainerForm } from './style
 
 export default function Form(props) {
     return (
-        <ContainerBody>
-            <ContainerLogin>
+        <ContainerBody isGrid={props.isGrid}>
+            <ContainerLogin isGrid={props.isGrid}>
                 <WrapLogin>
                     <ContainerForm>
                         {props.children}

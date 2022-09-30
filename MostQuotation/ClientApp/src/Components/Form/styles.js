@@ -1,23 +1,25 @@
 import styled from 'styled-components';
 
 export const ContainerBody = styled.div`
+    ${props => props.isGrid ? 'grid-area: content;' : ''}
     width: 100%;
     margin: 0 auto;
 `;
 
 export const ContainerLogin = styled.div`
     width: 100%;
-    min-height: 100vh;
+    min-height: ${props => props.isGrid ? '100%;' : '100vh;'}
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     padding: 15px;
-    background-color: #00C6C1;
+    background-color: #1B406A;
 `;
 
 export const WrapLogin = styled.div`
-    width: 390px;
+    display: flex;
+    min-width: 390px;
     background-color: #FFF;
     border-radius: 10px;
     overflow: hidden;

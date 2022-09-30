@@ -23,9 +23,10 @@ import {
     ContainerNavbar,
     NavbarTitle,
     InputFilter,
-    FilterTitle,
     WarpFilter,
-    WarpButton
+    WarpButton,
+    ContainerTitle,
+    SpanTitle
 } from './styles';
 
 export default function ClientsHistoryScreen() {
@@ -37,6 +38,14 @@ export default function ClientsHistoryScreen() {
     const [loadingClients, setLoadingClients] = useState(true);
     const [pageIndex, setPageIndex] = useState(1);
     const [showPage, setShowPage] = useState(1);
+
+    //Params show in card
+    const paramsShowInCard = [
+        'name',
+        'rg',
+        'createdAt',
+        'collaborator'
+    ];
 
     const callApiGetClientByNameLikeAndCollaboratorLike = async page => {
         setIsLoading(true);
@@ -83,27 +92,29 @@ export default function ClientsHistoryScreen() {
 
     const InputFilterItem = useCallback(({ title, value, setState }) => (
         <WarpFilter>
-            <FilterTitle>{title}</FilterTitle>
-            <InputFilter value={value} onChange={event => setState(event.target.value)} />
+            <InputFilter value={value} onChange={event => setState(event.target.value)} placeholder={title} />
         </WarpFilter>    
     ), [])
 
     return (
         <Container>
-            <ContainerNavbar><NavbarTitle>HISTORICO DE CLIENTE</NavbarTitle></ContainerNavbar>
+            <ContainerNavbar><NavbarTitle>Historico de Cliente</NavbarTitle></ContainerNavbar>
             {isLoading && <Loading />}
             <ContainerFilter>
-                <InputFilterItem title="Filtro por nome" value={nameClient} setState={setNameClient} />
-                <InputFilterItem title="Nome do cadastrante" value={nameCollaborator} setState={setNameCollaborator} />
-                <WarpButton onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(pageIndex)}>
-                    <Button text="Filtrar" />
-                </WarpButton>
+                <ContainerTitle>
+                    <SpanTitle>Filtro:</SpanTitle>
+                    <InputFilterItem title="Nome" value={nameClient} setState={setNameClient} />
+                    <InputFilterItem title="Colaborador" value={nameCollaborator} setState={setNameCollaborator} />
+                    <WarpButton onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(pageIndex)}>
+                        <Button text="Filtrar" style={{ backgroundColor: '#FFFFFF', color: 'black', paddingBottom: '0' }} />
+                    </WarpButton>
+                </ContainerTitle>
             </ContainerFilter>
             <Sidebar />
             <ContainerPaginationTop>
                 <Paginate />
             </ContainerPaginationTop>
-            <ContainerContent> {clients && clients.map((client, key) => <ClientCard key={client.name} client={client} index={key} />)} </ContainerContent>
+            <ContainerContent> {clients && clients.map((client, key) => <ClientCard key={client.name} client={client} index={key} paramsShow={paramsShowInCard}/>)} </ContainerContent>
             <ContainerPaginationBottom>
                 <Paginate />
             </ContainerPaginationBottom>

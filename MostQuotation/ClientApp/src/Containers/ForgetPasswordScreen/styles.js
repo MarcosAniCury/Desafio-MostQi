@@ -21,6 +21,7 @@ export const SpanErrorMessage = styled.span`
 `;
 
 export const ContainerTextAnchor = styled.div`
+    padding-top: 13px;
     display: flex;
     flex-direction: column;
     justify-content: center;

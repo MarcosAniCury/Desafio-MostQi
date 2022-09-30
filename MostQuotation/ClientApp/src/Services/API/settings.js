@@ -1,7 +1,7 @@
 export const applicationJson = 'application/json';
 
 export const URL = {
-    base: 'https://localhost:7111/api/',
+    base: 'https://localhost:7242/api/',
     user: {
         signup: 'user/signup',
         signin: 'user/signin',

@@ -17,7 +17,7 @@ import {
     ContainerContent,
     ContainerPaginationBottom,
     ButtonResearch,
-    Input,
+    InputResearch,
     ButtonSelectPage,
     IconPaginate,
     ItensPaginate
@@ -31,6 +31,14 @@ export default function ClientsDataScreen() {
     const [loadingClients, setLoadingClients] = useState(true);
     const [pageIndex, setPageIndex] = useState(1);
     const [showPage, setShowPage] = useState(1);
+
+    //Params show in card
+    const paramsShowInCard = [
+        'name',
+        'rg',
+        'dateOfBirth',
+        'email'
+    ];
 
     //Strings
     const ResearchInputPlaceholderString = 'Pesquisar';
@@ -82,7 +90,7 @@ export default function ClientsDataScreen() {
         <Container>
             {isLoading && <Loading />}
             <ContainerNavBar> 
-                <Input placeholder={ResearchInputPlaceholderString}
+                <InputResearch placeholder={ResearchInputPlaceholderString}
                     value={research}
                     onChange={event => {setResearch(event.target.value)}}
                 />
@@ -92,7 +100,7 @@ export default function ClientsDataScreen() {
             <ContainerPaginationTop>
                 <Paginate />
             </ContainerPaginationTop>
-            <ContainerContent> {clients && clients.map((client, key) => <ClientCard key={client.name} client={client} index={key} /> )} </ContainerContent>    
+            <ContainerContent> {clients && clients.map((client, key) => <ClientCard key={client.name} client={client} index={key} paramsShow={paramsShowInCard} /> )} </ContainerContent>    
             <ContainerPaginationBottom>
                 <Paginate />
             </ContainerPaginationBottom>
