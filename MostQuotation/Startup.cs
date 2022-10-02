@@ -26,6 +26,8 @@ namespace MostQuotation
             services.AddSingleton<IMongoSettings>(sp => sp.GetRequiredService<IOptions<MongoSettings>>().Value);
             services.AddSingleton<IEmailSenderRepository, EmailSender>();
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IQuotationRepository, QuotationRepository>();
+            services.AddHostedService<BackgroundDollarQuotation>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

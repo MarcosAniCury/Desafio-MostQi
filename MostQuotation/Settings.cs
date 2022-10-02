@@ -8,13 +8,7 @@ namespace MostQuotation
 
         public static int TimeToExpiredToken = 24;
 
-        public static string UrlFront = "https://localhost:3000/";
-
-        public static string UrlMostQIAuthenticate = "https://mostqiapi.com/user/authenticate";
-
-        public static string UrlMostQIDocumentExtraction = "https://mostqiapi.com/process-image/content-extraction";
-
-        public static string TokenMostQIAuthenticate = "9209ca172e5c481186c4055ca7d6c525";
+        public static string UrlFront = "https://localhost:44436/";
 
         public static byte[] getSecretByte()
         {
