@@ -13,10 +13,16 @@ import NotFound from '../Containers/NotFoundScreen';
 import ForgetPassword from '../Containers/ForgetPasswordScreen';
 import RecoverPassword from '../Containers/RecoverPasswordScreen';
 import ClientsHistory from '../Containers/ClientsHistoryScreen';
+import Quotation from '../Containers/QuotationScreen';
 
-const Private = ({ Item }) => {
-    const { signed } = useAuth();
-    return signed != 0 ? <Item /> : <Signin />;
+const Private = ({ Item, type }) => {
+    const { signed, user, logout } = useAuth();
+    if (signed != 0 && user.type == type) {
+        return <Item />;
+    } else {
+        logout();
+        return <Signin />;
+    }
 };
 
 const RecoverPasswordLink = () => {
@@ -29,9 +35,10 @@ export default function RoutesApp() {
         <BrowserRouter>
             <>
                 <Routes>
-                    <Route path='/collaborator' element={<Private Item={ClientsData} />} />
-                    <Route path='/collaborator/client/create' element={<Private Item={CreateClient} />} />
-                    <Route path='/collaborator/client/history' element={<Private Item={ClientsHistory} />} />
+                    <Route path='/collaborator' element={<Private Item={ClientsData} type="collaborator" />} />
+                    <Route path='/collaborator/client/create' element={<Private Item={CreateClient} type="collaborator" />} />
+                    <Route path='/collaborator/client/history' element={<Private Item={ClientsHistory} type="collaborator" />} />
+                    <Route path='/client' element={<Private Item={Quotation} type="client" />} />
                     <Route path='/signup' element={<Signup />} />
                     <Route path='/forgetPassword' element={<ForgetPassword />} />
                     <Route path='/recoverPassword/:token' element={<RecoverPasswordLink />} />
