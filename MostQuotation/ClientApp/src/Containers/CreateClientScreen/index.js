@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from "moment";
 
 //Components
-import ClientSidebar from '../../Components/ClientSidebar';
+import Sidebar from '../../Components/Sidebar';
 import Dropzone from '../../Components/Dropzone';
 import Button from '../../Components/Button';
 import Loading from '../../Components/Loading';
@@ -257,7 +257,7 @@ export default function CreateClientScreen() {
         <Container>
             {(firstTime || showModalLiveness) && <ModalUploadVideoLiveness />}
             {isLoading && <Loading />}
-            <ClientSidebar />
+            <Sidebar />
             <ContainerNavBar>
                 <NavBarTitle>Cadastro de Cliente</NavBarTitle>
             </ContainerNavBar>

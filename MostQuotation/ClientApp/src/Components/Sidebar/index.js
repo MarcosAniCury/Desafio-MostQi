@@ -23,7 +23,7 @@ import {
 import MostQuotationLogo from '../../Assets/MostQuotationIcon.jpeg';
 import MostLogo from '../../Assets/MostIcon.jpeg';
 
-export default function ClientSidebar() {
+export default function Sidebar({ isCollaborator = true }) {
     //useState
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

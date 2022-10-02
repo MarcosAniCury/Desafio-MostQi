@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { API } from '../../Services/API';
 
 //Components
-import Sidebar from '../../Components/ClientSidebar';
+import Sidebar from '../../Components/Sidebar';
 import Loading from '../../Components/Loading';
 import ClientCard from '../../Components/ClientCard';
 import Button from '../../Components/Button';
