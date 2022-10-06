@@ -205,7 +205,7 @@ export const API = {
         await axios.post(`${URL.base}${URL.quotation.getWithFilter}`, params, config).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.errors;
+            responseAxios = error.response;
             if (responseAxios['success'] == undefined) {
                 responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
             }
