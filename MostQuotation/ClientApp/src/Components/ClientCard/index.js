@@ -24,6 +24,15 @@ export default function ClientCard({ client, index, paramsShow }) {
         </ContainerCardClientDesription>
     );
 
+    const getSecondItemDescription = () => { 
+        const formatter = translate[paramsShow[2]] === translate['dateOfBirth'] ?
+            'DD/MM/YYYY' :
+            'DD/MM/YYYY HH:mm:ss';
+
+        return moment(client[paramsShow[2]]).format(formatter);
+     }
+    
+
     return (
         <ContainerCardClient cardI={index}>
             <CardClient>
@@ -33,7 +42,7 @@ export default function ClientCard({ client, index, paramsShow }) {
                 <Column>
                     <CardClientItems title={translate[paramsShow[0]] + ":"} description={client[paramsShow[0]]} isFirst={true} />
                     <CardClientItems title={translate[paramsShow[1]] + ":"} description={client[paramsShow[1]]} />
-                    <CardClientItems title={translate[paramsShow[2]] + ":"} description={moment(client[paramsShow[2]]).format('DD/MM/YYYY HH:mm:ss')} />
+                    <CardClientItems title={translate[paramsShow[2]] + ":"} description={getSecondItemDescription()} />
                     <CardClientItems title={translate[paramsShow[3]] + ":"} description={client[paramsShow[3]]} />
                 </Column>
             </CardClient>
