@@ -189,5 +189,28 @@ export const API = {
         });
 
         return { ...responseAxios };
+    },
+    getQuotationWithFilter: async (initialDate, finalDate, access_token) => {
+        const params = {
+            'initialDate': initialDate,
+            'finalDate': finalDate
+        };
+
+        const config = {
+            headers: { 'Authorization': `Bearer ${access_token}` }
+        };
+
+        let responseAxios = {};
+
+        await axios.post(`${URL.base}${URL.quotation.getWithFilter}`, params, config).then((response) => {
+            responseAxios = response.data;
+        }).catch((error) => {
+            responseAxios = error.errors;
+            if (responseAxios['success'] == undefined) {
+                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
+            }
+        });
+
+        return { ...responseAxios };
     }
 }

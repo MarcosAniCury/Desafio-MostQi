@@ -40,7 +40,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { Name = error }
+                    errors = error
                 });
             }
             createUser.Type = "forget-password";
@@ -72,7 +72,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { Reseach = error }
+                    errors = error
                 });
             }
 
@@ -83,7 +83,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { PageNotFound = error }
+                    errors = error
                 });
             }
 
@@ -113,7 +113,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { Reseach = error }
+                    errors = error
                 });
             }
 
@@ -124,7 +124,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { PageNotFound = error }
+                    errors = error
                 });
             }
 

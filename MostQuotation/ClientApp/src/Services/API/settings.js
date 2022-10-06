@@ -14,5 +14,8 @@ export const URL = {
         create: 'client/create',
         getByNameLike: 'client/get-by-name',
         getByNameLikeAndCollaboratorLike: 'client/get-by-name-and-collaborator'
+    },
+    quotation: {
+        getWithFilter: 'quotation/get-with-filter'
     }
 }

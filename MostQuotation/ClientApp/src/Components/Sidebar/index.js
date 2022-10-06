@@ -82,7 +82,7 @@ export default function Sidebar({ isCollaborator = true }) {
         <ContainerLogout onClick={HandleClickLogout}>
             <IconLogout className="fa-solid fa-right-from-bracket" />
             {isSidebarOpen &&
-                < IconLogoutDescription >
+                <IconLogoutDescription>
                     Logout
                 </IconLogoutDescription>
             }

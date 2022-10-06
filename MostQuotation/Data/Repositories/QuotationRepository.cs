@@ -1,6 +1,8 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using MostQuotation.Data.MongoSettings;
 using MostQuotation.Models;
+using System.Xml.Linq;
 
 namespace MostQuotation.Data.Repositories
 {
@@ -23,9 +25,16 @@ namespace MostQuotation.Data.Repositories
 
         public List<DollarQuotation> FindByDate(DateTime firstDate, DateTime secondDate)
         {
-            return _dbCollection.Find(quotation => 
-                quotation.DateTime >= firstDate && quotation.DateTime <= secondDate 
-            ).ToList();
+            var filter = new BsonDocument { 
+                { 
+                    "DateTime", 
+                    new BsonDocument { 
+                        { "$gt", firstDate }, 
+                        { "$lt", secondDate } 
+                    } 
+                } 
+            };
+            return _dbCollection.Find(filter).ToList();
         }
 
         public DollarQuotation Create(DollarQuotation quotation)

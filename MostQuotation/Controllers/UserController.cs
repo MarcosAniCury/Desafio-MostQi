@@ -35,7 +35,7 @@ namespace MostQuotation.Controllers
                 return NotFound(new
                 {
                     success = true,
-                    errors = new { Id = error }
+                    errors = error
                 });
             }
 
@@ -58,7 +58,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new 
                 { 
                     success = false,
-                    errors = new { Name = error } 
+                    errors = error
                 });
             }
             createUser.Password = "";
@@ -82,7 +82,7 @@ namespace MostQuotation.Controllers
                 return NotFound(new 
                 { 
                     success=loginResponse.Success,
-                    errors = new { NotFound = error }
+                    errors = error
                 });
             }
 
@@ -109,7 +109,7 @@ namespace MostQuotation.Controllers
                 return NotFound(new
                 {
                     success = false,
-                    errors = new { NotFound = error }
+                    errors = error
                 });
             }
             user.Type = "forget-password";
@@ -142,7 +142,7 @@ namespace MostQuotation.Controllers
                 return NotFound(new
                 {
                     success = false,
-                    errors = new { NotFound = error }
+                    errors = error
                 });
             }
             user.Password = request.Password;
