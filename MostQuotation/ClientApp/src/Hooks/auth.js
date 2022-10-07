@@ -9,7 +9,6 @@ const AuthContext = createContext({});
 const AuthProvider = ({ children }) => {
     //useState
     const [user, setUser] = useState();
-    const [errorMessage, setErrorMessage] = useState();
 
     useEffect(() => {
         (async () => { 
@@ -34,55 +33,32 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem('token', JSON.stringify(responseUser.token));
             localStorage.setItem('user', JSON.stringify(responseUser.data));
             setUser(responseUser.data);
-            setErrorMessage({});
         } else {
-            const key = Object.keys(responseUser.errors)[0];
-            setErrorMessage({
-                key: [key],
-                message: responseUser.errors[key][0]
-            });
+            return responseUser.errors[0];
         }
-        return;
+        return responseUser.success;
     };
 
     const signup = async (username, email, password, type) => {
         const responseUser = await API.signup(username, email, password, type);
-        if (responseUser.success) {
-            setErrorMessage({});
-        } else {
-            const key = Object.keys(responseUser.errors)[0];
-            setErrorMessage({
-                key: [key],
-                message: responseUser.errors[key][0]
-            });
+        if (!responseUser.success) {
+            return responseUser.errors[0];
         }
         return responseUser.success;
     };
 
     const forgetPassword = async (username, email) => {
         const response = await API.forgetPassword(username, email);
-        if (response.success) {
-            setErrorMessage({});
-        } else {
-            const key = Object.keys(response.errors)[0];
-            setErrorMessage({
-                key: [key],
-                message: response.errors[key][0]
-            });
+        if (!response.success) {
+            return response.errors[0];
         }
         return response.success;
     };
 
     const recoverPassword = async (password, confirmPassword, access_token) => {
         const response = await API.recoverPassword(password, confirmPassword, access_token);
-        if (response.success) {
-            setErrorMessage({});
-        } else {
-            const key = Object.keys(response.errors)[0];
-            setErrorMessage({
-                key: [key],
-                message: response.errors[key][0]
-            });
+        if (!response.success) {
+            return response.errors[0];
         }
         return response.success;
     };
@@ -95,7 +71,7 @@ const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ user, errorMessage, signed: !!user, signin, signup, logout, forgetPassword, recoverPassword, setErrorMessage }}
+            value={{ user, signed: !!user, signin, signup, logout, forgetPassword, recoverPassword }}
         >
             {children}
         </AuthContext.Provider>

@@ -1,3 +1,4 @@
+//Modules
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -9,7 +10,7 @@ export const Container = styled.div`
     grid-template-areas:
         "logo navbar navbar navbar"
         "sidebar content content content"
-        "logout footer footer footer";
+        "logout content content content";
 `;
 
 export const ContainerSelfie = styled.div`
@@ -111,11 +112,9 @@ export const ButtonExit = styled.button`
 `;
 
 export const ButtonFinish = styled.button`
-    position: absolute; 
-    bottom: 40px;
     background-color: #62AF1B;
     color: white;
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 12px 120px 12px 120px;
     border: none;
     font-size: 20px;
@@ -134,14 +133,12 @@ export const ContainerDropzone = styled.div`
 `; 
 
 export const SpanTitleLiveness = styled.span`
-    position: absolute;
-    top: 50px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-size: 20px;
 `;
 
 export const SpanErrorLiveness = styled.span`
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     font-size: 16px; 
     color: red;
 `;

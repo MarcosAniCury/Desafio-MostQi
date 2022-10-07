@@ -34,10 +34,6 @@ export default function LoginScreen() {
     const placeholderPasswordInputString = 'Senha';
     const buttonSendString = 'Entrar'
 
-    //API validations
-    const InputNameString = 'Name';
-    const InputPasswordString = 'Password';
-
     //useStates
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -49,17 +45,12 @@ export default function LoginScreen() {
     const [isLoading, setIsLoading] = useState(false);
 
     //Auth
-    const { user, errorMessage: errorMessageApi, signed, signin, setErrorMessage: setErrorMessageAPI } = useAuth();
+    const { user, signed, signin } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
 
-    const InputErrorApiStyleHandle = (key = undefined) => {
-        setErrorStyleUsername(key == InputNameString);
-        setErrorStylePassword(key == InputPasswordString)
-    };
-
-    const InputErrorStyleHandle = () => {
+    const FieldsValidations = () => {
         let isAllInputFull = true;
 
         const isPasswordError = password === '' || (password.length < 6 || password.length > 50);
@@ -80,21 +71,15 @@ export default function LoginScreen() {
 
     const HandleButtonSubmitOnClick = async () => {
         setIsLoading(true);
-        if (InputErrorStyleHandle()) {
-            await signin(username, password);
+        if (FieldsValidations()) {
+            setErrorMessage(undefined);
+            const response = await signin(username, password);
+            if (response !== true) {
+                setErrorMessage(response);
+            }
         }
         setIsLoading(false);
     };
-    useEffect(() => {
-        setErrorMessageAPI(false);
-    }, []);
-
-    //Every time singin and return erro update states
-    useEffect(() => {
-        setErrorMessage(errorMessageApi?.message);
-        InputErrorApiStyleHandle(errorMessageApi?.key);
-        setIsLoading(false);
-    }, [errorMessageApi]);
 
     //When is signed navigate to type user screen
     useEffect(() => {

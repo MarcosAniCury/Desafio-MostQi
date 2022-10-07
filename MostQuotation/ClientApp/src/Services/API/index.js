@@ -53,11 +53,8 @@ export const API = {
         await axios.get(`${URL.base}${URL.user.getById}/${userId}`, config).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined)
-            {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios = error.response
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };
@@ -190,10 +187,11 @@ export const API = {
 
         return { ...responseAxios };
     },
-    getQuotationWithFilter: async (initialDate, finalDate, access_token) => {
+    getQuotationWithFilter: async (initialDate, finalDate, pageIndex, access_token) => {
         const params = {
             'initialDate': initialDate,
-            'finalDate': finalDate
+            'finalDate': finalDate,
+            'pageIndex': pageIndex,
         };
 
         const config = {
@@ -206,9 +204,7 @@ export const API = {
             responseAxios = response.data;
         }).catch((error) => {
             responseAxios = error.response;
-            if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };

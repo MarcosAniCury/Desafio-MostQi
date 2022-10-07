@@ -11,6 +11,11 @@ namespace MostQuotation.Controllers
     [ApiController]
     public class QuotationController : Controller
     {
+        /*
+         Constants
+         */
+        private const int NUMBER_OF_ITEMS_IN_PAGE = 6;
+
         private IQuotationRepository _quotationRepository;
 
         public QuotationController(IQuotationRepository quotationRepository)
@@ -33,9 +38,24 @@ namespace MostQuotation.Controllers
                     errors = error
                 });
             }
+
             float average = quotation.Sum(x => x.Quotation) / quotation.Count;
             float max = quotation.Max(x => x.Quotation);
             float min = quotation.Min(x => x.Quotation);
+
+            int itemsSkip = (request.PageIndex - 1) * NUMBER_OF_ITEMS_IN_PAGE;
+            if (itemsSkip >= quotation.Count)
+            {
+                string[] error = { "Não possui usuários nessa página" };
+                return BadRequest(new
+                {
+                    success = false,
+                    errors = error
+                });
+            }
+
+            var SelectedQuotations = quotation.OrderByDescending(x => x.DateTime).Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).ToArray();
+
             return Ok(new
             {
                 success = true,
@@ -44,7 +64,8 @@ namespace MostQuotation.Controllers
                     quotation = quotation,
                     average = average,
                     max = max,
-                    min = min
+                    min = min,
+                    quotations_items = SelectedQuotations
                 }
             });
         }
