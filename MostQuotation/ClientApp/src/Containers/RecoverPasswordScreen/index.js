@@ -46,7 +46,7 @@ export default function LoginScreen(token) {
     const [isLoading, setIsLoading] = useState();
 
     //Auth
-    const { errorMessage: errorMessageApi, recoverPassword, setErrorMessage: setErrorMessageAPI } = useAuth();
+    const { recoverPassword } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
@@ -84,25 +84,19 @@ export default function LoginScreen(token) {
     };
 
     const HandleButtonSubmitOnClick = async () => {
+        setIsLoading(true);
         if (InputErrorStyleHandle()) {
-            setIsLoading(true);
-            if (await recoverPassword(password, passwordConfirm, token.token)) {
-                setIsLoading(false);
+            setErrorMessage(undefined);
+            const response = await recoverPassword(password, passwordConfirm, token.token);
+            if (response === true) {
                 alert('A senha foi redefinida com sucesso, favor logar com a nova senha');
                 navigate('/');
+            } else {
+                setErrorMessage(response);
             }
         }
+        setIsLoading(false);
     };
-
-    useEffect(() => {
-        setErrorMessageAPI(false);
-    }, []);
-
-    //Every time singup and return erro update states
-    useEffect(() => {
-        setErrorMessage(errorMessageApi?.message);
-        InputErrorApiStyleHandle(errorMessageApi?.key);
-    }, [errorMessageApi]);
 
     return (
         <>

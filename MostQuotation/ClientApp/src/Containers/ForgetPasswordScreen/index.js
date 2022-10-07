@@ -46,17 +46,12 @@ export default function LoginScreen() {
     const [isLoading, setIsLoading] = useState();
 
     //Auth
-    const { errorMessage: errorMessageApi, forgetPassword, setErrorMessage: setErrorMessageAPI } = useAuth();
+    const { forgetPassword } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
 
-    const InputErrorApiStyleHandle = (key = undefined) => {
-        setErrorStyleUsername(key == InputNameString);
-        setErrorStyleEmail(key == InputEmailString);
-    };
-
-    const InputErrorStyleHandle = () => {
+    const FieldsValidations = () => {
         let isAllInputFull = true;
 
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -77,26 +72,19 @@ export default function LoginScreen() {
     };
 
     const HandleButtonSubmitOnClick = async () => {
-        if (InputErrorStyleHandle()) {
-            setIsLoading(true);
-            if (await forgetPassword(username, email)) {
-                setIsLoading(false);
+        setIsLoading(true);
+        if (FieldsValidations()) {
+            setErrorMessage(undefined);
+            const response = await forgetPassword(username, email);
+            if (response === true) {
                 alert('O email de recuperacao de senha foi enviado com sucesso');
                 navigate('/');
+            } else {
+                setErrorMessage(response);
             }
         }
-    };
-
-    useEffect(() => {
-        setErrorMessageAPI(false);
-    }, []);
-
-    //Every time singup and return erro update states
-    useEffect(() => {
-        setErrorMessage(errorMessageApi?.message);
-        InputErrorApiStyleHandle(errorMessageApi?.key);
         setIsLoading(false);
-    }, [errorMessageApi]);
+    };
 
     return (
         <>

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { API } from '../../Services/API';
 
 //Components
-import Sidebar from '../../Components/ClientSidebar';
+import Sidebar from '../../Components/Sidebar';
 import Loading from '../../Components/Loading';
 import ClientCard from '../../Components/ClientCard';
 import Button from '../../Components/Button';
@@ -68,6 +68,17 @@ export default function ClientsHistoryScreen() {
         }
     }, [loadingClients]);
 
+    const Filter = useCallback(() => (
+        <ContainerTitle>
+            <SpanTitle>Filtro:</SpanTitle>
+            <InputFilterItem title="Nome" value={nameClient} setState={setNameClient} />
+            <InputFilterItem title="Colaborador" value={nameCollaborator} setState={setNameCollaborator} />
+            <WarpButton onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(pageIndex)}>
+                <Button text="Filtrar" style={{ backgroundColor: '#FFFFFF', color: 'black', paddingBottom: '0' }} />
+            </WarpButton>
+        </ContainerTitle>  
+    ), []);
+
     const ButtonPaginate = useCallback(({ text, isSelect }) => (
         <ButtonSelectPage isSelect={isSelect} onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(text)}>
             <ItensPaginate>
@@ -101,14 +112,7 @@ export default function ClientsHistoryScreen() {
             <ContainerNavbar><NavbarTitle>Historico de Cliente</NavbarTitle></ContainerNavbar>
             {isLoading && <Loading />}
             <ContainerFilter>
-                <ContainerTitle>
-                    <SpanTitle>Filtro:</SpanTitle>
-                    <InputFilterItem title="Nome" value={nameClient} setState={setNameClient} />
-                    <InputFilterItem title="Colaborador" value={nameCollaborator} setState={setNameCollaborator} />
-                    <WarpButton onClick={async () => await callApiGetClientByNameLikeAndCollaboratorLike(pageIndex)}>
-                        <Button text="Filtrar" style={{ backgroundColor: '#FFFFFF', color: 'black', paddingBottom: '0' }} />
-                    </WarpButton>
-                </ContainerTitle>
+                <Filter />
             </ContainerFilter>
             <Sidebar />
             <ContainerPaginationTop>

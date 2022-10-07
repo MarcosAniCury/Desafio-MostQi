@@ -17,6 +17,7 @@ import {
 import Form from '../../Components/Form';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
+import Loading from '../../Components/Loading';
 
 export default function LoginScreen() {
     //Messages
@@ -33,11 +34,6 @@ export default function LoginScreen() {
     const placeholderEmailInputString = 'Email';
     const buttonSendString = 'Criar'
 
-    //API validations
-    const InputNameString = 'Name';
-    const InputPasswordString = 'Password';
-    const InputEmailString = 'Email';
-
     //useStates
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -47,20 +43,15 @@ export default function LoginScreen() {
     const [errorStylePassword, setErrorStylePassword] = useState(false);
     const [errorStyleEmail, setErrorStyleEmail] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
+    const [isLoading, setIsLoading] = useState(false);
 
     //Auth
-    const { errorMessage: errorMessageApi, signup, setErrorMessage: setErrorMessageAPI } = useAuth();
+    const { signup } = useAuth();
 
     //Navigate
     const navigate = useNavigate();
 
-    const InputErrorApiStyleHandle = (key = undefined) => {
-        setErrorStyleUsername(key == InputNameString);
-        setErrorStylePassword(key == InputPasswordString);
-        setErrorStyleEmail(key == InputEmailString);
-    };
-
-    const InputErrorStyleHandle = () => {
+    const FieldsValidations = () => {
         let isAllInputFull = true;
 
         const isPasswordError = password === '' || (password.length < 6 || password.length > 50);
@@ -88,61 +79,60 @@ export default function LoginScreen() {
     };
 
     const HandleButtonSubmitOnClick = async () => {
-        if (InputErrorStyleHandle()) {
-            if (await signup(username, email, password, 'collaborator')) {
+        setIsLoading(true);
+        if (FieldsValidations()) {
+            setErrorMessage(undefined);
+            const response = await signup(username, email, password, 'collaborator');
+            if (response === true) {
                 alert('Usuario cadastrado com sucesso');
                 navigate('/');
+            } else {
+                setErrorMessage(response);
             }
         }
+        setIsLoading(false);
     };
 
-    useEffect(() => {
-        setErrorMessageAPI(false);
-    }, []);
-
-    //Every time singup and return erro update states
-    useEffect(() => {
-        setErrorMessage(errorMessageApi?.message);
-        InputErrorApiStyleHandle(errorMessageApi?.key);
-    }, [errorMessageApi]);
-
     return (
-        <Form>
-            <SpanTitle>{titleString}</SpanTitle>
+        <>
+            {isLoading && <Loading />}
+            <Form>
+                <SpanTitle>{titleString}</SpanTitle>
 
-            <Input isErrorStyle={errorStyleUsername}
-                placeholderString={placeholderUserInputString}
-                value={username}
-                onChange={event => setUsername(event.target.value)}
-            />
+                <Input isErrorStyle={errorStyleUsername}
+                    placeholderString={placeholderUserInputString}
+                    value={username}
+                    onChange={event => setUsername(event.target.value)}
+                />
 
-            <Input isErrorStyle={errorStyleEmail}
-                placeholderString={placeholderEmailInputString}
-                value={email}
-                onChange={event => setEmail(event.target.value)}
-                type='email'
-            />
+                <Input isErrorStyle={errorStyleEmail}
+                    placeholderString={placeholderEmailInputString}
+                    value={email}
+                    onChange={event => setEmail(event.target.value)}
+                    type='email'
+                />
 
-            <Input isErrorStyle={errorStylePassword}
-                placeholderString={placeholderPasswordInputString}
-                value={password}
-                onChange={event => setPassword(event.target.value)}
-                type='password'
-            />
+                <Input isErrorStyle={errorStylePassword}
+                    placeholderString={placeholderPasswordInputString}
+                    value={password}
+                    onChange={event => setPassword(event.target.value)}
+                    type='password'
+                />
 
-            {errorMessage && <SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
+                {errorMessage && <SpanErrorMessage>{errorMessage}</SpanErrorMessage>}
 
-            <Button onClick={HandleButtonSubmitOnClick}
-                text={buttonSendString}
-            />
+                <Button onClick={HandleButtonSubmitOnClick}
+                    text={buttonSendString}
+                />
 
-            <ContainerTextAnchor>
-                <TextAnchor to='/'
-                    onMouseOver={() => setCreateUserAnchor(createUserOverString)}
-                    onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
-                    {createUserAnchor}
-                </TextAnchor>
-            </ContainerTextAnchor>          
-        </Form>
+                <ContainerTextAnchor>
+                    <TextAnchor to='/'
+                        onMouseOver={() => setCreateUserAnchor(createUserOverString)}
+                        onMouseOut={() => setCreateUserAnchor(createUserDefaultString)}>
+                        {createUserAnchor}
+                    </TextAnchor>
+                </ContainerTextAnchor>          
+            </Form>
+        </>
     );
 }

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from "moment";
 
 //Components
-import ClientSidebar from '../../Components/ClientSidebar';
+import Sidebar from '../../Components/Sidebar';
 import Dropzone from '../../Components/Dropzone';
 import Button from '../../Components/Button';
 import Loading from '../../Components/Loading';
@@ -58,7 +58,7 @@ export default function CreateClientScreen() {
     const [documentBackImg, setDocumentBackImg] = useState(undefined);
     const [name, setName] = useState("");
     const [RG, setRG] = useState("");
-    const [dateOfBirth, setDateOfBirth] = useState("");
+    const [dateOfBirth, setDateOfBirth] = useState('');
     const [email, setEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState(undefined);
 
@@ -73,7 +73,7 @@ export default function CreateClientScreen() {
             switch (content.name) { 
                 case "nome": setName(content.value);
                     break;
-                case "data_nascimento": setDateOfBirth(moment(content.value).format("D/MM/YYYY"))
+                case "data_nascimento": setDateOfBirth(moment(content.value).format("D/MM/YYYY"));
                     break;
                 case "rg": setRG(content.value);
                     break;
@@ -129,6 +129,8 @@ export default function CreateClientScreen() {
                         setPerfilImg(`data:image/jpeg;base64,${response.data.frontalImage}`);
                         setShowModalLiveness(false);
                         setFirstTime(false);
+                        setLivenessErrorMessage(undefined);
+                        setShowModalLiveness(undefined);
                     } else {
                         setLivenessErrorMessage("Seu video nao foi aprovado na prova de vida ou ele e muito longo, favor tentar novamente");
                     }
@@ -140,8 +142,6 @@ export default function CreateClientScreen() {
     }, [livenessVideo, setLivenessVideo]);
 
     const handleClickSendLiveness = async () => {
-        setLivenessErrorMessage(undefined);
-        setShowModalLiveness(undefined);
         setIsLoading(true);
         try {
             getBase64(videoRef.current.blob, setLivenessVideo);
@@ -204,7 +204,11 @@ export default function CreateClientScreen() {
                     if (responseCreate.success) {
                         alert('Cliente cadastrado com sucesso');
                         navigate('/collaborator');
+                    } else {
+                        setErrorMessage(responseCreate.errors[0]);
                     }
+                } else {
+                    setErrorMessage("A pessoa que tirou a selfie nao e a mesma do RG");
                 }
             }
         }
@@ -257,7 +261,7 @@ export default function CreateClientScreen() {
         <Container>
             {(firstTime || showModalLiveness) && <ModalUploadVideoLiveness />}
             {isLoading && <Loading />}
-            <ClientSidebar />
+            <Sidebar />
             <ContainerNavBar>
                 <NavBarTitle>Cadastro de Cliente</NavBarTitle>
             </ContainerNavBar>

@@ -40,7 +40,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { Name = error }
+                    errors = error
                 });
             }
             createUser.Type = "forget-password";
@@ -72,7 +72,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { Reseach = error }
+                    errors = error
                 });
             }
 
@@ -83,13 +83,13 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { PageNotFound = error }
+                    errors = error
                 });
             }
 
-            var SelectedClients = clients.Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).OrderByDescending(x => x.CreatedAt).ToArray();
+            var SelectedClients = clients.OrderByDescending(x => x.CreatedAt).Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).ToArray();
 
-            foreach(var client in SelectedClients)
+            foreach (var client in SelectedClients)
             {
                 client.Password = "";
             }
@@ -113,7 +113,7 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { Reseach = error }
+                    errors = error
                 });
             }
 
@@ -124,11 +124,11 @@ namespace MostQuotation.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    errors = new { PageNotFound = error }
+                    errors = error
                 });
             }
 
-            var SelectedClients = clients.Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).OrderByDescending(x => x.CreatedAt).ToArray();
+            var SelectedClients = clients.OrderByDescending(x => x.CreatedAt).Skip(itemsSkip).Take(NUMBER_OF_ITEMS_IN_PAGE).ToArray();
 
             foreach (var client in SelectedClients)
             {

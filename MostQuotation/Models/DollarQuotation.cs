@@ -1,8 +1,10 @@
-﻿namespace MostQuotation.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace MostQuotation.Models
 {
     public class DollarQuotation
     {
-        public DollarQuotation(DateTime dateTime, double quotation)
+        public DollarQuotation(DateTime dateTime, float quotation)
         {
             Id = Guid.NewGuid().ToString();
             DateTime = dateTime;
@@ -10,7 +12,9 @@
         }
 
         public string Id { get; set; }
+
+        [BsonDateTimeOptions]
         public DateTime DateTime { get; set; }
-        public double Quotation { get; set; } 
+        public float Quotation { get; set; } 
     }
 }
