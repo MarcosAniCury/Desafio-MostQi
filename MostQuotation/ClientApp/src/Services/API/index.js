@@ -13,11 +13,8 @@ export const API = {
         await axios.post(`${URL.base}${URL.user.signin}`, params).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined)
-            {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios = error.response;
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };
@@ -35,10 +32,8 @@ export const API = {
         await axios.post(`${URL.base}${URL.user.signup}`, params).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios = error.response;
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };
@@ -70,10 +65,8 @@ export const API = {
         await axios.post(`${URL.base}${URL.user.forgetPassword}`, params).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios = error.response;
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };
@@ -93,10 +86,8 @@ export const API = {
         await axios.post(`${URL.base}${URL.user.recoverPassword}`, params, config).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios = error.response;
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };
@@ -123,10 +114,8 @@ export const API = {
         await axios.post(`${URL.base}${URL.client.create}`, params, config).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios = error.response;
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };
@@ -149,10 +138,8 @@ export const API = {
         await axios.post(`${URL.base}${URL.client.getByNameLike}`, params, config).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios = error.response;
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };
@@ -179,10 +166,8 @@ export const API = {
         await axios.post(`${URL.base}${URL.client.getByNameLikeAndCollaboratorLike}`, params, config).then((response) => {
             responseAxios = response.data;
         }).catch((error) => {
-            responseAxios = error.response.data;
-            if (responseAxios['success'] == undefined) {
-                responseAxios.success = responseAxios.status != 400 && responseAxios.status != 500;
-            }
+            responseAxios = error.response;
+            responseAxios['success'] = false;
         });
 
         return { ...responseAxios };
