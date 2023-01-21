@@ -1,31 +1,68 @@
-# Desafio Fullstack
+# Desafio: Constução de Portal Web
 
-Olá! Se você ainda não se aplicou para esta vaga, preencha o nosso [Formulário de pré-seleção](https://forms.gle/JDGMRyKXoyv2w4pNA).
+Desafio proposto pela mostQi durante processo seletivo, aqui está minha resolução com todos os bônus
 
-Seguem abaixo os itens do desafio para os candidatos à vaga de Fullstack:
+## Objetivo
 
-1. [Construção de Portal Web](./portal-web/README.md)
-2. [Extras](extras/README.md)
+Esperamos testar as habilidades do candidato no desenvolvimento de aplicações web utilizando as tecnologias .Net Core, React, Docker e banco de dados.
 
-## Instruções
+Para isso, deverá ser desenvolvido um portal web para o uso de colaboradores internos e clientes. Ele deverá permitir o cadastro de clientes, a configuração dos serviços, visualização de dashboards, baixa de relatórios, etc.
 
-Você deve clonar este projeto e desenvolvê-lo em seu próprio repositório, em modo **privado**.
+## Requisitos
 
-A implementação deve ficar na pasta correspondente ao desafio. Fique à vontade para adicionar qualquer tipo de conteúdo que julgue útil ao projeto como, alterar/acrescentar um README com instruções de como executá-lo, etc.
+Neste desafio o candidato irá construir um portal com as seguintes características:
 
-O projeto deverá ser apresentado à equipe do mostQi, onde serão avaliados o domínio das tecnologias envolvidas e a contextualização do candidato com o problema apresentado. A qualidade do código, versionamento, documentação, entre outros itens também serão avaliados.
+### Módulo: Usuários
 
-## Como os desafios deverão ser entregues
+- Página – Login
+  - Login por usuário e senha
+  - Após o login o usuário é direcionado para o módulo "Colaborador" ou "Cliente" de acordo com o tipo de usuário
+- Página - Cadastro de Usuário
+  - Preenchimento do formulário:
+    - Preencher o nome e e-mail
+    - Salvar o usuário com o tipo "Colaborador"
+- Página "Esqueci minha Senha" (**BONUS**)
+  - Enviar e-mail com link para recuperação
 
-Os desafios serão apresentados em data e hora combinados previamente por e-mail.
-Para esta apresentação, **publique previamente o portal resultado do desafio** (existem diversas opções gratuitas)  e apresente os resultados obtidos no pagespeed.web.dev durante a apresentação. 
+### Módulo: Colaborador (Precisa estar logado)
 
-Será avaliada toda a explicação do código e do processo de desenvolvimento, e não apenas o resultado do portal em si.
+- Página – Clientes
+  - Tabela paginada que permita a pesquisa por nome
+  - Tela - Dados dos Cliente
+  - Exibir as informações do Cliente juntamente com sua selfie
+- Página - Formulário de Cadastro de Cliente
+  - Preenchimento do formulário:
+    - Fazer upload de documento de identificação com foto
+    - Usar o mostQI para auxiliar no cadastro de novos usuários: https://docs.mostqi.com/. A client key deve ser solicitada pelo e-mail rh@most.com.br.
+    - Consumir o content-extraction do mostQI para preencher automaticamente o nome, RG e data de nascimento
+    - Permitir que o usuário confirme se os dados extraídos estão corretos, completar o cadastro com o preenchimento do email
+    - Consumir o liveness do mostQI para realizar uma prova de vida do usuário (https://mostqiapi.com/liveness/detect)
+    - Usar o retorno do liveness (frontalImage) mais o documento de identificação para submeter ao face-compare e verificar se a pessoa que realizou a prova de vida é a mesma que está no documento de identificação
+    - Salvar o documento, a selfie e o formulário no banco de dados
+    - Finalizar a criação do usuário
+    - Criar registro de rastreabilidade do processo de cadastro com usuário, data e hora.
+- Página - Histórico de Alteração dos Clientes
+  - Tabela paginada que permita a pesquisa por nome do cliente ou usuário que realizou o cadastro
 
-## mostQI
+### Módulo: Cliente (Precisa estar logado)
 
-Acesse nosso [linkedin](https://www.linkedin.com/company/mobile-solution-technology/posts/?feedView=all) para mais informações sobre vagas e novidades.
+- Serviço - Monitoramento da Cotação do Dólar
+  - Crie um serviço de background (Background Service) que verifique a cotação do dólar a cada minuto e registre a informação em banco de dados. A fonte da informação sobre a cotação do dólar é de livre escolha.
+- Página - Cotação do Dólar
+  - Tabela paginada que permita a busca por data e hora das cotações registradas pelo serviço acima
+  - Exibir média, máxima e mínima no dia
+  - Exibir um gráfico das variações no dia (PLUS)
 
-## Anotações sobre o projeto
+## Notas
 
-- Não consegui alterar o charset do react ao renderizar um html
+Tecnologias a serem exploradas:
+
+- FRAMEWORKS:
+  - Back-end: .Net Core (Última versão)
+  - Front-end: React (Última versão)
+- BANCO DE DADOS
+  - MongoDB
+- INFRAESTRUTURA
+  - O projeto deve ser containerizado através do DOCKER. Saiba mais em:
+    - [What is a container?](https://www.docker.com/resources/what-container)
+    - [Dotnet Core Docker Hub](https://hub.docker.com/_/microsoft-dotnet-core)
